@@ -29,7 +29,9 @@
         "symfony/twig-pack": "*",
         "symfony/validator": "5.1.*",
         "symfony/web-link": "5.1.*",
-        "symfony/yaml": "5.1.*"
+        "symfony/yaml": "5.1.*",
+        "ramsey/uuid": "^3.8",
+        "webmozart/assert": "^1.4"
     },
     "require-dev": {
         "symfony/debug-pack": "*",
