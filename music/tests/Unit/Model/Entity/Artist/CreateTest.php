@@ -19,7 +19,6 @@ class CreateTest extends TestCase
         );
 
         $this->assertEquals($artist->getId()->getValue(), $id->getValue());
-        $this->assertTrue($artist->getId()->isEqual($id));
         $this->assertEquals($artist->getLogin()->getValue(), $login->getValue());
         $this->assertTrue($artist->getLogin()->isEqual($login));
     }

@@ -30,7 +30,6 @@ class CreateTest extends TestCase
         );
 
         $this->assertEquals($song->getId()->getValue(), $song->getId()->getValue());
-        $this->assertTrue($song->getId()->isEqual($id));
         $this->assertTrue($song->getDateInfo()->isEqual($date));
         $this->assertEquals($song->getName(), $name);
         $this->assertTrue($song->getStatus()->isEqual($status));
