@@ -1,0 +1,42 @@
+version: '3'
+services:
+  music-nginx:
+    build:
+      context: ./music/docker/dev
+      dockerfile: nginx.docker
+    volumes:
+      - ./music:/app
+    depends_on:
+      - music-php-fpm
+    ports:
+      - "8080:80"
+  music-php-fpm:
+    build:
+      context: ./music/docker/dev
+      dockerfile: php-fpm.docker
+    volumes:
+      - ./music:/app
+    depends_on:
+      - music-postgres
+  music-php-cli:
+    build:
+      context: ./music/docker/dev
+      dockerfile: php-cli.docker
+    volumes:
+      - ./music:/app
+      - composer:/root/.composer/cache
+    tty: true
+  music-postgres:
+    image: postgres:11.2-alpine
+    volumes:
+      - music-postgres:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: app
+      POSTGRES_PASSWORD: secret
+      POSTGRES_DB: app
+    ports:
+      - "54321:5432"
+
+volumes:
+  music-postgres:
+  composer:
