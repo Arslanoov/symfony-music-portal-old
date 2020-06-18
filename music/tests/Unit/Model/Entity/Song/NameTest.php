@@ -11,13 +11,12 @@ use App\Model\Music\Entity\Song\Date;
 use App\Model\Music\Entity\Song\Id;
 use App\Model\Music\Entity\Song\Name;
 use App\Model\Music\Entity\Song\Song;
-use App\Model\Music\Entity\Song\Status;
 use PHPUnit\Framework\TestCase;
 use DateTimeImmutable;
 
-class CreateTest extends TestCase
+class NameTest extends TestCase
 {
-    public function testSuccess(): void
+    public function testChange(): void
     {
         $artist = $this->createArtist();
 
@@ -28,12 +27,29 @@ class CreateTest extends TestCase
             $name = new Name('Song name')
         );
 
-        $this->assertEquals($song->getId(), $id);
-        $this->assertEquals($song->getArtist(), $artist);
-        $this->assertEquals($song->getDateInfo(), $date);
-        $this->assertTrue($song->getDateInfo()->isEqual($date));
         $this->assertEquals($song->getName(), $name);
-        $this->assertTrue($song->getStatus()->isEqual(Status::moderated()));
+
+        $song->changeName($newName = new Name('New song name'));
+
+        $this->assertNotEquals($song->getName(), $name);
+        $this->assertEquals($song->getName(), $newName);
+    }
+
+    public function testSame(): void
+    {
+        $artist = $this->createArtist();
+
+        $song = new Song(
+            $id = Id::next(),
+            $artist,
+            $date = new Date(new DateTimeImmutable, new DateTimeImmutable),
+            $name = new Name('Song name')
+        );
+
+        $this->assertEquals($song->getName(), $name);
+
+        $this->expectExceptionMessage('Name is already same.');
+        $song->changeName($newName = new Name('Song name'));
     }
 
     private function createArtist(): Artist

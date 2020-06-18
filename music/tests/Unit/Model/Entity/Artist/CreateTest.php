@@ -18,8 +18,8 @@ class CreateTest extends TestCase
             $login = new Login('artist login')
         );
 
-        $this->assertEquals($artist->getId()->getValue(), $id->getValue());
-        $this->assertEquals($artist->getLogin()->getValue(), $login->getValue());
+        $this->assertEquals($artist->getId(), $id);
+        $this->assertEquals($artist->getLogin(), $login);
         $this->assertTrue($artist->getLogin()->isEqual($login));
     }
 }
