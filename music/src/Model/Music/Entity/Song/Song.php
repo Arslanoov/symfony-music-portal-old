@@ -16,7 +16,7 @@ class Song
     private File $file;
     private Status $status;
 
-    public function __construct(Id $id, Artist $artist, Date $date,  Name $name, File $file)
+    public function __construct(Id $id, Artist $artist, Date $date, Name $name, File $file)
     {
         $this->id = $id;
         $this->artist = $artist;

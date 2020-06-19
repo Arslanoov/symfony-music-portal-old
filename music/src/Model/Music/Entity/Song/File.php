@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Model\Music\Entity\Song;
 
+use Webmozart\Assert\Assert;
+
 class File
 {
     private string $path;
@@ -18,6 +20,10 @@ class File
      */
     public function __construct(string $path, string $format, string $size)
     {
+        Assert::notEmpty($path);
+        Assert::notEmpty($format);
+        Assert::notEmpty($size);
+
         $this->path = $path;
         $this->format = $format;
         $this->size = $size;
