@@ -60,7 +60,7 @@ class UploadController extends BaseController
                     $uploaded->getSize(),
                 );
                 $handler->handle($command);
-                $this->addFlash('success', 'Песня успешна загружена и отправлена на модерацию');
+                $this->addFlash('success', 'Song successfully uploaded and sent for moderation.');
             } catch (DomainException $e) {
                 $this->errorHandler->handleWarning($e);
                 $this->addFlash('error', $e->getMessage());
