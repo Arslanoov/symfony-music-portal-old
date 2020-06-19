@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Model\Music\Entity\Song;
 
+use App\Model\Music\Entity\Artist\Artist;
 use DomainException;
 use Doctrine\ORM\Mapping as ORM;
 
