@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Unit\Model\Entity\Song;
 
+use App\Tests\Builder\Music\ArtistBuilder;
 use App\Model\Music\Entity\Artist\Artist;
-use App\Model\Music\Entity\Artist\Id as ArtistId;
-use App\Model\Music\Entity\Artist\Login as ArtistLogin;
 use App\Model\Music\Entity\Song\Date;
+use App\Model\Music\Entity\Song\File;
 use App\Model\Music\Entity\Song\Id;
 use App\Model\Music\Entity\Song\Name;
 use App\Model\Music\Entity\Song\Song;
@@ -25,7 +25,8 @@ class CreateTest extends TestCase
             $id = Id::next(),
             $artist,
             $date = new Date(new DateTimeImmutable, new DateTimeImmutable),
-            $name = new Name('Song name')
+            $name = new Name('Song name'),
+            $file = new File('/path', 'mp3', '6m')
         );
 
         $this->assertEquals($song->getId(), $id);
@@ -38,9 +39,7 @@ class CreateTest extends TestCase
 
     private function createArtist(): Artist
     {
-        return new Artist(
-            $id = ArtistId::next(),
-            $login = new ArtistLogin('artist login')
-        );
+        return (new ArtistBuilder())
+            ->build();
     }
 }

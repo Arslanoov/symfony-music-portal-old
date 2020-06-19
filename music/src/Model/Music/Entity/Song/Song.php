@@ -13,14 +13,16 @@ class Song
     private Artist $artist;
     private Date $date;
     private Name $name;
+    private File $file;
     private Status $status;
 
-    public function __construct(Id $id, Artist $artist, Date $date, Name $name)
+    public function __construct(Id $id, Artist $artist, Date $date,  Name $name, File $file)
     {
         $this->id = $id;
         $this->artist = $artist;
         $this->date = $date;
         $this->name = $name;
+        $this->file = $file;
         $this->status = Status::moderated();
     }
 
@@ -54,6 +56,14 @@ class Song
     public function getName(): Name
     {
         return $this->name;
+    }
+
+    /**
+     * @return File
+     */
+    public function getFile(): File
+    {
+        return $this->file;
     }
 
     /**
