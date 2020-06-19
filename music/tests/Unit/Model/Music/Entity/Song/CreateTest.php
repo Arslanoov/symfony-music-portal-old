@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Unit\Model\Entity\Song;
+namespace App\Unit\Model\Music\Entity\Song;
 
 use App\Tests\Builder\Music\ArtistBuilder;
 use App\Model\Music\Entity\Artist\Artist;

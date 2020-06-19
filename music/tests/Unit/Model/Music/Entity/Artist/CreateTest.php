@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Unit\Model\Entity\Artist;
+namespace App\Unit\Model\Music\Entity\Artist;
 
 use App\Model\Music\Entity\Artist\Artist;
 use App\Model\Music\Entity\Artist\Id;
