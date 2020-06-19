@@ -6,14 +6,49 @@ namespace App\Model\Music\Entity\Song;
 
 use App\Model\Music\Entity\Artist\Artist;
 use DomainException;
+use Doctrine\ORM\Mapping as ORM;
 
+/**
+ * Class Song
+ * @package App\Model\Music\Entity\Song
+ * @ORM\Entity()
+ * @ORM\Table(name="music_songs", uniqueConstraints={
+ *     @ORM\UniqueConstraint(columns={"name"})
+ * })
+ */
 class Song
 {
+    /**
+     * @var Id
+     * @ORM\Column(type="music_song_id")
+     * @ORM\Id()
+     */
     private Id $id;
+    /**
+     * @var Artist
+     * @ORM\ManyToOne(targetEntity="Artist", inversedBy="songs")
+     * @ORM\JoinColumn(name="artist_id", referencedColumnName="id", nullable=false, onDelete="CASCADE")
+     */
     private Artist $artist;
+    /**
+     * @var Date
+     * @ORM\Embedded(class="Date", columnPrefix="date_")
+     */
     private Date $date;
+    /**
+     * @var Name
+     * @ORM\Column(type="music_song_name")
+     */
     private Name $name;
+    /**
+     * @var File
+     * @ORM\Embedded(class="File", columnPrefix="file_")
+     */
     private File $file;
+    /**
+     * @var Status
+     * @ORM\Column(type="music_song_status")
+     */
     private Status $status;
 
     public function __construct(Id $id, Artist $artist, Date $date, Name $name, File $file)

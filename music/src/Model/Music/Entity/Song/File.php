@@ -5,11 +5,24 @@ declare(strict_types=1);
 namespace App\Model\Music\Entity\Song;
 
 use Webmozart\Assert\Assert;
+use Doctrine\ORM\Mapping as ORM;
 
 class File
 {
+    /**
+     * @var string
+     * @ORM\Column(type="string")
+     */
     private string $path;
+    /**
+     * @var string
+     * @ORM\Column(type="string", length=16)
+     */
     private string $format;
+    /**
+     * @var string
+     * @ORM\Column(type="string", length=16)
+     */
     private string $size;
 
     /**
