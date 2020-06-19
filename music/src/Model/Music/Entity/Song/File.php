@@ -7,6 +7,11 @@ namespace App\Model\Music\Entity\Song;
 use Webmozart\Assert\Assert;
 use Doctrine\ORM\Mapping as ORM;
 
+/**
+ * Class File
+ * @package App\Model\Music\Entity\Song
+ * @ORM\Embeddable()
+ */
 class File
 {
     /**

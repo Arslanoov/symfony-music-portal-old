@@ -10,6 +10,8 @@ doctrine:
             charset: utf8
             collate: -
 
+        url: '%env(resolve:DATABASE_URL)%'
+
         types:
             music_artist_id: 'App\Model\Music\Entity\Artist\IdType'
             music_artist_login: 'App\Model\Music\Entity\Artist\LoginType'

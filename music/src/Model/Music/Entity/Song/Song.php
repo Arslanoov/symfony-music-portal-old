@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Model\Music\Entity\Song;
 
-use App\Model\Music\Entity\Artist\Artist;
 use DomainException;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -26,7 +25,7 @@ class Song
     private Id $id;
     /**
      * @var Artist
-     * @ORM\ManyToOne(targetEntity="Artist", inversedBy="songs")
+     * @ORM\ManyToOne(targetEntity="\App\Model\Music\Entity\Artist\Artist", inversedBy="songs")
      * @ORM\JoinColumn(name="artist_id", referencedColumnName="id", nullable=false, onDelete="CASCADE")
      */
     private Artist $artist;

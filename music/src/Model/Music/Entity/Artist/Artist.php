@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Class Artist
  * @package App\Model\Music\Entity\Artist
+ * @ORM\Entity()
  * @ORM\Table(name="music_artists", uniqueConstraints={
  *     @ORM\UniqueConstraint(columns={"login"})
  * })
