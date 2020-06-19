@@ -31,7 +31,8 @@
         "symfony/validator": "5.1.*",
         "symfony/web-link": "5.1.*",
         "symfony/yaml": "5.1.*",
-        "webmozart/assert": "^1.4"
+        "webmozart/assert": "^1.4",
+        "league/flysystem-bundle": "^1.1"
     },
     "config": {
         "preferred-install": {
@@ -75,7 +76,7 @@
     },
     "extra": {
         "symfony": {
-            "allow-contrib": false,
+            "allow-contrib": true,
             "require": "5.1.*"
         }
     },

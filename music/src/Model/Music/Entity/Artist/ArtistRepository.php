@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Model\Music\Entity\Artist;
 
+use App\Model\EntityNotFoundException;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ObjectRepository;
 
@@ -35,6 +36,22 @@ class ArtistRepository
         $artist =  $this->repo->findOneBy([
             'login' => $login
         ]);
+
+        return $artist;
+    }
+
+    public function getByLogin(string $login): Artist
+    {
+        /**
+         * @var Artist|null $artist
+         */
+        $artist =  $this->repo->findOneBy([
+            'login' => $login
+        ]);
+
+        if (!$artist) {
+            throw new EntityNotFoundException('Artist is not found.');
+        }
 
         return $artist;
     }

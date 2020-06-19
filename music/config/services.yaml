@@ -10,10 +10,12 @@ services:
         resource: '../src/*'
         exclude: '../src/{DependencyInjection,Database\Migrations,Model\Music\Entity,Tests,Kernel.php}'
 
+    App\Model\Music\Entity\Song\SongRepository: ~
+    App\Model\Music\Entity\Artist\ArtistRepository: ~
+
     App\Http\Controller\:
         resource: '../src/Http/Controller'
         tags: ['controller.service_arguments']
 
-    App\Model\Music\Service\Uploader:
-        arguments:
-            - '@App\Model\Music\Service\Song\SongUploader'
+    App\Service\Uploader\FileUploader:
+        arguments: ['@default.storage', '%env(STORAGE_BASE_URL)%']

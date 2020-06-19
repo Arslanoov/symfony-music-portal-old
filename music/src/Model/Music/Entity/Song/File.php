@@ -21,7 +21,7 @@ class File
     private string $path;
     /**
      * @var string
-     * @ORM\Column(type="string", length=16)
+     * @ORM\Column(type="string", length=128)
      */
     private string $format;
     /**

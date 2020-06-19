@@ -20,6 +20,7 @@ class Form extends AbstractType
             ->add('file', FileType::class, [
                 'mapped' => false,
                 'required' => true,
+                'multiple' => false,
                 'constraints' => [
                     new File([
                         'maxSize' => '20480k',
@@ -27,7 +28,7 @@ class Form extends AbstractType
                             'audio/mpeg',
                             'audio/x-wav',
                         ],
-                        'mimeTypesMessage' => 'Please upload a valid song'
+                        'mimeTypesMessage' => 'Please upload a valid song file'
                     ])
                 ],
             ])
