@@ -5,15 +5,37 @@ declare(strict_types=1);
 namespace App\Model\User\Entity\User;
 
 use Webmozart\Assert\Assert;
+use Doctrine\ORM\Mapping as ORM;
 
+/**
+ * Class Info
+ * @package App\Model\User\Entity\User
+ * @ORM\Embeddable()
+ */
 class Info
 {
     public const SEX_MALE = 'Male';
     public const SEX_FEMALE = 'Female';
 
+    /**
+     * @var string|null
+     * @ORM\Column(type="string", length=512, nullable=true)
+     */
     private ?string $aboutMe = null;
+    /**
+     * @var string|null
+     * @ORM\Column(type="string", length=64, nullable=true)
+     */
     private ?string $country = null;
+    /**
+     * @var string|null
+     * @ORM\Column(type="string", length=16, nullable=true)
+     */
     private ?string $sex = null;
+    /**
+     * @var int
+     * @ORM\Column(type="smallint")
+     */
     private int $age;
 
     /**

@@ -20,6 +20,13 @@ doctrine:
             music_song_name: 'App\Model\Music\Entity\Song\NameType'
             music_song_status: 'App\Model\Music\Entity\Song\StatusType'
 
+            user_user_id: 'App\Model\User\Entity\User\IdType'
+            user_user_login: 'App\Model\User\Entity\User\LoginType'
+            user_user_email: 'App\Model\User\Entity\User\EmailType'
+            user_user_password: 'App\Model\User\Entity\User\PasswordType'
+            user_user_confirm_token: 'App\Model\User\Entity\User\ConfirmTokenType'
+            user_user_status: 'App\Model\User\Entity\User\StatusType'
+
     orm:
         auto_generate_proxy_classes: true
         naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
@@ -31,3 +38,10 @@ doctrine:
                 dir: '%kernel.project_dir%/src/Model/Music/Entity'
                 prefix: 'App\Model\Music\Entity'
                 alias: Music
+
+            User:
+                is_bundle: false
+                type: annotation
+                dir: '%kernel.project_dir%/src/Model/User/Entity'
+                prefix: 'App\Model\User\Entity'
+                alias: User

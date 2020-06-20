@@ -5,15 +5,55 @@ declare(strict_types=1);
 namespace App\Model\User\Entity\User;
 
 use DomainException;
+use Doctrine\ORM\Mapping as ORM;
 
+/**
+ * Class User
+ * @package App\Model\User\Entity\User
+ * @ORM\Entity()
+ * @ORM\Table(name="user_users", uniqueConstraints={
+ *     @ORM\UniqueConstraint(columns={"login"}),
+ *     @ORM\UniqueConstraint(columns={"email"}),
+ *     @ORM\UniqueConstraint(columns={"confirm_token_token"})
+ * })
+ */
 class User
 {
+    /**
+     * @var Id
+     * @ORM\Id()
+     * @ORM\Column(type="user_user_id")
+     */
     private Id $id;
+    /**
+     * @var Login
+     * @ORM\Column(type="user_user_login", length=32)
+     */
     private Login $login;
+    /**
+     * @var Email
+     * @ORM\Column(type="user_user_email")
+     */
     private Email $email;
+    /**
+     * @var Info
+     * @ORM\Embedded(class="Info", columnPrefix="info_")
+     */
     private Info $info;
+    /**
+     * @var Password
+     * @ORM\Column(type="user_user_password", length=32)
+     */
     private Password $password;
+    /**
+     * @var Status
+     * @ORM\Column(type="user_user_status", length=16)
+     */
     private Status $status;
+    /**
+     * @var ConfirmToken|null
+     * @ORM\Column(type="user_user_confirm_token", name="confirm_token_token", length=128, nullable=true)
+     */
     private ?ConfirmToken $confirmToken = null;
 
     ### create ###
