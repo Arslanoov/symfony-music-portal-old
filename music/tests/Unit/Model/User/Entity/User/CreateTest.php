@@ -21,7 +21,7 @@ class CreateTest extends TestCase
             $login = new Login('User login'),
             $email = new Email('user@email.com'),
             $password = new Password('hash'),
-            $info = new Info(18, 'about me', 'USA', 'Male')
+            $info = new Info(18, 'about me', 'USA', Info::SEX_MALE)
         );
 
         $this->assertEquals($user->getId(), $id);
@@ -45,7 +45,7 @@ class CreateTest extends TestCase
             new Login('User login'),
             new Email('incorrect email'),
             new Password('hash'),
-            new Info(18, 'about me', 'USA', 'Male')
+            new Info(18, 'about me', 'USA', Info::SEX_MALE)
         );
     }
 
@@ -58,7 +58,7 @@ class CreateTest extends TestCase
             new Login(''),
             new Email('user@email.com'),
             new Password('hash'),
-            new Info(18, 'about me', 'USA', 'Male')
+            new Info(18, 'about me', 'USA', Info::SEX_MALE)
         );
     }
 }

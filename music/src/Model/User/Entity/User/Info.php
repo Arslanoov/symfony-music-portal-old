@@ -8,8 +8,8 @@ use Webmozart\Assert\Assert;
 
 class Info
 {
-    private const SEX_MALE = 'Male';
-    private const SEX_FEMALE = 'Female';
+    public const SEX_MALE = 'Male';
+    public const SEX_FEMALE = 'Female';
 
     private ?string $aboutMe = null;
     private ?string $country = null;
@@ -28,7 +28,7 @@ class Info
         Assert::notEmpty($age);
         Assert::oneOf($sex, [
             self::SEX_MALE,
-            self::SEX_MALE
+            self::SEX_FEMALE
         ]);
 
         $this->aboutMe = $aboutMe;
@@ -64,6 +64,11 @@ class Info
     public function isAdult(): bool
     {
         return $this->age >= 18;
+    }
+
+    public function isChild(): bool
+    {
+        return $this->age < 18;
     }
 
     public function isMale(): bool
