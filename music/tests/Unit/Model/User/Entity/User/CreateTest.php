@@ -4,6 +4,11 @@ declare(strict_types=1);
 
 namespace App\Unit\Model\User\Entity\User;
 
+use App\Model\User\Entity\User\Email;
+use App\Model\User\Entity\User\Id;
+use App\Model\User\Entity\User\Info;
+use App\Model\User\Entity\User\Login;
+use App\Model\User\Entity\User\Password;
 use App\Model\User\Entity\User\User;
 use PHPUnit\Framework\TestCase;
 
@@ -15,8 +20,8 @@ class CreateTest extends TestCase
             $id = Id::next(),
             $login = new Login('User login'),
             $email = new Email('user@email.com'),
-            $hash = 'hash',
-            $info = new Info('about me', 'USA', 'male', '18')
+            $password = new Password('hash'),
+            $info = new Info(18, 'about me', 'USA', 'Male')
         );
 
         $this->assertEquals($user->getId(), $id);
@@ -25,21 +30,22 @@ class CreateTest extends TestCase
         $this->assertTrue($user->getLogin()->isEqual($login));
         $this->assertEquals($user->getEmail(), $email);
         $this->assertTrue($user->getEmail()->isEqual($email));
-        $this->assertEquals($user->getPasswordHash(), $hash);
+        $this->assertEquals($user->getPassword(), $password);
         $this->assertTrue($user->getInfo()->isEqual($info));
         $this->assertTrue($user->getStatus()->isWait());
+        $this->assertTrue($user->getInfo()->isAdult());
     }
-    
+
     public function testIncorrectEmail(): void
     {
         $this->expectExceptionMessage('Incorrect Email.');
 
         $user = User::signUpByEmail(
-            $id = Id::next(),
-            $login = new Login('User login'),
-            $email = new Email('incorrect email'),
-            $hash = 'hash',
-            $info = new Info('about me', 'USA', 'male', '18')
+            Id::next(),
+            new Login('User login'),
+            new Email('incorrect email'),
+            new Password('hash'),
+            new Info(18, 'about me', 'USA', 'Male')
         );
     }
 
@@ -48,11 +54,11 @@ class CreateTest extends TestCase
         $this->expectExceptionMessage('Empty Login.');
 
         $user = User::signUpByEmail(
-            $id = Id::next(),
-            $login = new Login(''),
-            $email = new Email('incorrect email'),
-            $hash = 'hash',
-            $info = new Info('about me', 'USA', 'male', '18')
+            Id::next(),
+            new Login(''),
+            new Email('user@email.com'),
+            new Password('hash'),
+            new Info(18, 'about me', 'USA', 'Male')
         );
     }
 }
