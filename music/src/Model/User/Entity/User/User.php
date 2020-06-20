@@ -55,13 +55,18 @@ class User
      * @ORM\Column(type="user_user_confirm_token", name="confirm_token_token", length=128, nullable=true)
      */
     private ?ConfirmToken $confirmToken = null;
+    /**
+     * @var Role
+     * @ORM\Column(type="user_user_role", length=16)
+     */
+    private Role $role;
 
     ### create ###
 
     public function __construct(
         Id $id, Login $login, Email $email,
         Password $password, Info $info,
-        Status $status, ?ConfirmToken $confirmToken = null
+        Status $status, Role $role, ?ConfirmToken $confirmToken = null
     )
     {
         $this->id = $id;
@@ -70,6 +75,7 @@ class User
         $this->info = $info;
         $this->password = $password;
         $this->status = $status;
+        $this->role = $role;
         $this->confirmToken = $confirmToken;
     }
 
@@ -82,7 +88,7 @@ class User
         return new self(
             $id, $login, $email,
             $password, $info, Status::wait(),
-            $confirmToken
+            Role::user(), $confirmToken
         );
     }
 
@@ -155,5 +161,13 @@ class User
     public function getConfirmToken(): ?ConfirmToken
     {
         return $this->confirmToken;
+    }
+
+    /**
+     * @return Role
+     */
+    public function getRole(): Role
+    {
+        return $this->role;
     }
 }

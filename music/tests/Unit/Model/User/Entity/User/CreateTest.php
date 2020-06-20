@@ -37,6 +37,10 @@ class CreateTest extends TestCase
         $this->assertTrue($user->getStatus()->isWait());
         $this->assertTrue($user->getInfo()->isAdult());
         $this->assertEquals($user->getConfirmToken(), $token);
+        $this->assertTrue($user->getRole()->isUser());
+        $this->assertFalse($user->getRole()->isModerator());
+        $this->assertFalse($user->getRole()->isContentManager());
+        $this->assertFalse($user->getRole()->isAdmin());
     }
 
     public function testIncorrectEmail(): void

@@ -26,6 +26,7 @@ doctrine:
             user_user_password: 'App\Model\User\Entity\User\PasswordType'
             user_user_confirm_token: 'App\Model\User\Entity\User\ConfirmTokenType'
             user_user_status: 'App\Model\User\Entity\User\StatusType'
+            user_user_role: 'App\Model\User\Entity\User\RoleType'
 
     orm:
         auto_generate_proxy_classes: true
