@@ -12,10 +12,15 @@ class User
     private Info $info;
     private Password $password;
     private Status $status;
+    private ConfirmToken $confirmToken;
 
     ### create ###
 
-    public function __construct(Id $id, Login $login, Email $email, Password $password, Info $info, Status $status)
+    public function __construct(
+        Id $id, Login $login, Email $email,
+        Password $password, Info $info,
+        Status $status, ConfirmToken $confirmToken
+    )
     {
         $this->id = $id;
         $this->login = $login;
@@ -23,16 +28,19 @@ class User
         $this->info = $info;
         $this->password = $password;
         $this->status = $status;
+        $this->confirmToken = $confirmToken;
     }
 
     public static function signUpByEmail(
         Id $id, Login $login,
-        Email $email, Password $password, Info $info
+        Email $email, Password $password, Info $info,
+        ConfirmToken $confirmToken
     ): self
     {
         return new self(
             $id, $login, $email,
-            $password, $info, Status::wait()
+            $password, $info, Status::wait(),
+            $confirmToken
         );
     }
 
@@ -84,5 +92,13 @@ class User
     public function getStatus(): Status
     {
         return $this->status;
+    }
+
+    /**
+     * @return ConfirmToken
+     */
+    public function getConfirmToken(): ConfirmToken
+    {
+        return $this->confirmToken;
     }
 }

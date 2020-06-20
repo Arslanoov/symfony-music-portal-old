@@ -42,9 +42,4 @@ class FileUploader
 
         return new File($path, $name, $file->getSize(), pathinfo($path, PATHINFO_EXTENSION));
     }
-
-    public function generateUrl(string $path): string
-    {
-        return $this->baseUrl . '/' . $path;
-    }
 }

@@ -12,6 +12,7 @@ services:
 
     App\Model\Music\Entity\Song\SongRepository: ~
     App\Model\Music\Entity\Artist\ArtistRepository: ~
+    App\Model\User\Entity\User\UserRepository: ~
 
     App\Http\Controller\:
         resource: '../src/Http/Controller'
@@ -19,3 +20,8 @@ services:
 
     App\Service\Uploader\FileUploader:
         arguments: ['@default.storage', '%env(STORAGE_BASE_URL)%']
+
+    App\Model\User\UseCase\User\SignUp\ByEmail\Request\Handler:
+        arguments:
+            $tokenGenerator: '@App\Model\User\Service\ConfirmUuidTokenGenerator'
+            $tokenSender: '@App\Model\User\Service\ConfirmEmailTokenSender'
