@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Unit\Model\User\Entity\User;
 
+use App\Model\User\Entity\User\ConfirmToken;
 use App\Model\User\Entity\User\Email;
 use App\Model\User\Entity\User\Id;
 use App\Model\User\Entity\User\Info;
@@ -21,7 +22,8 @@ class CreateTest extends TestCase
             $login = new Login('User login'),
             $email = new Email('user@email.com'),
             $password = new Password('hash'),
-            $info = new Info(18, 'about me', 'USA', Info::SEX_MALE)
+            $info = new Info(18, 'about me', 'USA', Info::SEX_MALE),
+            $token = new ConfirmToken('token')
         );
 
         $this->assertEquals($user->getId(), $id);
@@ -34,6 +36,7 @@ class CreateTest extends TestCase
         $this->assertTrue($user->getInfo()->isEqual($info));
         $this->assertTrue($user->getStatus()->isWait());
         $this->assertTrue($user->getInfo()->isAdult());
+        $this->assertEquals($user->getConfirmToken(), $token);
     }
 
     public function testIncorrectEmail(): void
@@ -45,7 +48,8 @@ class CreateTest extends TestCase
             new Login('User login'),
             new Email('incorrect email'),
             new Password('hash'),
-            new Info(18, 'about me', 'USA', Info::SEX_MALE)
+            new Info(18, 'about me', 'USA', Info::SEX_MALE),
+            new ConfirmToken('token')
         );
     }
 
@@ -58,7 +62,8 @@ class CreateTest extends TestCase
             new Login(''),
             new Email('user@email.com'),
             new Password('hash'),
-            new Info(18, 'about me', 'USA', Info::SEX_MALE)
+            new Info(18, 'about me', 'USA', Info::SEX_MALE),
+            new ConfirmToken('token')
         );
     }
 }

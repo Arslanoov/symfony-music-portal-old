@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Unit\Model\User\Entity\User;
 
+use App\Model\User\Entity\User\ConfirmToken;
 use App\Model\User\Entity\User\Email;
 use App\Model\User\Entity\User\Id;
 use App\Model\User\Entity\User\Info;
@@ -30,22 +31,24 @@ class SexTest extends TestCase
     private function createMaleUser(): User
     {
         return User::signUpByEmail(
-            $id = Id::next(),
-            $login = new Login('User login'),
-            $email = new Email('user@email.com'),
-            $password = new Password('hash'),
-            $info = new Info(18, 'about me', 'USA', Info::SEX_MALE)
+            Id::next(),
+            new Login('User login'),
+            new Email('user@email.com'),
+            new Password('hash'),
+            new Info(18, 'about me', 'USA', Info::SEX_MALE),
+            new ConfirmToken('token')
         );
     }
 
     private function createFemaleUser(): User
     {
         return User::signUpByEmail(
-            $id = Id::next(),
-            $login = new Login('User login'),
-            $email = new Email('user@email.com'),
-            $password = new Password('hash'),
-            $info = new Info(18, 'about me', 'USA', Info::SEX_FEMALE)
+            Id::next(),
+            new Login('User login'),
+            new Email('user@email.com'),
+            new Password('hash'),
+            new Info(18, 'about me', 'USA', Info::SEX_FEMALE),
+            new ConfirmToken('token')
         );
     }
 }

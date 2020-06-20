@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Model\User\Entity\User;
 
+use DomainException;
+
 class User
 {
     private Id $id;
@@ -12,14 +14,14 @@ class User
     private Info $info;
     private Password $password;
     private Status $status;
-    private ConfirmToken $confirmToken;
+    private ?ConfirmToken $confirmToken = null;
 
     ### create ###
 
     public function __construct(
         Id $id, Login $login, Email $email,
         Password $password, Info $info,
-        Status $status, ConfirmToken $confirmToken
+        Status $status, ?ConfirmToken $confirmToken = null
     )
     {
         $this->id = $id;
@@ -42,6 +44,19 @@ class User
             $password, $info, Status::wait(),
             $confirmToken
         );
+    }
+
+    public function confirmSignUp(): void
+    {
+        if (
+            $this->status->isActive() or
+            $this->confirmToken === null
+        ) {
+            throw new DomainException('User is already activated.');
+        }
+
+        $this->status = Status::active();
+        $this->confirmToken = null;
     }
 
     ### getters ###
@@ -95,9 +110,9 @@ class User
     }
 
     /**
-     * @return ConfirmToken
+     * @return ConfirmToken|null
      */
-    public function getConfirmToken(): ConfirmToken
+    public function getConfirmToken(): ?ConfirmToken
     {
         return $this->confirmToken;
     }

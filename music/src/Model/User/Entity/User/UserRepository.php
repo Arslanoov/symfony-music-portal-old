@@ -42,6 +42,16 @@ class UserRepository
         return $user;
     }
 
+    public function findByConfirmToken(ConfirmToken $token): User
+    {
+        /** @var User $user */
+        $user = $this->repository->findOneBy([
+            'confirm_token' => $token->getValue()
+        ]);
+
+        return $user;
+    }
+
     public function existsByLogin(Login $login): bool
     {
         return (bool) $this->findByLogin($login);
