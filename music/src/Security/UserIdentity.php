@@ -57,7 +57,7 @@ class UserIdentity implements UserInterface, EquatableInterface
 
     public function getUsername(): string
     {
-        return $this->email;
+        return $this->login;
     }
 
     public function getPassword(): string

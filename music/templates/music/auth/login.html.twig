@@ -1,0 +1,26 @@
+{% extends 'layouts/main.html.twig' %}
+
+{% block title %}Log in{% endblock %}
+
+{% block body %}
+    {% include 'layouts/_flashes.html.twig' %}
+
+    <h1>Log In</h1>
+
+    <p>Sign In to your account</p>
+
+    {% if error %}
+        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+    {% endif %}
+
+    <form method="POST" action="">
+        <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+        <input class="form-control" type="text" name="login" value="{{ last_username }}" placeholder="Login" />
+        <input class="form-control" type="password" name="password" placeholder="Password" />
+
+        <input type="checkbox" name="_remember_me">
+        <span>Remember me</span>
+
+        <button type="submit">Login</button>
+    </form>
+{% endblock %}

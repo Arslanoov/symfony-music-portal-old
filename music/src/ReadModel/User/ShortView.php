@@ -7,6 +7,7 @@ namespace App\ReadModel\User;
 class ShortView
 {
     public string $id;
+    public string $login;
     public string $email;
     public string $role;
     public string $status;

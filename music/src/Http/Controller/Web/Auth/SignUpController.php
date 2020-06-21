@@ -105,7 +105,7 @@ class SignUpController extends BaseController
             $handler->handle($command);
 
             return $guardHandler->authenticateUserAndHandleSuccess(
-                $userProvider->loadUserByUsername($user->email),
+                $userProvider->loadUserByUsername($user->login),
                 $request,
                 $authenticator,
                 'main'

@@ -7,6 +7,19 @@
         {% block css %}{% endblock %}
     </head>
     <body>
+        <header>
+            <nav>
+                <a href="{{ path('home') }}">Home</a>
+                {% if app.user %}
+                    <form method="POST" action="{{ path('auth.logout') }}">
+                        <button type="submit">Logout</button>
+                    </form>
+                {% else %}
+                    <a href="{{ path('auth.login') }}">Log in</a>
+                    <a href="{{ path('auth.signup') }}">Sign up</a>
+                {% endif %}
+            </nav>
+        </header>
         {% block breadcrumbs %}{% endblock %}
         {% block body %}{% endblock %}
         {% block js %}{% endblock %}

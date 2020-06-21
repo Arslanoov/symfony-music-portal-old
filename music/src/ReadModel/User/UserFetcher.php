@@ -49,11 +49,34 @@ class UserFetcher
         return $result ?: null;
     }
 
+    public function findForAuthByLogin(string $login): ?AuthView
+    {
+        $stmt = $this->connection->createQueryBuilder()
+            ->select(
+                'id',
+                'login',
+                'email',
+                'password',
+                'role',
+                'status'
+            )
+            ->from('user_users')
+            ->where('login = :login')
+            ->setParameter(':login', $login)
+            ->execute();
+
+        $stmt->setFetchMode(FetchMode::CUSTOM_OBJECT, AuthView::class);
+        $result = $stmt->fetch();
+
+        return $result ?: null;
+    }
+
     public function findByEmail(string $email): ?ShortView
     {
         $stmt = $this->connection->createQueryBuilder()
             ->select(
                 'id',
+                'login',
                 'email',
                 'role',
                 'status'
@@ -74,6 +97,7 @@ class UserFetcher
         $stmt = $this->connection->createQueryBuilder()
             ->select(
                 'id',
+                'login',
                 'email',
                 'role',
                 'status'
