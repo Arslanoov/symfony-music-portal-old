@@ -74,9 +74,9 @@ class SignUpController extends BaseController
     }
 
     /**
-     * @Route("/signup/{confirm_token_token}", name="auth.signup.confirm")
+     * @Route("/signup/{token}", name="auth.signup.confirm")
      * @param Request $request
-     * @param ConfirmToken $token
+     * @param string $token
      * @param ByEmail\Confirm\ByToken\Handler $handler
      * @param UserProviderInterface $userProvider
      * @param GuardAuthenticatorHandler $guardHandler
@@ -85,19 +85,21 @@ class SignUpController extends BaseController
      */
     public function confirm(
         Request $request,
-        ConfirmToken $token,
+        string $token,
         ByEmail\Confirm\ByToken\Handler $handler,
         UserProviderInterface $userProvider,
         GuardAuthenticatorHandler $guardHandler,
         LoginFormAuthenticator $authenticator
     ): Response
     {
-        if (!$user = $this->users->findBySignUpConfirmToken($token->getValue())) {
+        $confirmToken = new ConfirmToken($token);
+
+        if (!$user = $this->users->findBySignUpConfirmToken($confirmToken->getValue())) {
             $this->addFlash('error', 'Incorrect or already confirmed token.');
             return $this->redirectToRoute('auth.signup');
         }
 
-        $command = new ByEmail\Confirm\ByToken\Command($token->getValue());
+        $command = new ByEmail\Confirm\ByToken\Command($confirmToken->getValue());
 
         try {
             $handler->handle($command);

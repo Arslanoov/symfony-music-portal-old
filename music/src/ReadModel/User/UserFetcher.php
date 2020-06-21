@@ -78,7 +78,7 @@ class UserFetcher
                 'role',
                 'status'
             )->from('user_users')
-            ->where('confirm_token = :token')
+            ->where('confirm_token_token = :token')
             ->setParameter(':token', $token)
             ->execute();
 

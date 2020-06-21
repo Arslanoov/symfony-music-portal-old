@@ -46,7 +46,7 @@ class UserRepository
     {
         /** @var User $user */
         $user = $this->repository->findOneBy([
-            'confirm_token' => $token->getValue()
+            'confirmToken' => $token->getValue()
         ]);
 
         return $user;
