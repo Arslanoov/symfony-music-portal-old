@@ -42,7 +42,7 @@ class User
     private Info $info;
     /**
      * @var Password
-     * @ORM\Column(type="user_user_password", length=32)
+     * @ORM\Column(type="user_user_password", length=128)
      */
     private Password $password;
     /**

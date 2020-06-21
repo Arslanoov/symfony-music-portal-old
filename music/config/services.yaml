@@ -25,3 +25,8 @@ services:
         arguments:
             $tokenGenerator: '@App\Model\User\Service\ConfirmUuidTokenGenerator'
             $tokenSender: '@App\Model\User\Service\ConfirmEmailTokenSender'
+            $hasher: '@App\Model\User\Service\ArgonHasher'
+
+    App\Security\LoginFormAuthenticator:
+        arguments:
+            $hasher: '@App\Model\User\Service\ArgonHasher'

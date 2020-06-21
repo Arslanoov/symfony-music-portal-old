@@ -12,6 +12,7 @@ use App\Model\User\Entity\User\Login;
 use App\Model\User\Entity\User\Password;
 use App\Model\User\Entity\User\User;
 use App\Model\User\Entity\User\UserRepository;
+use App\Model\User\Service\HasherInterface;
 use App\Model\User\Service\TokenGenerator;
 use App\Model\User\Service\TokenSender;
 use DomainException;
@@ -21,6 +22,7 @@ class Handler
 {
     private TokenGenerator $tokenGenerator;
     private TokenSender $tokenSender;
+    private HasherInterface $hasher;
     private UserRepository $users;
     private Flusher $flusher;
 
@@ -28,13 +30,15 @@ class Handler
      * Handler constructor.
      * @param TokenGenerator $tokenGenerator
      * @param TokenSender $tokenSender
+     * @param HasherInterface $hasher
      * @param UserRepository $users
      * @param Flusher $flusher
      */
-    public function __construct(TokenGenerator $tokenGenerator, TokenSender $tokenSender, UserRepository $users, Flusher $flusher)
+    public function __construct(TokenGenerator $tokenGenerator, TokenSender $tokenSender, HasherInterface $hasher, UserRepository $users, Flusher $flusher)
     {
         $this->tokenGenerator = $tokenGenerator;
         $this->tokenSender = $tokenSender;
+        $this->hasher = $hasher;
         $this->users = $users;
         $this->flusher = $flusher;
     }
@@ -56,7 +60,7 @@ class Handler
             Id::next(),
             $login,
             $email,
-            new Password($command->password),
+            new Password($this->hasher->hash($command->password)),
             new Info($command->age),
             $token = $this->tokenGenerator->generate()
         );

@@ -6,7 +6,7 @@
 
     <p>Sign Up confirm link:</p>
 
-    {% set url = url('auth.signup.confirm', {'token': token}) %}
+    {% set url = url('auth.signup.confirm', {'confirm_token_token': token}) %}
 
     <p>
         <a href="{{ url }}">

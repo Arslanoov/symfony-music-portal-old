@@ -22,7 +22,7 @@ class UserRepository
         $this->em = $em;
     }
 
-    public function findByLogin(Login $login): User
+    public function findByLogin(Login $login): ?User
     {
         /** @var User $user */
         $user = $this->repository->findOneBy([
@@ -32,7 +32,7 @@ class UserRepository
         return $user;
     }
 
-    public function findByEmail(Email $email): User
+    public function findByEmail(Email $email): ?User
     {
         /** @var User $user */
         $user = $this->repository->findOneBy([
@@ -42,7 +42,7 @@ class UserRepository
         return $user;
     }
 
-    public function findByConfirmToken(ConfirmToken $token): User
+    public function findByConfirmToken(ConfirmToken $token): ?User
     {
         /** @var User $user */
         $user = $this->repository->findOneBy([
@@ -57,9 +57,9 @@ class UserRepository
         return (bool) $this->findByLogin($login);
     }
 
-    public function existsByEmail(Login $login): bool
+    public function existsByEmail(Email $email): bool
     {
-        return (bool) $this->existsByEmail($login);
+        return (bool) $this->findByEmail($email);
     }
 
     public function add(User $user): void

@@ -48,10 +48,12 @@ class Info
     public function __construct(int $age, string $aboutMe = null, string $country = null, string $sex = null)
     {
         Assert::notEmpty($age);
-        Assert::oneOf($sex, [
-            self::SEX_MALE,
-            self::SEX_FEMALE
-        ]);
+        if ($sex) {
+            Assert::oneOf($sex, [
+                self::SEX_MALE,
+                self::SEX_FEMALE
+            ]);
+        }
 
         $this->aboutMe = $aboutMe;
         $this->country = $country;

@@ -1,0 +1,19 @@
+{% extends 'layouts/main.html.twig' %}
+
+{% block title %}Sign Up{% endblock %}
+
+{% block body %}
+    {% include 'layouts/_flashes.html.twig' %}
+
+    <h1>Sign Up</h1>
+
+    <p>Create your account</p>
+
+    {{ form_start(form) }}
+
+        {{ form_widget(form) }}
+
+    <button type="submit">Join</button>
+
+    {{ form_end(form) }}
+{% endblock %}

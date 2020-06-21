@@ -20,7 +20,7 @@ class Command
     public ?string $email = null;
     /**
      * @var string|null
-     * @Assert\NotBlank(min=5)
+     * @Assert\NotBlank()
      */
     public ?string $password = null;
     /**
