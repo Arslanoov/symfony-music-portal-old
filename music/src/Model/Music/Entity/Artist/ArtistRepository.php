@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Model\Music\Entity\Artist;
 
-use App\Model\EntityNotFoundException;
+use App\Model\Exception\EntityNotFoundException;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ObjectRepository;
 

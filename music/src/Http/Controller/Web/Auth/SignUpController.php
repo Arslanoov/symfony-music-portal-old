@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Controller\Web\Auth;
 
 use App\Http\Controller\Web\BaseController;
-use App\Model\ErrorHandler;
+use App\Model\Exception\ErrorHandler;
 use App\Model\User\Entity\User\ConfirmToken;
 use App\ReadModel\User\UserFetcher;
 use App\Security\LoginFormAuthenticator;

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Controller\Web\Music\Song;
 
 use App\Http\Controller\Web\BaseController;
-use App\Model\ErrorHandler;
+use App\Model\Exception\ErrorHandler;
 use App\Model\Music\Entity\Artist\ArtistRepository;
 use App\Model\Music\UseCase\Song\Upload\Command;
 use App\Model\Music\UseCase\Song\Upload\File;

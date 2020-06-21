@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\ReadModel\User;
 
-use App\Exception\NotFoundException;
+use App\Model\Exception\NotFoundException;
 use App\Model\User\Entity\User\User;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\FetchMode;
