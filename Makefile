@@ -28,3 +28,16 @@ test-unit:
 
 test-unit-coverage:
 	docker-compose run --rm music-php-cli php bin/phpunit --testsuite=unit --coverage-clover var/clover.xml --coverage-html var/coverage
+
+assets-install:
+	docker-compose run --rm music-node yarn install
+
+assets-dev:
+	docker-compose run --rm music-node npm run dev
+
+clear:
+	docker run --rm -v ${PWD}/music:/app --workdir=/app alpine rm -f .ready
+
+ready:
+	docker run --rm -v ${PWD}/music:/app --workdir=/app alpine touch .ready
+
