@@ -39,6 +39,9 @@ assets-sass:
 assets-dev:
 	docker-compose run --rm music-node npm run dev
 
+assets-watch:
+	docker-compose run --rm music-node npm run watch
+
 clear:
 	docker run --rm -v ${PWD}/music:/app --workdir=/app alpine rm -f .ready
 
