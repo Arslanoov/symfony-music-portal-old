@@ -40,6 +40,22 @@ class UserIdentity implements UserInterface, EquatableInterface
         return $this->id;
     }
 
+    /**
+     * @return string
+     */
+    public function getLogin(): string
+    {
+        return $this->login;
+    }
+
+    /**
+     * @return string
+     */
+    public function getEmail(): string
+    {
+        return $this->email;
+    }
+
     public function isWait(): bool
     {
         return $this->status === Status::STATUS_WAIT;

@@ -1,19 +1,83 @@
-{% extends 'layouts/main.html.twig' %}
+{% extends 'layouts/auth.html.twig' %}
 
 {% block title %}Sign Up{% endblock %}
 
 {% block body %}
-    {% include 'layouts/_flashes.html.twig' %}
+    <div class="register-box">
+        <div class="register-logo">
+            <a href="#"><h1>Sign Up</h1></a>
+        </div>
 
-    <h1>Sign Up</h1>
+        <div class="card">
+            <div class="card-body register-card-body">
+                <p class="login-box-msg">Register a new membership</p>
 
-    <p>Create your account</p>
+                {{ form_start(form) }}
 
-    {{ form_start(form) }}
+                    <div class="input-group mb-3">
+                        {{ form_widget(form.login, {'attr': {'placeholder': 'Login'}}) }}
+                        {{ form_errors(form.login) }}
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fas fa-user"></span>
+                            </div>
+                        </div>
+                    </div>
 
-        {{ form_widget(form) }}
+                    <div class="input-group mb-3">
+                        {{ form_widget(form.email, {'attr': {'placeholder': 'Email'}}) }}
+                        {{ form_errors(form.email) }}
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fas fa-user"></span>
+                            </div>
+                        </div>
+                    </div>
 
-    <button type="submit">Join</button>
+                    <div class="input-group mb-3">
+                        {{ form_widget(form.password, {'attr': {'placeholder': 'Password'}}) }}
+                        {{ form_errors(form.password) }}
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fas fa-user"></span>
+                            </div>
+                        </div>
+                    </div>
 
-    {{ form_end(form) }}
+                    <div class="input-group mb-3">
+                        {{ form_widget(form.age, {'attr': {'placeholder': 'Age', 'min': 0, 'max': 99}}) }}
+                        {{ form_errors(form.age) }}
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fas fa-user"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-6 mx-auto">
+                        <button type="submit" class="btn btn-primary btn-block">
+                            Join
+                        </button>
+                    </div>
+
+                {{ form_end(form) }}
+
+                <div class="social-auth-links text-center">
+                    <p>- OR -</p>
+                    <a href="#" class="btn btn-block btn-primary">
+                        <i class="fab fa-facebook mr-2"></i>
+                        Sign up using Facebook
+                    </a>
+                    <a href="#" class="btn btn-block btn-danger">
+                        <i class="fab fa-google-plus mr-2"></i>
+                        Sign up using Google+
+                    </a>
+                </div>
+
+                <a href="{{ path('auth.login') }}" class="text-center">I already have a membership</a>
+            </div>
+            <!-- /.form-box -->
+        </div><!-- /.card -->
+    </div>
+    <!-- /.register-box -->
 {% endblock %}
