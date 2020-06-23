@@ -1,6 +1,7 @@
 up: docker-up
 down: docker-down
 restart: docker-down docker-up
+assets: assets-install assets-sass
 
 docker-up:
 	docker-compose up -d
@@ -31,6 +32,9 @@ test-unit-coverage:
 
 assets-install:
 	docker-compose run --rm music-node yarn install
+
+assets-sass:
+	docker-compose run --rm music-node npm rebuild node-sass
 
 assets-dev:
 	docker-compose run --rm music-node npm run dev
