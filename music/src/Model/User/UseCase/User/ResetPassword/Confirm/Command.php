@@ -16,6 +16,7 @@ class Command
     /**
      * @var string
      * @Assert\NotBlank()
+     * @Assert\Length(min="5", max="32")
      */
     public ?string $newPassword = null;
 

@@ -16,6 +16,7 @@ class Command
     /**
      * @var string
      * @Assert\NotBlank()
+     * @Assert\Length(max="32", min="4")
      */
     public ?string $login = null;
 

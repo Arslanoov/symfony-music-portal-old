@@ -15,6 +15,7 @@ class Command
     /**
      * @var string
      * @Assert\NotBlank()
+     * @Assert\Length(max="500")
      */
     public ?string $aboutMe = null;
 

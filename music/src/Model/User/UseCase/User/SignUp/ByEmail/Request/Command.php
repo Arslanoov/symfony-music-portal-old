@@ -11,21 +11,26 @@ class Command
     /**
      * @var string|null
      * @Assert\NotBlank()
+     * @Assert\Length(min="4", max="32")
      */
     public ?string $login = null;
     /**
      * @var string|null
      * @Assert\Email()
+     * @Assert\Length(min="4", max="64")
      */
     public ?string $email = null;
     /**
      * @var string|null
      * @Assert\NotBlank()
+     * @Assert\Length(min="5", max="32")
      */
     public ?string $password = null;
     /**
      * @var int|null
      * @Assert\NotBlank()
+     * @Assert\GreaterThanOrEqual(7)
+     * @Assert\LessThan(99)
      */
     public ?int $age = null;
 }
