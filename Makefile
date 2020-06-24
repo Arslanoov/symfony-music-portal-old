@@ -48,5 +48,8 @@ clear:
 ready:
 	docker run --rm -v ${PWD}/music:/app --workdir=/app alpine touch .ready
 
+diff:
+	docker-compose run --rm music-php-cli php bin/console do:mi:di
+
 migrate:
 	docker-compose run --rm music-php-cli php bin/console do:mi:mi

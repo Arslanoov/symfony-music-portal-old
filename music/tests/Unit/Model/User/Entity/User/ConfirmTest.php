@@ -4,13 +4,9 @@ declare(strict_types=1);
 
 namespace App\Unit\Model\User\Entity\User;
 
-use App\Model\User\Entity\User\ConfirmToken;
-use App\Model\User\Entity\User\Email;
-use App\Model\User\Entity\User\Id;
 use App\Model\User\Entity\User\Info;
-use App\Model\User\Entity\User\Login;
-use App\Model\User\Entity\User\Password;
 use App\Model\User\Entity\User\User;
+use App\Tests\Builder\User\UserBuilder;
 use PHPUnit\Framework\TestCase;
 
 class ConfirmTest extends TestCase
@@ -43,13 +39,8 @@ class ConfirmTest extends TestCase
 
     public function createUser(): User
     {
-        return User::signUpByEmail(
-            Id::next(),
-            new Login('Login'),
-            new Email('user@email.com'),
-            new Password('hash'),
-            new Info(18, 'about me', 'USA', Info::SEX_MALE),
-            new ConfirmToken('token')
-        );
+        return (new UserBuilder())
+            ->withInfo(new Info(18, 'about me', 'country', Info::SEX_MALE))
+            ->build();
     }
 }

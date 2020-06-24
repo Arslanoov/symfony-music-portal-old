@@ -4,12 +4,8 @@ declare(strict_types=1);
 
 namespace App\Unit\Model\User\Entity\User;
 
-use App\Model\User\Entity\User\ConfirmToken;
-use App\Model\User\Entity\User\Email;
-use App\Model\User\Entity\User\Id;
+use App\Tests\Builder\User\UserBuilder;
 use App\Model\User\Entity\User\Info;
-use App\Model\User\Entity\User\Login;
-use App\Model\User\Entity\User\Password;
 use App\Model\User\Entity\User\User;
 use PHPUnit\Framework\TestCase;
 
@@ -30,25 +26,15 @@ class SexTest extends TestCase
 
     private function createMaleUser(): User
     {
-        return User::signUpByEmail(
-            Id::next(),
-            new Login('User login'),
-            new Email('user@email.com'),
-            new Password('hash'),
-            new Info(18, 'about me', 'USA', Info::SEX_MALE),
-            new ConfirmToken('token')
-        );
+        return (new UserBuilder())
+            ->withInfo(new Info(18, 'about me', 'country', Info::SEX_MALE))
+            ->build();
     }
 
     private function createFemaleUser(): User
     {
-        return User::signUpByEmail(
-            Id::next(),
-            new Login('User login'),
-            new Email('user@email.com'),
-            new Password('hash'),
-            new Info(18, 'about me', 'USA', Info::SEX_FEMALE),
-            new ConfirmToken('token')
-        );
+        return (new UserBuilder())
+            ->withInfo(new Info(18, 'about me', 'country', Info::SEX_FEMALE))
+            ->build();
     }
 }

@@ -118,6 +118,7 @@ class UserFetcher
         $stmt = $this->connection->createQueryBuilder()
             ->select(
                 'id',
+                'date',
                 'login',
                 'email',
                 'password',

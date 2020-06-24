@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Model\User\Entity\User;
 
+use DateTimeImmutable;
 use DomainException;
 use Doctrine\ORM\Mapping as ORM;
 use Webmozart\Assert\Assert;
@@ -26,6 +27,11 @@ class User
      * @ORM\Column(type="user_user_id")
      */
     private Id $id;
+    /**
+     * @var DateTimeImmutable
+     * @ORM\Column(type="datetime_immutable")
+     */
+    private DateTimeImmutable $date;
     /**
      * @var Login
      * @ORM\Column(type="user_user_login", length=32)
@@ -70,12 +76,13 @@ class User
     ### create ###
 
     public function __construct(
-        Id $id, Login $login, Email $email,
+        Id $id, DateTimeImmutable $date, Login $login, Email $email,
         Password $password, Info $info,
         Status $status, Role $role, ?ConfirmToken $confirmToken = null
     )
     {
         $this->id = $id;
+        $this->date = $date;
         $this->login = $login;
         $this->email = $email;
         $this->info = $info;
@@ -86,13 +93,13 @@ class User
     }
 
     public static function signUpByEmail(
-        Id $id, Login $login,
+        Id $id, DateTimeImmutable $date, Login $login,
         Email $email, Password $password, Info $info,
         ConfirmToken $confirmToken
     ): self
     {
         return new self(
-            $id, $login, $email,
+            $id, $date, $login, $email,
             $password, $info, Status::wait(),
             Role::user(), $confirmToken
         );

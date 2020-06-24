@@ -26,6 +26,8 @@ class AvatarRemover
     public function upload(string $userId): void
     {
         $path = 'avatar/' . $userId;
-        $this->storage->deleteDir($path);
+        if (file_exists($path)) {
+            $this->storage->deleteDir($path);
+        }
     }
 }

@@ -15,6 +15,7 @@ use App\Model\User\Entity\User\UserRepository;
 use App\Model\User\Service\HasherInterface;
 use App\Model\User\Service\TokenGenerator;
 use App\Model\User\Service\TokenSender;
+use DateTimeImmutable;
 use DomainException;
 use Exception;
 
@@ -58,6 +59,7 @@ class Handler
 
         $user = User::signUpByEmail(
             Id::next(),
+            new DateTimeImmutable(),
             $login,
             $email,
             new Password($this->hasher->hash($command->password)),

@@ -11,6 +11,7 @@ use App\Model\User\Entity\User\Info;
 use App\Model\User\Entity\User\Login;
 use App\Model\User\Entity\User\Password;
 use App\Model\User\Entity\User\User;
+use DateTimeImmutable;
 use PHPUnit\Framework\TestCase;
 
 class CreateTest extends TestCase
@@ -19,6 +20,7 @@ class CreateTest extends TestCase
     {
         $user = User::signUpByEmail(
             $id = Id::next(),
+            new DateTimeImmutable(),
             $login = new Login('User login'),
             $email = new Email('user@email.com'),
             $password = new Password('hash'),
@@ -49,6 +51,7 @@ class CreateTest extends TestCase
 
         $user = User::signUpByEmail(
             Id::next(),
+            new DateTimeImmutable(),
             new Login('User login'),
             new Email('incorrect email'),
             new Password('hash'),
@@ -63,6 +66,7 @@ class CreateTest extends TestCase
 
         $user = User::signUpByEmail(
             Id::next(),
+            new DateTimeImmutable(),
             new Login(''),
             new Email('user@email.com'),
             new Password('hash'),
