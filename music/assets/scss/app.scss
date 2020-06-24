@@ -1,6 +1,9 @@
 @import "~bootstrap/scss/bootstrap";
 @import "~admin-lte/dist/css/adminlte.min.css";
 
+.btn-upload {
+  margin-top: 10px;
+}
 
 main {
 & > .container {

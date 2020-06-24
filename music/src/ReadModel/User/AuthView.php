@@ -12,4 +12,5 @@ class AuthView
     public string $password;
     public string $role;
     public string $status;
+    public ?string $avatar = null;
 }

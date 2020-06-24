@@ -26,7 +26,10 @@ services:
         tags:
             - { name: swiftmailer.default.plugin }
 
-    App\Service\Uploader\FileUploader:
+    App\Service\Uploader\SongUploader:
+        arguments: ['@default.storage', '%env(STORAGE_BASE_URL)%']
+
+    App\Service\Uploader\AvatarUploader:
         arguments: ['@default.storage', '%env(STORAGE_BASE_URL)%']
 
     App\Model\User\UseCase\User\SignUp\ByEmail\Request\Handler:
@@ -38,3 +41,7 @@ services:
     App\Security\LoginFormAuthenticator:
         arguments:
             $hasher: '@App\Model\User\Service\ArgonHasher'
+
+    App\Extension\:
+        resource: '../src/Extension'
+        tags: ['twig.extension']

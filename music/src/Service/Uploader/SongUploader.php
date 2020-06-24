@@ -9,7 +9,7 @@ use League\Flysystem\FilesystemInterface;
 use Ramsey\Uuid\Uuid;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
-class FileUploader
+class SongUploader
 {
     private FilesystemInterface $storage;
     private string $baseUrl;

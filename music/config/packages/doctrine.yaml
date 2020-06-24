@@ -24,6 +24,7 @@ doctrine:
             user_user_login: 'App\Model\User\Entity\User\LoginType'
             user_user_email: 'App\Model\User\Entity\User\EmailType'
             user_user_password: 'App\Model\User\Entity\User\PasswordType'
+            user_user_avatar: 'App\Model\User\Entity\User\AvatarType'
             user_user_confirm_token: 'App\Model\User\Entity\User\ConfirmTokenType'
             user_user_status: 'App\Model\User\Entity\User\StatusType'
             user_user_role: 'App\Model\User\Entity\User\RoleType'

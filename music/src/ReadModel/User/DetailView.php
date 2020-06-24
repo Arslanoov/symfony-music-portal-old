@@ -16,4 +16,5 @@ class DetailView
     public int $info_age;
     public string $role;
     public string $status;
+    public ?string $avatar;
 }

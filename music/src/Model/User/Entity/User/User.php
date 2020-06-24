@@ -37,6 +37,11 @@ class User
      */
     private Email $email;
     /**
+     * @var Avatar
+     * @ORM\Column(type="user_user_avatar", length=128, nullable=true)
+     */
+    private Avatar $avatar;
+    /**
      * @var Info
      * @ORM\Embedded(class="Info", columnPrefix="info_")
      */
@@ -170,6 +175,11 @@ class User
     public function getRole(): Role
     {
         return $this->role;
+    }
+
+    public function uploadAvatar(Avatar $avatar): void
+    {
+        $this->avatar = $avatar;
     }
 
     public function changeLogin(Login $login): void

@@ -58,7 +58,8 @@ class UserFetcher
                 'email',
                 'password',
                 'role',
-                'status'
+                'status',
+                'avatar'
             )
             ->from('user_users')
             ->where('login = :login')
@@ -125,7 +126,8 @@ class UserFetcher
                 'info_sex',
                 'info_age',
                 'role',
-                'status'
+                'status',
+                'avatar'
             )->from('user_users')
             ->where('id = :id')
             ->setParameter(':id', $id)

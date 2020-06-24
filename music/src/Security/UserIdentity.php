@@ -17,6 +17,7 @@ class UserIdentity implements UserInterface, EquatableInterface
     private string $password;
     private string $role;
     private string $status;
+    private ?string $avatar;
 
     public function __construct(
         string $id,
@@ -24,7 +25,8 @@ class UserIdentity implements UserInterface, EquatableInterface
         string $email,
         string $password,
         string $role,
-        string $status
+        string $status,
+        ?string $avatar
     )
     {
         $this->id = $id;
@@ -33,6 +35,7 @@ class UserIdentity implements UserInterface, EquatableInterface
         $this->password = $password;
         $this->role = $role;
         $this->status = $status;
+        $this->avatar = $avatar;
     }
 
     public function getId(): string
@@ -79,6 +82,14 @@ class UserIdentity implements UserInterface, EquatableInterface
     public function getPassword(): string
     {
         return $this->password;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getAvatar(): ?string
+    {
+        return $this->avatar;
     }
 
     public function getRoles(): array
