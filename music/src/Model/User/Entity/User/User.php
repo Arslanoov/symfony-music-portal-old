@@ -40,7 +40,7 @@ class User
      * @var Avatar
      * @ORM\Column(type="user_user_avatar", length=128, nullable=true)
      */
-    private Avatar $avatar;
+    private ?Avatar $avatar = null;
     /**
      * @var Info
      * @ORM\Embedded(class="Info", columnPrefix="info_")
@@ -177,9 +177,24 @@ class User
         return $this->role;
     }
 
+    /**
+     * @return Avatar|null
+     */
+    public function getAvatar(): ?Avatar
+    {
+        return $this->avatar;
+    }
+
+    ### actions
+
     public function uploadAvatar(Avatar $avatar): void
     {
         $this->avatar = $avatar;
+    }
+
+    public function removeAvatar(): void
+    {
+        $this->avatar = null;
     }
 
     public function changeLogin(Login $login): void

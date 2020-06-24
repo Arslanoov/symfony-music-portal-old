@@ -6,10 +6,10 @@ namespace App\Http\Controller\Web\Profile\Self;
 
 use App\Http\Controller\Web\BaseController;
 use App\Model\Exception\ErrorHandler;
-use App\Model\User\UseCase\User\Avatar\Upload\Command;
+use App\Model\User\UseCase\User\Avatar;
 use App\Model\User\UseCase\User\Avatar\Upload\File;
 use App\Model\User\UseCase\User\Avatar\Upload\Form;
-use App\Model\User\UseCase\User\Avatar\Upload\Handler;
+use App\Service\Remover\AvatarRemover;
 use App\Service\Uploader\AvatarUploader;
 use DomainException;
 use League\Flysystem\FileExistsException;
@@ -34,15 +34,15 @@ class AvatarController extends BaseController
      * @Route("/profile/avatar/upload", name="profile.self.avatar.upload")
      * @param Request $request
      * @param AvatarUploader $uploader
-     * @param Handler $handler
+     * @param Avatar\Upload\Handler $handler
      * @return Response
      * @throws FileExistsException
      */
-    public function upload(Request $request, AvatarUploader $uploader, Handler $handler): Response
+    public function upload(Request $request, AvatarUploader $uploader, Avatar\Upload\Handler $handler): Response
     {
         $userId = $this->getUser()->getId();
 
-        $command = Command::byId($userId);
+        $command = Avatar\Upload\Command::byId($userId);
         $form = $this->createForm(Form::class, $command);
         $form->handleRequest($request);
 
@@ -67,5 +67,33 @@ class AvatarController extends BaseController
         return $this->render('music/profile/self/avatar/upload.html.twig', [
             'form' => $form->createView()
         ]);
+    }
+
+    /**
+     * @Route("/profile/avatar/remove", name="profile.self.avatar.remove", methods={"POST"})
+     * @param Request $request
+     * @param AvatarRemover $uploader
+     * @param Avatar\Remove\Handler $handler
+     * @return Response
+     */
+    public function remove(Request $request, AvatarRemover $uploader, Avatar\Remove\Handler $handler): Response
+    {
+        if (!$this->isCsrfTokenValid('remove-avatar', $request->request->get('token'))) {
+            return $this->redirectToRoute('profile.self.home');
+        }
+
+        $userId = $this->getUser()->getId();
+
+        $command = new Avatar\Remove\Command($userId);
+
+        try {
+            $handler->handle($command);
+            $this->addFlash('success', 'Avatar successfully removed.');
+        } catch (DomainException $e) {
+            $this->errorHandler->handleWarning($e);
+            $this->addFlash('error', $e->getMessage());
+        }
+
+        return $this->redirectToRoute('profile.self.home');
     }
 }
