@@ -7,16 +7,17 @@ namespace App\Model\User\Service;
 use App\Model\User\Entity\User\ConfirmToken;
 use App\Model\User\Entity\User\Email;
 use App\Model\User\Entity\User\Login;
-use RuntimeException;
-use Swift_Mailer;
-use Swift_Message;
+use App\Model\User\Entity\User\ResetPasswordToken;
+use DomainException;
 use Twig\Environment;
 use Twig\Error\LoaderError;
 use Twig\Error\RuntimeError;
 use Twig\Error\SyntaxError;
-use DomainException;
+use Swift_Mailer;
+use Swift_Message;
+use RuntimeException;
 
-class ConfirmEmailTokenSender implements TokenSender
+class ResetPasswordEmailTokenSender implements TokenSender
 {
     private Swift_Mailer $mailer;
     private Environment $twig;
@@ -37,15 +38,15 @@ class ConfirmEmailTokenSender implements TokenSender
      */
     public function send(Login $login, Email $email, $token): void
     {
-        if (!$token instanceof ConfirmToken) {
+        if (!$token instanceof ResetPasswordToken) {
             throw new DomainException('Incorrect token.');
         }
 
-        $message = (new Swift_Message('Sign Up Confirmation'))
+        $message = (new Swift_Message('Reset Password'))
             ->setTo($email->getValue())
-            ->setBody($this->twig->render('mail/user/signup.html.twig', [
+            ->setBody($this->twig->render('mail/user/reset-password.html.twig', [
                 'login' => $login->getValue(),
-                'token' => $token->getValue()
+                'token' => $token->getToken()
             ]), 'text/html');
 
         if (!$this->mailer->send($message)) {

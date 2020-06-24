@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Model\User\UseCase\User\SignUp\ByEmail\Request;
 
 use App\Model\Flusher;
+use App\Model\User\Entity\User\ConfirmToken;
 use App\Model\User\Entity\User\Email;
 use App\Model\User\Entity\User\Id;
 use App\Model\User\Entity\User\Info;
@@ -64,7 +65,7 @@ class Handler
             $email,
             new Password($this->hasher->hash($command->password)),
             new Info($command->age),
-            $token = $this->tokenGenerator->generate()
+            $token = new ConfirmToken($this->tokenGenerator->generate())
         );
 
         $this->tokenSender->send($login, $email, $token);

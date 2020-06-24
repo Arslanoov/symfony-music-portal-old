@@ -1,0 +1,38 @@
+{% extends 'layouts/auth.html.twig' %}
+
+{% block title %}Log in{% endblock %}
+
+{% block body %}
+    <div class="login-box">
+        <div class="login-logo">
+            <h1>Change Password</h1>
+        </div>
+
+        {% include '/layouts/_flashes.html.twig' %}
+
+        <!-- /.login-logo -->
+        <div class="card">
+            <div class="card-body login-card-body">
+                {{ form_start(form) }}
+
+                {{ form_widget(form) }}
+
+                <button type="submit" class="btn btn-primary">
+                    Change
+                </button>
+
+                {{ form_end(form) }}
+
+                <p class="mb-1">
+                    <a href="{{ path('home') }}">Back to main page</a>
+                </p>
+                <p class="mb-0">
+                    <a href="{{ path('auth.signup') }}" class="text-center">Register a new membership</a>
+                </p>
+            </div>
+
+            <!-- /.login-card-body -->
+        </div>
+    </div>
+    <!-- /.login-box -->
+{% endblock %}

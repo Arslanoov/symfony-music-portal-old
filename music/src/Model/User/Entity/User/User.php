@@ -72,13 +72,20 @@ class User
      * @ORM\Column(type="user_user_role", length=16)
      */
     private Role $role;
+    /**
+     * @var ResetPasswordToken|null
+     * @ORM\Embedded(class="ResetPasswordToken", columnPrefix="reset_password_")
+     */
+    private ?ResetPasswordToken $resetPasswordToken = null;
 
     ### create ###
 
     public function __construct(
         Id $id, DateTimeImmutable $date, Login $login, Email $email,
         Password $password, Info $info,
-        Status $status, Role $role, ?ConfirmToken $confirmToken = null
+        Status $status, Role $role,
+        ?ConfirmToken $confirmToken = null,
+        ?ResetPasswordToken $resetPasswordToken = null
     )
     {
         $this->id = $id;
@@ -90,6 +97,7 @@ class User
         $this->status = $status;
         $this->role = $role;
         $this->confirmToken = $confirmToken;
+        $this->resetPasswordToken = $resetPasswordToken;
     }
 
     public static function signUpByEmail(
@@ -192,6 +200,22 @@ class User
         return $this->avatar;
     }
 
+    /**
+     * @return DateTimeImmutable
+     */
+    public function getDate(): DateTimeImmutable
+    {
+        return $this->date;
+    }
+
+    /**
+     * @return ResetPasswordToken|null
+     */
+    public function getResetPasswordToken(): ?ResetPasswordToken
+    {
+        return $this->resetPasswordToken;
+    }
+
     ### actions
 
     public function uploadAvatar(Avatar $avatar): void
@@ -253,5 +277,26 @@ class User
             $this->info->getCountry(),
             $sex
         );
+    }
+
+    ### change password
+
+    public function requestPasswordReset(string $token, DateTimeImmutable $date): void
+    {
+        if (!$this->getStatus()->isActive()) {
+            throw new DomainException('Account is not active.');
+        }
+        if ($this->resetPasswordToken and $this->resetPasswordToken->isNotExpired($date)) {
+            throw new DomainException('Resetting is already requested.');
+        }
+        $this->resetPasswordToken = new ResetPasswordToken($token, $date);
+    }
+
+    public function changePassword(Password $password): void
+    {
+        if ($this->password->isEqual($password)) {
+            throw new DomainException('Same password.');
+        }
+        $this->password = $password;
     }
 }

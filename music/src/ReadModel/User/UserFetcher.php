@@ -140,6 +140,16 @@ class UserFetcher
         return $result ?: null;
     }
 
+    public function existsByPasswordResetToken(string $token): bool
+    {
+        return $this->connection->createQueryBuilder()
+                ->select('COUNT (*)')
+                ->from('user_users')
+                ->where('reset_password_token = :token')
+                ->setParameter(':token', $token)
+                ->execute()->fetchColumn() > 0;
+    }
+
     public function getDetail(string $id): DetailView
     {
         if (!$detail = $this->findDetail($id)) {

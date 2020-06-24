@@ -41,6 +41,15 @@ services:
             $tokenSender: '@App\Model\User\Service\ConfirmEmailTokenSender'
             $hasher: '@App\Model\User\Service\ArgonHasher'
 
+    App\Model\User\UseCase\User\ResetPassword\Request\Handler:
+        arguments:
+            $tokenGenerator: '@App\Model\User\Service\ResetPasswordUuidTokenGenerator'
+            $tokenSender: '@App\Model\User\Service\ResetPasswordEmailTokenSender'
+
+    App\Model\User\UseCase\User\ResetPassword\Confirm\Handler:
+        arguments:
+            $hasher: '@App\Model\User\Service\ArgonHasher'
+
     App\Security\LoginFormAuthenticator:
         arguments:
             $hasher: '@App\Model\User\Service\ArgonHasher'

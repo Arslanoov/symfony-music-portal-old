@@ -37,7 +37,7 @@ class ConfirmTest extends TestCase
         $user->confirmSignUp();
     }
 
-    public function createUser(): User
+    private function createUser(): User
     {
         return (new UserBuilder())
             ->withInfo(new Info(18, 'about me', 'country', Info::SEX_MALE))

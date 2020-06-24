@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Model\User\Entity\User;
 
+use DateTimeImmutable;
 use Webmozart\Assert\Assert;
 
 class ConfirmToken
@@ -30,6 +31,6 @@ class ConfirmToken
 
     public function isEqual(ConfirmToken $token): bool
     {
-        return $this->value === $this->getValue();
+        return $this->value === $token->getValue();
     }
 }

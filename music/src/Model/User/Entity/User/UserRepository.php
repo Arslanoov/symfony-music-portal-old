@@ -28,7 +28,30 @@ class UserRepository
         /** @var User $user */
         $user = $this->repository->find($id->getValue());
         if (!$user) {
-            throw new EntityNotFoundException('User is not found');
+            throw new EntityNotFoundException('User is not found.');
+        }
+
+        return $user;
+    }
+
+    public function getByPasswordToken(string $passwordToken): ?User
+    {
+        /** @var User $user */
+        $user = $this->repository->findOneBy([
+            'resetPasswordToken.token' => $passwordToken
+        ]);
+
+        if (!$user) {
+            throw new EntityNotFoundException('User is not found.');
+        }
+
+        return $user;
+    }
+
+    public function getByEmail(Email $email): ?User
+    {
+        if (!$user = $this->findByEmail($email)) {
+            throw new EntityNotFoundException('User is not found.');
         }
 
         return $user;

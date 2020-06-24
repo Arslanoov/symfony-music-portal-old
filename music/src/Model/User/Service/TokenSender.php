@@ -10,5 +10,5 @@ use App\Model\User\Entity\User\Login;
 
 interface TokenSender
 {
-    public function send(Login $login, Email $email, ConfirmToken $token): void;
+    public function send(Login $login, Email $email, $token): void;
 }
