@@ -13,37 +13,26 @@ use App\Model\User\Entity\User\Password;
 use App\Model\User\Entity\User\User;
 use PHPUnit\Framework\TestCase;
 
-class CountryTest extends TestCase
+class LoginTest extends TestCase
 {
     public function testSuccess(): void
     {
         $user = $this->createUser();
 
-        $this->assertNull($user->getInfo()->getCountry());
+        $this->assertNotNull($user->getLogin()->getValue());
 
-        $user->fillCountry($country = 'USA');
+        $user->changeLogin($login = new Login('New login'));
 
-        $this->assertEquals($user->getInfo()->getCountry(), $country);
+        $this->assertEquals($user->getLogin()->getValue(), $login->getValue());
     }
 
-    public function testEmpty(): void
+    public function testEqual(): void
     {
         $user = $this->createUser();
 
-        $this->expectExceptionMessage('Expected a non-empty value. Got: ""');
+        $this->expectExceptionMessage('Login matches previous login.');
 
-        $user->fillCountry($country = '');
-    }
-
-    public function testIncorrect(): void
-    {
-        $user = $this->createUser();
-
-        $country = 'Ndhr2wvwsd';
-
-        $this->expectExceptionMessage('Expected one of: "USA", "Russia", "Germany". Got: "' . $country . '"');
-
-        $user->fillCountry($country);
+        $user->changeLogin($login = new Login('User login'));
     }
 
     private function createUser(): User

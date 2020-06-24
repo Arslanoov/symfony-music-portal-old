@@ -172,6 +172,15 @@ class User
         return $this->role;
     }
 
+    public function changeLogin(Login $login): void
+    {
+        if ($this->getLogin()->isEqual($login)) {
+            throw new DomainException('Login matches previous login.');
+        }
+
+        $this->login = $login;
+    }
+
     public function fillAboutMe(string $aboutMe): void
     {
         Assert::notEmpty($aboutMe);
@@ -209,7 +218,7 @@ class User
         $this->info = new Info(
             $this->info->getAge(),
             $this->info->getAboutMe(),
-            $this->info->getSex(),
+            $this->info->getCountry(),
             $sex
         );
     }

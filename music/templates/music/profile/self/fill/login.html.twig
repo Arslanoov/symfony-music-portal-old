@@ -2,26 +2,26 @@
 
 {% block breadcrumbs %}
     <div class="col-sm-6">
-        <h1 class="m-0 text-dark">Fill About me</h1>
+        <h1 class="m-0 text-dark">Change Login</h1>
     </div>
     <div class="col-sm-6">
         <ol class="breadcrumb float-sm-right">
             <li class="breadcrumb-item"><a href="{{ path('home') }}">Home</a></li>
             <li class="breadcrumb-item"><a href="{{ path('profile.self.home') }}">Profile</a></li>
-            <li class="breadcrumb-item active"><a href="#">Fill About me</a></li>
+            <li class="breadcrumb-item active"><a href="#">Change Login</a></li>
         </ol>
     </div>
 {% endblock %}
 
-{% block title %}Profile | Fill About Me{% endblock %}
+{% block title %}Profile | Change Login{% endblock %}
 
 {% block body %}
     <div class="card">
         <div class="card-body">
             {% include 'layouts/_flashes.html.twig' %}
 
-            {{ form_start(form) }}
-            {{ form_widget(form.aboutMe, {'value' : aboutMe}) }}
+            {{ form_start(form, {'attr': {'onsubmit':'return confirm("Are you sure?");'}}) }}
+            {{ form_widget(form.login, {'value' : login}) }}
 
             <br>
             <button type="submit" class="btn btn-success">

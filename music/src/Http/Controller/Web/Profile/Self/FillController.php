@@ -30,6 +30,36 @@ class FillController extends BaseController
     }
 
     /**
+     * @Route("/profile/fill/login", name="profile.self.fill.login")
+     * @param Request $request
+     * @param Fill\Login\Handler $handler
+     * @return Response
+     */
+    public function login(Request $request, Fill\Login\Handler $handler): Response
+    {
+        $user = $this->users->getDetail($this->getUser()->getId());
+
+        $command = Fill\Login\Command::byId($user->id);
+
+        $form = $this->createForm(Fill\Login\Form::class, $command);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() and $form->isValid()) {
+            try {
+                $handler->handle($command);
+                return $this->redirectToRoute('profile.self.home');
+            } catch (DomainException $e) {
+                $this->errorHandler->handleWarning($e);
+            }
+        }
+
+        return $this->render('music/profile/self/fill/login.html.twig', [
+            'form' => $form->createView(),
+            'login' => $user->login
+        ]);
+    }
+
+    /**
      * @Route("/profile/fill/about-me", name="profile.self.fill.about-me")
      * @param Request $request
      * @param Fill\AboutMe\Handler $handler
