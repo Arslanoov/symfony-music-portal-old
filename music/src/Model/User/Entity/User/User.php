@@ -6,6 +6,7 @@ namespace App\Model\User\Entity\User;
 
 use DomainException;
 use Doctrine\ORM\Mapping as ORM;
+use Webmozart\Assert\Assert;
 
 /**
  * Class User
@@ -169,5 +170,47 @@ class User
     public function getRole(): Role
     {
         return $this->role;
+    }
+
+    public function fillAboutMe(string $aboutMe): void
+    {
+        Assert::notEmpty($aboutMe);
+
+        $this->info = new Info(
+            $this->info->getAge(),
+            $aboutMe,
+            $this->info->getCountry(),
+            $this->info->getSex()
+        );
+    }
+
+    public function fillCountry(string $country): void
+    {
+        Assert::notEmpty($country);
+        Assert::oneOf($country, Info::COUNTRIES);
+
+        $this->info = new Info(
+            $this->info->getAge(),
+            $this->info->getAboutMe(),
+            $country,
+            $this->info->getSex()
+        );
+    }
+
+    public function fillSex(string $sex): void
+    {
+        Assert::notEmpty($sex);
+
+        Assert::oneOf($sex, [
+            Info::SEX_MALE,
+            Info::SEX_FEMALE
+        ]);
+
+        $this->info = new Info(
+            $this->info->getAge(),
+            $this->info->getAboutMe(),
+            $this->info->getSex(),
+            $sex
+        );
     }
 }

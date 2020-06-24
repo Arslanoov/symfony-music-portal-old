@@ -17,7 +17,8 @@ security:
                 secret: '%kernel.secret%'
                 lifetime: 604800
                 path: /
-            form_login: true
+            form_login:
+                login_path: auth.login
             logout:
                 path: auth.logout
 
@@ -35,3 +36,4 @@ security:
     access_control:
         - { path: ^/auth, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/signup, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/profile, roles: ROLE_USER }

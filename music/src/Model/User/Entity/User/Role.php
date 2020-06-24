@@ -8,10 +8,10 @@ use Webmozart\Assert\Assert;
 
 class Role
 {
-    private const ROLE_USER = 'User';
-    private const ROLE_MODERATOR = 'Moderator';
-    private const ROLE_CONTENT_MANAGER = 'Content Manager';
-    private const ROLE_ADMIN = 'Admin';
+    private const USER = 'ROLE_USER';
+    private const MODERATOR = 'ROLE_MODERATOR';
+    private const CONTENT_MANAGER = 'ROLE_CONTENT_MANAGER';
+    private const ADMIN = 'ROLE_ADMIN';
 
     private string $value;
 
@@ -22,10 +22,10 @@ class Role
     public function __construct(string $value)
     {
         Assert::oneOf($value, [
-            self::ROLE_USER,
-            self::ROLE_CONTENT_MANAGER,
-            self::ROLE_MODERATOR,
-            self::ROLE_ADMIN
+            self::USER,
+            self::CONTENT_MANAGER,
+            self::MODERATOR,
+            self::ADMIN
         ]);
 
         $this->value = $value;
@@ -41,42 +41,42 @@ class Role
 
     public static function user(): self
     {
-        return new self(self::ROLE_USER);
+        return new self(self::USER);
     }
 
     public static function moderator(): self
     {
-        return new self(self::ROLE_MODERATOR);
+        return new self(self::MODERATOR);
     }
 
     public static function contentManager(): self
     {
-        return new self(self::ROLE_CONTENT_MANAGER);
+        return new self(self::CONTENT_MANAGER);
     }
 
     public static function admin(): self
     {
-        return new self(self::ROLE_ADMIN);
+        return new self(self::ADMIN);
     }
 
     public function isUser(): bool
     {
-        return $this->value === self::ROLE_USER;
+        return $this->value === self::USER;
     }
 
     public function isModerator(): bool
     {
-        return $this->value === self::ROLE_MODERATOR;
+        return $this->value === self::MODERATOR;
     }
 
     public function isContentManager(): bool
     {
-        return $this->value === self::ROLE_CONTENT_MANAGER;
+        return $this->value === self::CONTENT_MANAGER;
     }
 
     public function isAdmin(): bool
     {
-        return $this->value === self::ROLE_ADMIN;
+        return $this->value === self::ADMIN;
     }
 
     public function isEqual(Role $role): bool

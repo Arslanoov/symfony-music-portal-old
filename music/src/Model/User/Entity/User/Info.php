@@ -17,6 +17,17 @@ class Info
     public const SEX_MALE = 'Male';
     public const SEX_FEMALE = 'Female';
 
+    public const SEX_LIST = [
+        'Male' => 'Male',
+        'Female' => 'Female'
+    ];
+
+    public const COUNTRIES = [
+        'USA' => 'USA',
+        'Russia' => 'Russia',
+        'Germany' => 'Germany'
+    ];
+
     /**
      * @var string|null
      * @ORM\Column(type="string", length=512, nullable=true)
@@ -64,7 +75,7 @@ class Info
     /**
      * @return string
      */
-    public function getAboutMe(): string
+    public function getAboutMe(): ?string
     {
         return $this->aboutMe;
     }
@@ -72,7 +83,7 @@ class Info
     /**
      * @return string
      */
-    public function getCountry(): string
+    public function getCountry(): ?string
     {
         return $this->country;
     }

@@ -1,0 +1,72 @@
+{% extends 'layouts/main.html.twig' %}
+
+{% block breadcrumbs %}
+    <div class="col-sm-6">
+        <h1 class="m-0 text-dark">Profile</h1>
+    </div>
+    <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item"><a href="{{ path('home') }}">Home</a></li>
+            <li class="breadcrumb-item active"><a href="#">Profile</a></li>
+        </ol>
+    </div>
+{% endblock %}
+
+{% block title %}Profile{% endblock %}
+
+{% block body %}
+    <div class="card">
+        <div class="card-header">Profile</div>
+        <div class="card-body">
+            <table class="table table-bordered mb-0">
+                <tbody>
+                    <tr>
+                        <th>Login</th>
+                        <td>
+                            {{ user.login }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Email</th>
+                        <td>
+                            {{ user.email }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>About me</th>
+                        <td>
+                            {{ user.info_about_me ?: 'Not filled' }}
+                            <a href="{{ path('profile.self.fill.about-me') }}" class="btn btn-sm btn-outline-primary">
+                                <span class="fa fa-pen"></span>
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Country</th>
+                        <td>
+                            {{ user.info_country ?: 'Not filled' }}
+                            <a href="{{ path('profile.self.fill.country') }}" class="btn btn-sm btn-outline-primary">
+                                <span class="fa fa-pen"></span>
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Sex</th>
+                        <td>
+                            {{ user.info_sex ?: 'Not filled' }}
+                            <a href="{{ path('profile.self.fill.sex') }}" class="btn btn-sm btn-outline-primary">
+                                <span class="fa fa-pen"></span>
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Age</th>
+                        <td>
+                            {{ user.info_age }} years
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

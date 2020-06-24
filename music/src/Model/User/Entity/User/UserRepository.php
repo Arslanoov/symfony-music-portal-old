@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Model\User\Entity\User;
 
+use App\Model\Exception\EntityNotFoundException;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ObjectRepository;
 
@@ -20,6 +21,17 @@ class UserRepository
     {
         $this->repository = $em->getRepository(User::class);
         $this->em = $em;
+    }
+
+    public function get(Id $id): ?User
+    {
+        /** @var User $user */
+        $user = $this->repository->find($id->getValue());
+        if (!$user) {
+            throw new EntityNotFoundException('User is not found');
+        }
+
+        return $user;
     }
 
     public function findByLogin(Login $login): ?User
