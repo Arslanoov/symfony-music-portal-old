@@ -78,6 +78,12 @@ class Genre
         return $this->slug;
     }
 
+    public function edit(Name $name): void
+    {
+        $this->name = $name;
+        $this->slug = Slug::generate($name->getValue());
+    }
+
     /**
      * @return int
      */

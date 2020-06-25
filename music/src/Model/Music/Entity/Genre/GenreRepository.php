@@ -16,9 +16,8 @@ class GenreRepository
     /**
      * GenreRepository constructor.
      * @param EntityManagerInterface $em
-     * @param ObjectRepository $repository
      */
-    public function __construct(EntityManagerInterface $em, ObjectRepository $repository)
+    public function __construct(EntityManagerInterface $em)
     {
         $this->em = $em;
         $this->repository = $em->getRepository(Genre::class);
@@ -61,5 +60,10 @@ class GenreRepository
     public function add(Genre $genre): void
     {
         $this->em->persist($genre);
+    }
+
+    public function remove(Genre $genre): void
+    {
+        $this->em->remove($genre);
     }
 }

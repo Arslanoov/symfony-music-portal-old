@@ -17,12 +17,18 @@
 
 {% block body %}
     {% include 'layouts/_flashes.html.twig' %}
+
+    <a href="{{ path('manage.genres.create') }}" class="btn btn-primary">
+        Add a new one
+    </a>
+
     <table class="table table-bordered table-condensed">
         <thead>
             <tr>
                 <th>Name</th>
                 <th>Slug</th>
                 <th>Songs count</th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -30,7 +36,22 @@
                 <tr>
                     <td>{{ genre.name }}</td>
                     <td>{{ genre.slug }}</td>
-                    <td>{{ genre.songsCount }}</td>
+                    <td>{{ genre.songs_count }}</td>
+                    <td>
+                        <a href="{{ url('manage.genres.edit', {'id': genre.id}) }}">
+                            Edit
+                            <i class="fa fa-edit"></i>
+                        </a>
+                    </td>
+                    <td>
+                        <form method="POST" action="{{ url('manage.genres.remove', {'id': genre.id}) }}" id="genre-remove-form">
+                            <input type="hidden" name="token" value="{{ csrf_token('manage-genre-delete') }}">
+                        </form>
+                        <a href="#" onclick="if (confirm('Are you sure?')) { document.getElementById('genre-remove-form').submit() }">
+                            Remove
+                            <i class="fa fa-trash"></i>
+                        </a>
+                    </td>
                 </tr>
             {% endfor %}
         </tbody>

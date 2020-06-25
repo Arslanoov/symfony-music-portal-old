@@ -33,7 +33,7 @@ class GenreFetcher
                 'id',
                 'name',
                 'slug',
-                'songs_count AS songsCount'
+                'songs_count'
             )
             ->from('music_genres')
             ->orderBy('songs_count', 'DESC')
