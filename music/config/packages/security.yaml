@@ -32,8 +32,11 @@ security:
 
         ROLE_CONTENT_MANAGER:
             - ROLE_USER
+            - ROLE_MANAGE_GENRES
 
     access_control:
+        - { path: ^/management, roles: [ROLE_MODERATOR, ROLE_CONTENT_MANAGER] }
+        - { path: ^/management/music/genres, roles: ROLE_MANAGE_GENRES }
         - { path: ^/auth, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/signup, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/profile, roles: ROLE_USER }
