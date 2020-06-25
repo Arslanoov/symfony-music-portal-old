@@ -13,6 +13,10 @@ doctrine:
         url: '%env(resolve:DATABASE_URL)%'
 
         types:
+            music_genre_id: 'App\Model\Music\Entity\Genre\IdType'
+            music_genre_name: 'App\Model\Music\Entity\Genre\NameType'
+            music_genre_slug: 'App\Model\Music\Entity\Genre\SlugType'
+
             music_artist_id: 'App\Model\Music\Entity\Artist\IdType'
             music_artist_login: 'App\Model\Music\Entity\Artist\LoginType'
 

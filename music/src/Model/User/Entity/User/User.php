@@ -81,7 +81,8 @@ class User
     ### create ###
 
     public function __construct(
-        Id $id, DateTimeImmutable $date, Login $login, Email $email,
+        Id $id, DateTimeImmutable $date,
+        Login $login, Email $email,
         Password $password, Info $info,
         Status $status, Role $role,
         ?ConfirmToken $confirmToken = null,

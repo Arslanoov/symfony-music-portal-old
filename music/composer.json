@@ -6,6 +6,8 @@
         "ext-ctype": "*",
         "ext-iconv": "*",
         "ext-json": "*",
+        "ext-pdo" : "*",
+        "ausi/slug-generator": "^1.1",
         "finesse/swiftmailer-defaults-plugin": "^2.0",
         "league/flysystem-bundle": "^1.1",
         "ramsey/uuid": "^3.8",
@@ -33,9 +35,9 @@
         "symfony/twig-pack": "*",
         "symfony/validator": "5.1.*",
         "symfony/web-link": "5.1.*",
+        "symfony/webpack-encore-bundle": "^1.5",
         "symfony/yaml": "5.1.*",
-        "webmozart/assert": "^1.4",
-        "symfony/webpack-encore-bundle": "^1.5"
+        "webmozart/assert": "^1.4"
     },
     "config": {
         "preferred-install": {

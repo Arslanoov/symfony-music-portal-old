@@ -159,6 +159,30 @@
                             {% endif %}
                         </ul>
                     </li>
+
+                    <li class="nav-item has-treeview">
+                        <a href="{{ path('manage') }}" class="nav-link">
+                            <i class="nav-icon fas fa-edit"></i>
+                            <p>
+                                Manage
+                                <i class="right fas fa-angle-left"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="{{ path('manage') }}" class="nav-link">
+                                    <i class="fa fa-home nav-icon"></i>
+                                    <p>Home</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ path('manage.genres') }}" class="nav-link">
+                                    <i class="fa fa-guitar nav-icon"></i>
+                                    <p>Genres</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
                 </ul>
             </nav>
             <!-- /.sidebar-menu -->
