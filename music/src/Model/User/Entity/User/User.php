@@ -69,7 +69,7 @@ class User
     private ?ConfirmToken $confirmToken = null;
     /**
      * @var Role
-     * @ORM\Column(type="user_user_role", length=16)
+     * @ORM\Column(type="user_user_role", length=21)
      */
     private Role $role;
     /**
@@ -218,6 +218,11 @@ class User
     }
 
     ### actions
+
+    public function changeRole(Role $role): void
+    {
+        $this->role = $role;
+    }
 
     public function uploadAvatar(Avatar $avatar): void
     {

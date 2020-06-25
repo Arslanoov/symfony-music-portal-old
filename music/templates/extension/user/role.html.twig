@@ -1,0 +1,9 @@
+{% if role == 'ROLE_USER' %}
+    <span class="badge badge-success">User</span>
+{% elseif role == 'ROLE_MODERATOR' %}
+    <span class="badge badge-pill">Moderator</span>
+{% elseif role == 'ROLE_CONTENT_MANAGER' %}
+    <span class="badge badge-warning">Content Manager</span>
+{% elseif role == 'ROLE_ADMIN' %}
+    <span class="badge badge-danger">Admin</span>
+{% endif %}
