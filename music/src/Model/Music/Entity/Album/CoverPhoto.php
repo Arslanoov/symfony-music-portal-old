@@ -28,8 +28,8 @@ class CoverPhoto
         return $this->value;
     }
 
-    public function __toString(): string
+    public function isEqual(CoverPhoto $photo): bool
     {
-        return $this->value;
+        return $this->value === $photo->getValue();
     }
 }

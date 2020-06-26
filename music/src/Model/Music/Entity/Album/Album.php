@@ -20,6 +20,8 @@ class Album
     private Status $status;
     private Type $type;
 
+    ### create
+
     public function __construct(
         Id $id, Artist $artist, Title $title,
         Slug $slug, DateTimeImmutable $createdDate, ReleaseYear $releaseYear,
@@ -50,6 +52,8 @@ class Album
             $description, Status::moderated(), $type
         );
     }
+
+    ### getters
 
     /**
      * @return Id
@@ -129,5 +133,17 @@ class Album
     public function getCoverPhoto(): CoverPhoto
     {
         return $this->coverPhoto;
+    }
+
+    ### actions
+
+    public function makePublic(): void
+    {
+        $this->status = Status::public();
+    }
+
+    public function archive(): void
+    {
+        $this->status = Status::archived();
     }
 }

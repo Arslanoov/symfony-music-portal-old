@@ -10,7 +10,6 @@ use App\Model\Music\Entity\Album\Description;
 use App\Model\Music\Entity\Album\Id;
 use App\Model\Music\Entity\Album\ReleaseYear;
 use App\Model\Music\Entity\Album\Slug;
-use App\Model\Music\Entity\Album\Status;
 use App\Model\Music\Entity\Album\Title;
 use App\Model\Music\Entity\Album\Type;
 use App\Model\Music\Entity\Artist\Artist;
@@ -18,7 +17,7 @@ use App\Tests\Builder\Music\ArtistBuilder;
 use DateTimeImmutable;
 use PHPUnit\Framework\TestCase;
 
-class CreateTest extends TestCase
+class ReleaseYearTest extends TestCase
 {
     public function testSuccess(): void
     {
@@ -36,20 +35,14 @@ class CreateTest extends TestCase
             $type = Type::forAll()
         );
 
-        $this->assertEquals($album->getId(), $id);
-        $this->assertTrue($album->getId()->isEqual($id));
-        $this->assertEquals($album->getArtist(), $artist);
-        $this->assertEquals($album->getSlug(), $slug);
-        $this->assertTrue($album->getSlug()->isEqual($slug));
-        $this->assertEquals($album->getCreatedDate(), $createdDate);
-        $this->assertEquals($album->getReleaseYear(), $year);
-        $this->assertTrue($album->getReleaseYear()->isEqual($year));
-        $this->assertEquals($album->getDescription(), $description);
-        $this->assertTrue($album->getDescription()->isEqual($description));
-        $this->assertEquals($album->getCoverPhoto(), $coverPhoto);
-        $this->assertTrue($album->getCoverPhoto()->isEqual($coverPhoto));
-        $this->assertTrue($album->getStatus()->isEqual(Status::moderated()));
-        $this->assertTrue($album->getType()->isEqual(Type::forAll()));
+        $olderReleaseYear = new ReleaseYear(2025);
+        $earlierReleaseYear = new ReleaseYear(2007);
+
+        $this->assertTrue($album->getReleaseYear()->isEarlierThan($olderReleaseYear));
+        $this->assertFalse($album->getReleaseYear()->isEarlierThan($earlierReleaseYear));
+
+        $this->assertTrue($album->getReleaseYear()->isOlderThan($earlierReleaseYear));
+        $this->assertFalse($album->getReleaseYear()->isOlderThan($olderReleaseYear));
     }
 
     private function createArtist(): Artist

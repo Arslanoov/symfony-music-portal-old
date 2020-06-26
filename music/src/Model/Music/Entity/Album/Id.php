@@ -39,6 +39,11 @@ class Id
         return $this->value;
     }
 
+    public function isEqual(Id $id): bool
+    {
+        return $this->value === $id->getValue();
+    }
+
     public function __toString(): string
     {
         return $this->value;

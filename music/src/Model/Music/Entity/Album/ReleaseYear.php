@@ -31,12 +31,12 @@ class ReleaseYear
 
     public function isEarlierThan(ReleaseYear $year): bool
     {
-        return $this->value < $year;
+        return $this->value < $year->getValue();
     }
 
     public function isOlderThan(ReleaseYear $year): bool
     {
-        return $this->value > $year;
+        return $this->value > $year->getValue();
     }
 
     public function isEqual(ReleaseYear $year): bool
