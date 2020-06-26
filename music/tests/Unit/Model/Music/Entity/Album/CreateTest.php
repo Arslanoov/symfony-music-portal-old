@@ -28,7 +28,6 @@ class CreateTest extends TestCase
             $id = Id::next(),
             $artist,
             $title = new Title('Album title'),
-            $slug = Slug::generate('Slug'),
             $createdDate = new DateTimeImmutable(),
             $year = new ReleaseYear(2020),
             $coverPhoto = new CoverPhoto('path'),
@@ -39,8 +38,7 @@ class CreateTest extends TestCase
         $this->assertEquals($album->getId(), $id);
         $this->assertTrue($album->getId()->isEqual($id));
         $this->assertEquals($album->getArtist(), $artist);
-        $this->assertEquals($album->getSlug(), $slug);
-        $this->assertTrue($album->getSlug()->isEqual($slug));
+        $this->assertEquals($album->getSlug()->getValue(), 'album-title');
         $this->assertEquals($album->getCreatedDate(), $createdDate);
         $this->assertEquals($album->getReleaseYear(), $year);
         $this->assertTrue($album->getReleaseYear()->isEqual($year));

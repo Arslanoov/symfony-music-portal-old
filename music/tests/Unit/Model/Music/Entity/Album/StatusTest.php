@@ -9,7 +9,6 @@ use App\Model\Music\Entity\Album\CoverPhoto;
 use App\Model\Music\Entity\Album\Description;
 use App\Model\Music\Entity\Album\Id;
 use App\Model\Music\Entity\Album\ReleaseYear;
-use App\Model\Music\Entity\Album\Slug;
 use App\Model\Music\Entity\Album\Status;
 use App\Model\Music\Entity\Album\Title;
 use App\Model\Music\Entity\Album\Type;
@@ -28,7 +27,6 @@ class StatusTest extends TestCase
             $id = Id::next(),
             $artist,
             $title = new Title('Album title'),
-            $slug = Slug::generate('Slug'),
             $createdDate = new DateTimeImmutable(),
             $year = new ReleaseYear(2020),
             $coverPhoto = new CoverPhoto('path'),

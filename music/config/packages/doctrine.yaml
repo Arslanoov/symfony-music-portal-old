@@ -24,6 +24,15 @@ doctrine:
             music_song_name: 'App\Model\Music\Entity\Song\NameType'
             music_song_status: 'App\Model\Music\Entity\Song\StatusType'
 
+            music_album_id: 'App\Model\Music\Entity\Album\IdType'
+            music_album_title: 'App\Model\Music\Entity\Album\TitleType'
+            music_album_slug: 'App\Model\Music\Entity\Album\SlugType'
+            music_album_release_year: 'App\Model\Music\Entity\Album\ReleaseYearType'
+            music_album_cover_photo: 'App\Model\Music\Entity\Album\CoverPhotoType'
+            music_album_description: 'App\Model\Music\Entity\Album\DescriptionType'
+            music_album_status: 'App\Model\Music\Entity\Album\StatusType'
+            music_album_type: 'App\Model\Music\Entity\Album\TypeType'
+
             user_user_id: 'App\Model\User\Entity\User\IdType'
             user_user_login: 'App\Model\User\Entity\User\LoginType'
             user_user_email: 'App\Model\User\Entity\User\EmailType'

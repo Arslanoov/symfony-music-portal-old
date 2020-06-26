@@ -6,18 +6,69 @@ namespace App\Model\Music\Entity\Album;
 
 use App\Model\Music\Entity\Artist\Artist;
 use DateTimeImmutable;
+use Doctrine\ORM\Mapping as ORM;
 
+/**
+ * Class Album
+ * @package App\Model\Music\Entity\Album
+ * @ORM\Entity()
+ * @ORM\Table(name="music_albums", uniqueConstraints={
+ *     @ORM\UniqueConstraint(columns={"title", "slug"})
+ * })
+ */
 class Album
 {
+    /**
+     * @var Id
+     * @ORM\Id()
+     * @ORM\Column(type="music_album_id")
+     */
     private Id $id;
+    /**
+     * @var Artist
+     * @ORM\ManyToOne(targetEntity="App\Model\Music\Entity\Artist\Artist")
+     * @ORM\JoinColumn(name="artist_id", referencedColumnName="id", nullable=false)
+     */
     private Artist $artist;
+    /**
+     * @var Title
+     * @ORM\Column(type="music_album_title", length=255)
+     */
     private Title $title;
+    /**
+     * @var Slug
+     * @ORM\Column(type="music_album_slug", length=255)
+     */
     private Slug $slug;
+    /**
+     * @var DateTimeImmutable
+     * @ORM\Column(type="datetime_immutable")
+     */
     private DateTimeImmutable $createdDate;
+    /**
+     * @var ReleaseYear
+     * @ORM\Column(type="music_album_release_year")
+     */
     private ReleaseYear $releaseYear;
-    private CoverPhoto $coverPhoto;
+    /**
+     * @var CoverPhoto
+     * @ORM\Column(type="music_album_cover_photo", length=255, nullable=true)
+     */
+    private ?CoverPhoto $coverPhoto = null;
+    /**
+     * @var Description
+     * @ORM\Column(type="music_album_description", length=512)
+     */
     private Description $description;
+    /**
+     * @var Status
+     * @ORM\Column(type="music_album_status", length=64)
+     */
     private Status $status;
+    /**
+     * @var Type
+     * @ORM\Column(type="music_album_type", length=64)
+     */
     private Type $type;
 
     ### create
@@ -25,7 +76,7 @@ class Album
     public function __construct(
         Id $id, Artist $artist, Title $title,
         Slug $slug, DateTimeImmutable $createdDate, ReleaseYear $releaseYear,
-        CoverPhoto $coverPhoto, Description $description, Status $status, Type $type
+        ?CoverPhoto $coverPhoto, Description $description, Status $status, Type $type
     )
     {
         $this->id = $id;
@@ -42,13 +93,13 @@ class Album
 
     public static function new(
         Id $id, Artist $artist, Title $title,
-        Slug $slug, DateTimeImmutable $createdDate, ReleaseYear $releaseYear,
+        DateTimeImmutable $createdDate, ReleaseYear $releaseYear,
         CoverPhoto $coverPhoto, Description $description, Type $type
     ): self
     {
         return new self(
             $id, $artist, $title,
-            $slug, $createdDate, $releaseYear, $coverPhoto,
+            Slug::generate($title->getValue()), $createdDate, $releaseYear, $coverPhoto,
             $description, Status::moderated(), $type
         );
     }
