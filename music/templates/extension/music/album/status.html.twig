@@ -1,0 +1,7 @@
+{% if status == 'Moderated' %}
+    <span class="badge badge-warning">Moderated</span>
+{% elseif status == 'Public' %}
+    <span class="badge badge-success">Public</span>
+{% elseif status == 'Archived' %}
+    <span class="badge badge-danger">Archived</span>
+{% endif %}

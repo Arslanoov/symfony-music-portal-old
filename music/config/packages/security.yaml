@@ -36,6 +36,8 @@ security:
 
     access_control:
         - { path: ^/manage, roles: [ROLE_MODERATOR, ROLE_CONTENT_MANAGER] }
+        - { path: ^/music/my, roles: ROLE_USER }
+        - { path: ^/music/library, roles: ROLE_USER }
         - { path: ^/auth, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/signup, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/profile, roles: ROLE_USER }

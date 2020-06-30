@@ -11,12 +11,14 @@ use App\ReadModel\User\UserFetcher;
 use App\Security\LoginFormAuthenticator;
 use DomainException;
 use Exception;
+use Ramsey\Uuid\Uuid;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Guard\GuardAuthenticatorHandler;
 use App\Model\User\UseCase\User\SignUp\ByEmail;
+use App\Model\Music\UseCase\Artist;
 
 class SignUpController extends BaseController
 {
@@ -37,7 +39,8 @@ class SignUpController extends BaseController
     /**
      * @Route("/signup", name="auth.signup")
      * @param Request $request
-     * @param ByEmail\Request\Handler $handler
+     * @param ByEmail\Request\Handler $signUpHandler
+     * @param Artist\Create\Handler $artistCreateHandler
      * @param UserProviderInterface $userProvider
      * @param GuardAuthenticatorHandler $guardHandler
      * @param LoginFormAuthenticator $authenticator
@@ -46,20 +49,26 @@ class SignUpController extends BaseController
      */
     public function request(
         Request $request,
-        ByEmail\Request\Handler $handler,
+        ByEmail\Request\Handler $signUpHandler,
+        Artist\Create\Handler $artistCreateHandler,
         UserProviderInterface $userProvider,
         GuardAuthenticatorHandler $guardHandler,
         LoginFormAuthenticator $authenticator
     ): Response
     {
-        $command = new ByEmail\Request\Command();
+        $id = Uuid::uuid4()->toString();
+        $signUpCommand = ByEmail\Request\Command::byId($id);
 
-        $form = $this->createForm(ByEmail\Request\Form::class, $command);
+        $form = $this->createForm(ByEmail\Request\Form::class, $signUpCommand);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             try {
-                $handler->handle($command);
+                $artistCreateCommand = new Artist\Create\Command($id, $signUpCommand->login);
+
+                $signUpHandler->handle($signUpCommand);
+                $artistCreateHandler->handle($artistCreateCommand);
+
                 $this->addFlash('success', 'Check your email.');
                 return $this->redirectToRoute('home');
             } catch (DomainException $e) {

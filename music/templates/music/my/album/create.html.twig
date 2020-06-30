@@ -1,0 +1,34 @@
+{% extends'layouts/main.html.twig' %}
+
+{% block breadcrumbs %}
+    <div class="col-sm-6">
+        <h1 class="m-0 text-dark">Create Album</h1>
+    </div>
+    <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item"><a href="{{ path('home') }}">Home</a></li>
+            <li class="breadcrumb-item"><a href="#">My music</a></li>
+            <li class="breadcrumb-item"><a href="#">Albums</a></li>
+            <li class="breadcrumb-item active"><a href="#">Create</a></li>
+        </ol>
+    </div>
+{% endblock %}
+
+{% block title %}My music | Create album{% endblock %}
+
+{% block body %}
+    <div class="card">
+        <div class="card-body">
+            {% include 'layouts/_flashes.html.twig' %}
+
+            {{ form_start(form) }}
+            {{ form_widget(form) }}
+
+            <button type="submit" class="btn btn-success">
+                Create
+            </button>
+
+            {{ form_end(form) }}
+        </div>
+    </div>
+{% endblock %}

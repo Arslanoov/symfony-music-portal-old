@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Model\Music\Entity\Album;
 
-use PHPUnit\Framework\Assert;
+use Webmozart\Assert\Assert;
 
 class Description
 {
@@ -16,7 +16,7 @@ class Description
      */
     public function __construct(string $value)
     {
-        Assert::assertNotEmpty($value);
+        Assert::notEmpty($value);
         $this->value = $value;
     }
 

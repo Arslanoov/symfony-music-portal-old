@@ -15,6 +15,30 @@ a.btn {
   margin-bottom: 10px;
 }
 
+.albums, .songs {
+  margin: 10px 0;
+}
+
+.action {
+  margin-right: 5px;
+}
+
+.album-photo {
+  position: relative;
+  width: 150px;
+  height: 150px;
+  max-width: 100%;
+  max-height: 100%;
+  background-size: contain;
+}
+
+.album-photo__for-adult {
+  position: absolute;
+  z-index: 5;
+  bottom: 10px;
+  right: 10px;
+}
+
 .footer {
   background-color: #f5f5f5;
 

@@ -11,6 +11,11 @@ class Type
     private const FOR_ALL = 'For all';
     private const ONLY_ADULT = 'Only adult';
 
+    public const TYPES = [
+        'For all' => self::FOR_ALL,
+        'Only adult' => self::ONLY_ADULT
+    ];
+
     private string $value;
 
     /**

@@ -11,6 +11,11 @@ class Command
     /**
      * @var string|null
      * @Assert\NotBlank()
+     */
+    public ?string $id = null;
+    /**
+     * @var string|null
+     * @Assert\NotBlank()
      * @Assert\Length(min="4", max="32")
      */
     public ?string $login = null;
@@ -33,4 +38,11 @@ class Command
      * @Assert\LessThan(99)
      */
     public ?int $age = null;
+
+    public static function byId(string $id): self
+    {
+        $command = new self();
+        $command->id = $id;
+        return $command;
+    }
 }

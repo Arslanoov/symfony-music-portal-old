@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Model\Music\Entity\Album;
 
-use PHPUnit\Framework\Assert;
+use Webmozart\Assert\Assert;
 
 class ReleaseYear
 {
@@ -16,8 +16,8 @@ class ReleaseYear
      */
     public function __construct(int $value)
     {
-        Assert::assertLessThan(2100, $value);
-        Assert::assertGreaterThan(1500, $value);
+        Assert::lessThan($value, 2100);
+        Assert::greaterThan($value, 1500);
         $this->value = $value;
     }
 

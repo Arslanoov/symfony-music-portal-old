@@ -5,12 +5,14 @@
 {% block body %}
     <div class="register-box">
         <div class="register-logo">
-            <a href="#"><h1>Sign Up</h1></a>
+            <h1>Sign Up</h1>
         </div>
 
         <div class="card">
             <div class="card-body register-card-body">
                 <p class="login-box-msg">Register a new membership</p>
+
+                {% include '/layouts/_flashes.html.twig' %}
 
                 {{ form_start(form) }}
 

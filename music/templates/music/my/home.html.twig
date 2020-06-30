@@ -1,0 +1,90 @@
+{% extends'layouts/main.html.twig' %}
+
+{% block breadcrumbs %}
+    <div class="col-sm-6">
+        <h1 class="m-0 text-dark">My music</h1>
+    </div>
+    <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item"><a href="{{ path('home') }}">Home</a></li>
+            <li class="breadcrumb-item"><a href="#">My music</a></li>
+        </ol>
+    </div>
+{% endblock %}
+
+{% block title %}My music{% endblock %}
+
+{% block body %}
+    {% include 'layouts/_flashes.html.twig' %}
+
+    <h5>Latest albums</h5>
+    <p>
+        <a class="action" href="#"><i class="fa fa-arrow-right"></i> View all</a>
+        <a class="action" href="{{ path('music.my.album.create') }}"><i class="fa fa-pen"></i> Add</a>
+    </p>
+
+    <div class="albums">
+        {% if albums %}
+            <div class="table-responsive">
+                <table class="table table-condensed table-bordered">
+                    <thead>
+                    <tr>
+                        <th>Cover</th>
+                        <th>Name</th>
+                        <th>Created</th>
+                        <th>Year</th>
+                        <th>Songs count</th>
+                        <th>Status</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for album in albums %}
+                        <tr>
+                            <td>
+                                <div class="album-photo" style="background-image: url({{ album.cover_photo ?: '/img/song/album/default.jpg' }})">
+                                    {% if album.type == 'Only adult' %}
+                                        <img src="/img/song/album/adult.jpg" class="album-photo__for-adult" alt="" width="30px">
+                                    {% endif %}
+                                </div>
+                            </td>
+                            <td>{{ album.title }}</td>
+                            <td>{{ album.created_date }}</td>
+                            <td>{{ album.release_year }}</td>
+                            <td>{{ album.songs_count }}</td>
+                            <td>{{ music_album_status(album.status) }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <p>
+                You don't have any albums.
+                <a href="{{ path('music.song.upload') }}"><i class="fa fa-pen"></i> Add</a>
+            </p>
+        {% endif %}
+    </div>
+
+    <h5>Latest singles</h5>
+    <p>
+        <a class="action" href="#"><i class="fa fa-arrow-right"></i> View all</a>
+        <a class="action" href="#"><i class="fa fa-pen"></i> Add</a>
+    </p>
+
+    <div class="songs">
+        {% if songs %}
+            {% for song in songs %}
+                <div class="song">
+
+                </div>
+                <p>
+                    <a href="">All songs</a>
+                </p>
+            {% endfor %}
+        {% else %}
+            <p>
+                You don't have any singles.
+            </p>
+        {% endif %}
+    </div>
+{% endblock %}

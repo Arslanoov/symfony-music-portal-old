@@ -2,14 +2,16 @@
 
 declare(strict_types=1);
 
-namespace App\Service\Uploader;
+namespace App\Service\Uploader\Music;
 
+use App\Model\Music\Entity\Album\Album;
+use App\Service\Uploader\File;
 use League\Flysystem\FileExistsException;
 use League\Flysystem\FilesystemInterface;
 use Ramsey\Uuid\Uuid;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
-class AvatarUploader
+class AlbumCoverUploader
 {
     private FilesystemInterface $storage;
     private string $baseUrl;
@@ -27,23 +29,24 @@ class AvatarUploader
 
     /**
      * @param UploadedFile $file
-     * @param string $userId
+     * @param string $title
      * @return File
      * @throws FileExistsException
      */
-    public function upload(UploadedFile $file, string $userId): File
+    public function upload(UploadedFile $file, string $title): File
     {
-        $path = 'users/avatar/' . $userId;
+        $path = '/music/albums/' . md5($title);
         $name = Uuid::uuid4()->toString() . '.' . $file->getClientOriginalExtension();
 
         if (file_exists($path)) {
             $this->storage->deleteDir($path);
         }
+
         $this->storage->createDir($path);
         $stream = fopen($file->getRealPath(), 'rb+');
         $this->storage->writeStream($path . '/' . $name, $stream);
         fclose($stream);
 
-        return new File($this->baseUrl . '/' . $path, $name, $file->getSize(), pathinfo($path, PATHINFO_EXTENSION));
+        return new File($this->baseUrl . $path, $name, $file->getSize(), pathinfo($path, PATHINFO_EXTENSION));
     }
 }

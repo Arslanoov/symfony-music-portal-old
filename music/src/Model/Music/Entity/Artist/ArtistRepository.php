@@ -11,7 +11,7 @@ use Doctrine\Persistence\ObjectRepository;
 class ArtistRepository
 {
     private EntityManagerInterface $em;
-    private ObjectRepository $repo;
+    private ObjectRepository $repository;
 
     /**
      * SongRepository constructor.
@@ -20,7 +20,7 @@ class ArtistRepository
     public function __construct(EntityManagerInterface $em)
     {
         $this->em = $em;
-        $this->repo = $em->getRepository(Artist::class);
+        $this->repository = $em->getRepository(Artist::class);
     }
 
     public function add(Artist $song): void
@@ -28,12 +28,29 @@ class ArtistRepository
         $this->em->persist($song);
     }
 
+    public function find(Id $id): ?Artist
+    {
+        /** @var Artist $artist */
+        $artist = $this->repository->find($id->getValue());
+
+        return $artist;
+    }
+
+    public function get(Id $id): Artist
+    {
+        if (!$artist = $this->find($id)) {
+            throw new EntityNotFoundException('Artist is not found.');
+        }
+
+        return $artist;
+    }
+
     public function hasByLogin(string $login): ?Artist
     {
         /**
          * @var Artist|null $artist
          */
-        $artist =  $this->repo->findOneBy([
+        $artist =  $this->repository->findOneBy([
             'login' => $login
         ]);
 
@@ -45,7 +62,7 @@ class ArtistRepository
         /**
          * @var Artist|null $artist
          */
-        $artist =  $this->repo->findOneBy([
+        $artist =  $this->repository->findOneBy([
             'login' => $login
         ]);
 

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Model\Music\Entity\Album;
 
-class Status
+final class Status
 {
     private const STATUS_MODERATED = 'Moderated';
     private const STATUS_PUBLIC = 'Public';

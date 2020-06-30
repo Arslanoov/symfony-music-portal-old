@@ -59,7 +59,7 @@ class Handler
         }
 
         $user = User::signUpByEmail(
-            Id::next(),
+            new Id($command->id),
             new DateTimeImmutable(),
             $login,
             $email,

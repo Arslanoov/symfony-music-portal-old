@@ -70,13 +70,29 @@ class Album
      * @ORM\Column(type="music_album_type", length=64)
      */
     private Type $type;
+    /**
+     * @var ListenStatistic
+     * @ORM\Embedded(class="ListenStatistic", columnPrefix="listen_statistics_")
+     */
+    private ListenStatistic $listenStatistic;
+    /**
+     * @var DownloadStatistic
+     * @ORM\Embedded(class="DownloadStatistic", columnPrefix="download_statistics_")
+     */
+    private DownloadStatistic $downloadStatistic;
+    /**
+     * @var int
+     * @ORM\Column(type="integer")
+     */
+    private int $songsCount;
 
     ### create
 
     public function __construct(
         Id $id, Artist $artist, Title $title,
         Slug $slug, DateTimeImmutable $createdDate, ReleaseYear $releaseYear,
-        ?CoverPhoto $coverPhoto, Description $description, Status $status, Type $type
+        ?CoverPhoto $coverPhoto, Description $description, Status $status, Type $type,
+        ListenStatistic $listenStatistic, DownloadStatistic $downloadStatistic, int $songsCount
     )
     {
         $this->id = $id;
@@ -89,18 +105,25 @@ class Album
         $this->description = $description;
         $this->status = $status;
         $this->type = $type;
+        $this->listenStatistic = $listenStatistic;
+        $this->downloadStatistic = $downloadStatistic;
+        $this->songsCount = $songsCount;
     }
 
     public static function new(
         Id $id, Artist $artist, Title $title,
         DateTimeImmutable $createdDate, ReleaseYear $releaseYear,
-        CoverPhoto $coverPhoto, Description $description, Type $type
+        ?CoverPhoto $coverPhoto, Description $description, Type $type
     ): self
     {
         return new self(
             $id, $artist, $title,
-            Slug::generate($title->getValue()), $createdDate, $releaseYear, $coverPhoto,
-            $description, Status::moderated(), $type
+            Slug::generate($title->getValue()),
+            $createdDate, $releaseYear,
+            $coverPhoto, $description,
+            Status::moderated(), $type,
+            ListenStatistic::clean(), DownloadStatistic::clean(),
+            0
         );
     }
 
@@ -186,7 +209,33 @@ class Album
         return $this->coverPhoto;
     }
 
+    /**
+     * @return ListenStatistic
+     */
+    public function getListenStatistic(): ListenStatistic
+    {
+        return $this->listenStatistic;
+    }
+
+    /**
+     * @return DownloadStatistic
+     */
+    public function getDownloadStatistic(): DownloadStatistic
+    {
+        return $this->downloadStatistic;
+    }
+
     ### actions
+
+    public function addSong(): void
+    {
+        $this->songsCount += 1;
+    }
+
+    public function removeSong(): void
+    {
+        $this->songsCount -= 1;
+    }
 
     public function makePublic(): void
     {
@@ -196,5 +245,50 @@ class Album
     public function archive(): void
     {
         $this->status = Status::archived();
+    }
+
+    public function clearTodayStatistic(): void
+    {
+        $this->listenStatistic = ListenStatistic::emptyTodayListens(
+            $this->listenStatistic->getListens(),
+            $this->listenStatistic->getListensWeek(),
+            $this->listenStatistic->getListensMonth()
+        );
+
+        $this->downloadStatistic = DownloadStatistic::emptyTodayDownloads(
+            $this->downloadStatistic->getDownloads(),
+            $this->downloadStatistic->getDownloadsWeek(),
+            $this->downloadStatistic->getDownloadsMonth()
+        );
+    }
+
+    public function clearWeekStatistic(): void
+    {
+        $this->listenStatistic = ListenStatistic::emptyWeekListens(
+            $this->listenStatistic->getListens(),
+            $this->listenStatistic->getListensToday(),
+            $this->listenStatistic->getListensMonth()
+        );
+
+        $this->downloadStatistic = DownloadStatistic::emptyWeekDownloads(
+            $this->downloadStatistic->getDownloads(),
+            $this->downloadStatistic->getDownloadsToday(),
+            $this->downloadStatistic->getDownloadsMonth()
+        );
+    }
+
+    public function clearMonthStatistic(): void
+    {
+        $this->listenStatistic = ListenStatistic::emptyMonthListens(
+            $this->listenStatistic->getListens(),
+            $this->listenStatistic->getListensToday(),
+            $this->listenStatistic->getListensWeek()
+        );
+
+        $this->downloadStatistic = DownloadStatistic::emptyMonthDownloads(
+            $this->downloadStatistic->getDownloads(),
+            $this->downloadStatistic->getDownloadsToday(),
+            $this->downloadStatistic->getDownloadsWeek()
+        );
     }
 }

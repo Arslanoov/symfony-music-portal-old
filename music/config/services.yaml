@@ -12,6 +12,7 @@ services:
 
     App\Model\Music\Entity\Song\SongRepository: ~
     App\Model\Music\Entity\Artist\ArtistRepository: ~
+    App\Model\Music\Entity\Album\AlbumRepository: ~
     App\Model\User\Entity\User\UserRepository: ~
 
     App\Http\Controller\:
@@ -30,6 +31,9 @@ services:
         arguments: ['@default.storage', '%env(STORAGE_BASE_URL)%']
 
     App\Service\Uploader\AvatarUploader:
+        arguments: ['@default.storage', '%env(STORAGE_BASE_URL)%']
+
+    App\Service\Uploader\Music\AlbumCoverUploader:
         arguments: ['@default.storage', '%env(STORAGE_BASE_URL)%']
 
     App\Service\Remover\AvatarRemover:
