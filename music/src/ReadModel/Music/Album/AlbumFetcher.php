@@ -26,7 +26,7 @@ final class AlbumFetcher
         $this->repository = $em->getRepository(Album::class);
     }
 
-    public function findByArtistLimit(string $artistId, int $limit = 5): array
+    public function findByArtistLimit(string $artistId, int $limit = 3): array
     {
         $stmt = $this->connection->createQueryBuilder()
             ->select(
@@ -41,8 +41,37 @@ final class AlbumFetcher
                 'songs_count'
             )
             ->from('music_albums')
+            ->where('artist_id = :artistId')
+            ->setParameter(':artistId', $artistId)
             ->orderBy('created_date', 'DESC')
             ->setMaxResults(5)
+            ->execute();
+
+        return $stmt->fetchAll(FetchMode::ASSOCIATIVE);
+    }
+
+    public function findByArtist(string $artistId): array
+    {
+        $stmt = $this->connection->createQueryBuilder()
+            ->select(
+                'id',
+                'title',
+                'slug',
+                'created_date',
+                'release_year',
+                'cover_photo',
+                'description',
+                'listen_statistics_all',
+                'download_statistics_all',
+                'status',
+                'type',
+                'songs_count'
+            )
+            ->from('music_albums')
+            ->where('artist_id = :artistId')
+            ->setParameter(':artistId', $artistId)
+            ->orderBy('created_date', 'DESC')
+            ->setMaxResults(20)
             ->execute();
 
         return $stmt->fetchAll(FetchMode::ASSOCIATIVE);

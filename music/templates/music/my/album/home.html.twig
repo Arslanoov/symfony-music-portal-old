@@ -1,0 +1,88 @@
+{% extends'layouts/main.html.twig' %}
+
+{% block breadcrumbs %}
+    <div class="col-sm-6">
+        <h1 class="m-0 text-dark">My albums</h1>
+    </div>
+    <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item"><a href="{{ path('home') }}">Home</a></li>
+            <li class="breadcrumb-item"><a href="{{ path('music.my') }}">My music</a></li>
+            <li class="breadcrumb-item"><a href="#">Albums</a></li>
+        </ol>
+    </div>
+{% endblock %}
+
+{% block title %}My albums{% endblock %}
+
+{% block body %}
+    {% include 'layouts/_flashes.html.twig' %}
+
+    <h5>Latest albums</h5>
+    <p>
+        <a class="action" href="#"><i class="fa fa-arrow-right"></i> View all</a>
+        <a class="action" href="{{ path('music.my.album.create') }}"><i class="fa fa-pen"></i> Add</a>
+    </p>
+
+    <div class="albums">
+        {% set i = 0 %}
+        {% if albums %}
+            {% for album in albums %}
+                {% if i % 2 == 0 %}
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="card">
+                                <div class="card-body flexbox-container justify-content-around album-card">
+                                    <div class="album-card__info">
+                                        <div class="card-title">{{ album.title }}</div>
+                                        <p class="card-text">
+                                            {{ album.description|length > 50 ? album.description|slice(0, 140) ~ '...' : album.description  }}
+                                        </p>
+                                        <p>Listens: {{ album.listen_statistics_all }}, downloads: {{ album.download_statistics_all }}</p>
+                                        <a href="#"><i class="fa fa-eye"></i> View album</a>
+                                    </div>
+                                    <div class="album-card__photo">
+                                        <div class="album-photo" style="background-image: url({{ album.cover_photo ?: '/img/song/album/default.jpg' }})">
+                                            {% if album.type == 'Only adult' %}
+                                                <img src="/img/song/album/adult.jpg" class="album-photo__for-adult" alt="" width="30px">
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                {% else %}
+                        <div class="col-sm-6">
+                            <div class="card">
+                                <div class="card-body flexbox-container justify-content-around album-card">
+                                    <div class="album-card__info">
+                                        <div class="card-title">{{ album.title }}</div>
+                                        <p class="card-text">
+                                            {{ album.description|length > 50 ? album.description|slice(0, 140) ~ '...' : album.description  }}
+                                        </p>
+                                        <p>Listens: {{ album.listen_statistics_all }}, downloads: {{ album.download_statistics_all }}</p>
+                                        <a href="#"><i class="fa fa-eye"></i> View album</a>
+                                    </div>
+                                    <div class="album-card__photo">
+                                        <div class="album-photo" style="background-image: url({{ album.cover_photo ?: '/img/song/album/default.jpg' }})">
+                                            {% if album.type == 'Only adult' %}
+                                                <img src="/img/song/album/adult.jpg" class="album-photo__for-adult" alt="" width="30px">
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+
+                {% set i = i + 1 %}
+            {% endfor %}
+        {% else %}
+            <p>
+                You don't have any albums.
+                <a href="{{ path('music.song.upload') }}"><i class="fa fa-pen"></i> Add</a>
+            </p>
+        {% endif %}
+    </div
+{% endblock %}
