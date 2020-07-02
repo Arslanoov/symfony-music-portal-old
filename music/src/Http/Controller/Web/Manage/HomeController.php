@@ -8,7 +8,7 @@ use App\Http\Controller\Web\BaseController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class HomeController extends BaseController
+final class HomeController extends BaseController
 {
     /**
      * @Route("manage", name="manage")

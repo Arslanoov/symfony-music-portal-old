@@ -20,7 +20,7 @@ use Symfony\Component\Security\Guard\GuardAuthenticatorHandler;
 use App\Model\User\UseCase\User\SignUp\ByEmail;
 use App\Model\Music\UseCase\Artist;
 
-class SignUpController extends BaseController
+final class SignUpController extends BaseController
 {
     private UserFetcher $users;
     private ErrorHandler $errorHandler;

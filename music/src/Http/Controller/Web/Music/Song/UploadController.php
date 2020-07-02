@@ -18,7 +18,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class UploadController extends BaseController
+final class UploadController extends BaseController
 {
     private ArtistRepository $artists;
     private ErrorHandler $errorHandler;

@@ -1,5 +1,6 @@
 @import "~bootstrap/scss/bootstrap";
 @import "~admin-lte/dist/css/adminlte.min.css";
+@import "./music/albums/short-view";
 
 .btn-upload {
   margin-top: 10px;
@@ -59,7 +60,7 @@ a.btn {
   background-color: #f5f5f5;
 
   & > .container {
-      padding-right: 15px;
-      padding-left: 15px;
+    padding-right: 15px;
+    padding-left: 15px;
   }
 }

@@ -16,12 +16,12 @@ use DomainException;
 use App\Model\Music\Entity\Genre\Genre as GenreEntity;
 
 /**
- * Class GenreController
+ * final class GenreController
  * @package App\Http\Controller\Web\Manage\Music
  * @Route("/manage/genres", name="manage.genres")
  * @IsGranted("ROLE_MANAGE_GENRES")
  */
-class GenreController extends BaseController
+final class GenreController extends BaseController
 {
     private ErrorHandler $errorHandler;
 

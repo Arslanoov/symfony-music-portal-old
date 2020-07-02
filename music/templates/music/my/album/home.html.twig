@@ -39,7 +39,7 @@
                                             {{ album.description|length > 50 ? album.description|slice(0, 140) ~ '...' : album.description  }}
                                         </p>
                                         <p>Listens: {{ album.listen_statistics_all }}, downloads: {{ album.download_statistics_all }}</p>
-                                        <a href="#"><i class="fa fa-eye"></i> View album</a>
+                                        <a href="{{ url('music.my.album.show', {slug: album.slug}) }}"><i class="fa fa-eye"></i> View album</a>
                                     </div>
                                     <div class="album-card__photo">
                                         <div class="album-photo" style="background-image: url({{ album.cover_photo ?: '/img/song/album/default.jpg' }})">
@@ -61,7 +61,7 @@
                                             {{ album.description|length > 50 ? album.description|slice(0, 140) ~ '...' : album.description  }}
                                         </p>
                                         <p>Listens: {{ album.listen_statistics_all }}, downloads: {{ album.download_statistics_all }}</p>
-                                        <a href="#"><i class="fa fa-eye"></i> View album</a>
+                                        <a href="{{ url('music.my.album.show', {slug: album.slug}) }}"><i class="fa fa-eye"></i> View album</a>
                                     </div>
                                     <div class="album-card__photo">
                                         <div class="album-photo" style="background-image: url({{ album.cover_photo ?: '/img/song/album/default.jpg' }})">

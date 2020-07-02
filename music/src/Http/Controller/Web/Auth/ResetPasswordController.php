@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Model\User\UseCase\User\ResetPassword;
 
-class ResetPasswordController extends BaseController
+final class ResetPasswordController extends BaseController
 {
     private ErrorHandler $errors;
 

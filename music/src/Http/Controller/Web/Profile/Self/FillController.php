@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\Response;
 use App\Model\User\UseCase\User\Fill;
 use Symfony\Component\Routing\Annotation\Route;
 
-class FillController extends BaseController
+final class FillController extends BaseController
 {
     private ErrorHandler $errorHandler;
     private UserFetcher $users;

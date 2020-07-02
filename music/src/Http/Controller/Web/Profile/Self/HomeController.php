@@ -9,7 +9,7 @@ use App\ReadModel\User\UserFetcher;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class HomeController extends BaseController
+final class HomeController extends BaseController
 {
     private UserFetcher $users;
 
