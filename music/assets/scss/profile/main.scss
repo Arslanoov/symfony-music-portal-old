@@ -53,6 +53,7 @@
 
       &-login {
         font-size: 24px;
+        margin-top: 10px;
       }
 
       &-about {
@@ -63,6 +64,18 @@
     }
 
   }
+
+  &-avatar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+.avatar-actions {
+  display: flex;
+  flex-direction: column;
+  margin-left: 10px;
 }
 
 @media (max-width: 620px) {

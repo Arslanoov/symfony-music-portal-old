@@ -95,7 +95,7 @@
                         <ul class="nav nav-treeview">
                             {% if app.user %}
                                 <li class="nav-item">
-                                    <a href="{{ url('profile.show', {'login': app.user.login}) }}" class="nav-link {% if currentPath == path('profile.self.home') %}active{% endif %}">
+                                    <a href="{{ url('profile.show', {'login': app.user.login}) }}" class="nav-link {% if currentPath == url('profile.show', {'login': app.user.login}) %}active{% endif %}">
                                         <i class="fa fa-user-edit nav-icon"></i>
                                         <p>Profile</p>
                                     </a>
@@ -140,6 +140,12 @@
                                 <a href="#" class="nav-link">
                                     <i class="fa fa-clock nav-icon"></i>
                                     <p>Latest</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#" class="nav-link">
+                                    <i class="fa fa-star nav-icon"></i>
+                                    <p>Best</p>
                                 </a>
                             </li>
                             <li class="nav-item">
@@ -196,22 +202,83 @@
                     <div class="profile">
                         <div class="card">
                             <div class="card-body">
+                                {% include 'layouts/_flashes.html.twig' %}
+
                                 <div class="profile-header">
-                                    <img class="profile-header__avatar" src="{{ user.avatar ?: '/img/avatar/guest.jpg' }}">
+                                    <div class="profile-avatar">
+                                        <img class="profile-header__avatar" src="{{ user.avatar ?: '/img/avatar/guest.jpg' }}">
+                                        <p>
+                                            {% if canEdit %}
+                                                <span class="avatar-actions">
+                                                <span class="avatar-actions__action">
+                                                    <a href="{{ path('profile.self.avatar.upload') }}" class="btn btn-sm btn-outline-primary btn-upload">
+                                                    {% if user.avatar %}Change{% else %}Upload{% endif %} <span class="fa fa-upload"></span>
+                                                </a>
+                                                </span>
+                                                {% if user.avatar %}
+                                                    <span class="avatar-actions__action">
+                                                        <a href="#" onclick="document.getElementById('remove-avatar-form').submit()" class="btn btn-sm btn-outline-primary btn-upload">
+                                                        Remove <span class="fa fa-trash-alt"></span>
+                                                    </a>
+                                                    </span>
+                                                    <form action="{{ path('profile.self.avatar.remove') }}" method="POST" id="remove-avatar-form" onsubmit="confirm('Are you sure?')">
+                                                        <input type="hidden" name="token" value="{{ csrf_token('remove-avatar') }}" />
+                                                    </form>
+                                                {% endif %}
+                                            </span>
+                                            {% endif %}
+                                        </p>
+                                    </div>
                                     <div class="profile-header__info">
                                         <h3 class="profile-header__info-login">
                                             {{ user.login }}
+                                            {% if canEdit %}
+                                                <a href="{{ path('profile.self.fill.login') }}" class="btn btn-sm btn-outline-primary">
+                                                    <span class="fa fa-pen"></span>
+                                                </a>
+                                            {% endif %}
                                         </h3>
                                         <div class="profile-header__info-about">
-                                            {% if user.info_country %}
-                                                {{ user.info_country }} <br>
+                                            Registered at {{ user.date }}, {{ user.info_age }} years <br>
+
+                                            {{ user.info_country }}
+                                            {% if canEdit %}
+                                                <a href="{{ path('profile.self.fill.country') }}" class="btn btn-sm btn-outline-primary">
+                                                    <span class="fa fa-pen"></span>
+                                                    {% if user.info_country %}
+                                                        Change
+                                                    {% else %}
+                                                        Set country
+                                                    {% endif %}
+                                                </a>
                                             {% endif %}
-                                            {% if user.info_sex %}
-                                                {{ user.info_sex }},
+                                            <br>
+
+                                            {{ user.info_sex }}
+                                            {% if canEdit %}
+                                                <a href="{{ path('profile.self.fill.sex') }}" class="btn btn-sm btn-outline-primary">
+                                                    <span class="fa fa-pen"></span>
+                                                    {% if user.info_sex %}
+                                                        Change
+                                                    {% else %}
+                                                        Set sex
+                                                    {% endif %}
+                                                </a>
                                             {% endif %}
-                                            {{ user.info_age }} years
+                                            <br>
+
                                             <p class="profile-header__info-about-text">
                                                 {{ user.info_about_me }}
+                                                {% if canEdit %}
+                                                    <a href="{{ path('profile.self.fill.about-me') }}" class="btn btn-sm btn-outline-primary">
+                                                        <span class="fa fa-pen"></span>
+                                                        {% if user.info_about_me %}
+                                                            Fill about me
+                                                        {% else %}
+                                                            Change
+                                                        {% endif %}
+                                                    </a>
+                                                {% endif %}
                                             </p>
                                         </div>
                                     </div>

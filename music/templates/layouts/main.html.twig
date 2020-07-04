@@ -95,7 +95,7 @@
                         <ul class="nav nav-treeview">
                             {% if app.user %}
                                 <li class="nav-item">
-                                    <a href="{{ url('profile.show', {'login': app.user.login}) }}" class="nav-link {% if currentPath == path('profile.self.home') %}active{% endif %}">
+                                    <a href="{{ url('profile.show', {'login': app.user.login}) }}" class="nav-link {% if currentPath == url('profile.show', {'login': app.user.login}) %}active{% endif %}">
                                         <i class="fa fa-user-edit nav-icon"></i>
                                         <p>Profile</p>
                                     </a>

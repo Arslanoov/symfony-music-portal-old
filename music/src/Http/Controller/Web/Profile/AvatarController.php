@@ -9,6 +9,7 @@ use App\Model\Exception\ErrorHandler;
 use App\Model\User\UseCase\User\Avatar;
 use App\Model\User\UseCase\User\Avatar\Upload\File;
 use App\Model\User\UseCase\User\Avatar\Upload\Form;
+use App\ReadModel\User\UserFetcher;
 use App\Service\Remover\AvatarRemover;
 use App\Service\Uploader\AvatarUploader;
 use DomainException;
@@ -20,14 +21,17 @@ use Symfony\Component\Routing\Annotation\Route;
 final class AvatarController extends BaseController
 {
     private ErrorHandler $errorHandler;
+    private UserFetcher $users;
 
     /**
      * AvatarController constructor.
      * @param ErrorHandler $errorHandler
+     * @param UserFetcher $users
      */
-    public function __construct(ErrorHandler $errorHandler)
+    public function __construct(ErrorHandler $errorHandler, UserFetcher $users)
     {
         $this->errorHandler = $errorHandler;
+        $this->users = $users;
     }
 
     /**
@@ -40,15 +44,15 @@ final class AvatarController extends BaseController
      */
     public function upload(Request $request, AvatarUploader $uploader, Avatar\Upload\Handler $handler): Response
     {
-        $userId = $this->getUser()->getId();
+        $user = $this->users->getDetail($this->getUser()->getId());
 
-        $command = Avatar\Upload\Command::byId($userId);
+        $command = Avatar\Upload\Command::byId($user->id);
         $form = $this->createForm(Form::class, $command);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() and $form->isValid()) {
             try {
-                $uploaded = $uploader->upload($form->get('avatar')->getData(), $userId);
+                $uploaded = $uploader->upload($form->get('avatar')->getData(), $user->id);
                 $command->file = new File(
                     $uploaded->getPath(),
                     $uploaded->getName(),
@@ -57,7 +61,9 @@ final class AvatarController extends BaseController
                 );
                 $handler->handle($command);
                 $this->addFlash('success', 'Avatar successfully uploaded.');
-                return $this->redirectToRoute('profile.self.home');
+                return $this->redirectToRoute('profile.show', [
+                    'login' => $user->login
+                ]);
             } catch (DomainException $e) {
                 $this->errorHandler->handleWarning($e);
                 $this->addFlash('error', $e->getMessage());
@@ -79,12 +85,12 @@ final class AvatarController extends BaseController
     public function remove(Request $request, AvatarRemover $uploader, Avatar\Remove\Handler $handler): Response
     {
         if (!$this->isCsrfTokenValid('remove-avatar', $request->request->get('token'))) {
-            return $this->redirectToRoute('profile.self.home');
+            return $this->redirectToRoute('profile.show');
         }
 
-        $userId = $this->getUser()->getId();
+        $user = $this->users->getDetail($this->getUser()->getId());
 
-        $command = new Avatar\Remove\Command($userId);
+        $command = new Avatar\Remove\Command($user->id);
 
         try {
             $handler->handle($command);
@@ -94,6 +100,8 @@ final class AvatarController extends BaseController
             $this->addFlash('error', $e->getMessage());
         }
 
-        return $this->redirectToRoute('profile.self.home');
+        return $this->redirectToRoute('profile.show', [
+            'login' => $user->login
+        ]);
     }
 }

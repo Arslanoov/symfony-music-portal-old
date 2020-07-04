@@ -47,13 +47,13 @@ final class FillController extends BaseController
         if ($form->isSubmitted() and $form->isValid()) {
             try {
                 $handler->handle($command);
-                return $this->redirectToRoute('profile.self.home');
+                return $this->redirectToRoute('home');
             } catch (DomainException $e) {
                 $this->errorHandler->handleWarning($e);
             }
         }
 
-        return $this->render('music/profile/login.html.twig', [
+        return $this->render('music/profile/fill/login.html.twig', [
             'form' => $form->createView(),
             'login' => $user->login
         ]);
@@ -77,13 +77,15 @@ final class FillController extends BaseController
         if ($form->isSubmitted() and $form->isValid()) {
             try {
                 $handler->handle($command);
-                return $this->redirectToRoute('profile.self.home');
+                return $this->redirectToRoute('profile.show', [
+                    'login' => $user->login
+                ]);
             } catch (DomainException $e) {
                 $this->errorHandler->handleWarning($e);
             }
         }
 
-        return $this->render('music/profile/self/about-me.html.twig', [
+        return $this->render('music/profile/fill/about-me.html.twig', [
             'form' => $form->createView(),
             'aboutMe' => $user->info_about_me
         ]);
@@ -107,7 +109,9 @@ final class FillController extends BaseController
         if ($form->isSubmitted() and $form->isValid()) {
             try {
                 $handler->handle($command);
-                return $this->redirectToRoute('profile.self.home');
+                return $this->redirectToRoute('profile.show', [
+                    'login' => $user->login
+                ]);
             } catch (DomainException $e) {
                 $this->errorHandler->handleWarning($e);
             }
@@ -137,7 +141,9 @@ final class FillController extends BaseController
         if ($form->isSubmitted() and $form->isValid()) {
             try {
                 $handler->handle($command);
-                return $this->redirectToRoute('profile.self.home');
+                return $this->redirectToRoute('profile.show', [
+                    'login' => $user->login
+                ]);
             } catch (DomainException $e) {
                 $this->errorHandler->handleWarning($e);
             }
