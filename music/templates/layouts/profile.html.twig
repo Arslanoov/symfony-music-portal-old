@@ -239,8 +239,7 @@
                                             {% endif %}
                                         </h3>
                                         <div class="profile-header__info-about">
-                                            Registered at {{ user.date }}, {{ user.info_age }} years <br>
-
+                                            Registered at {{ user.date }}, {{ user.info_age }} years {{ user_role(user.role) }} <br>
                                             {{ user.info_country }}
                                             {% if canEdit %}
                                                 <a href="{{ path('profile.self.fill.country') }}" class="btn btn-sm btn-outline-primary">
@@ -266,7 +265,6 @@
                                                 </a>
                                             {% endif %}
                                             <br>
-
                                             <p class="profile-header__info-about-text">
                                                 {{ user.info_about_me }}
                                                 {% if canEdit %}
