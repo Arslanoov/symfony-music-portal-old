@@ -140,6 +140,34 @@ class UserFetcher
         return $result ?: null;
     }
 
+    public function findDetailByLogin(string $login): ?DetailView
+    {
+        $stmt = $this->connection->createQueryBuilder()
+            ->select(
+                'id',
+                'date',
+                'login',
+                'email',
+                'password',
+                'info_about_me',
+                'info_country',
+                'info_sex',
+                'info_age',
+                'role',
+                'status',
+                'avatar',
+                'profile_views'
+            )->from('user_users')
+            ->where('login = :login')
+            ->setParameter(':login', $login)
+            ->execute();
+
+        $stmt->setFetchMode(FetchMode::CUSTOM_OBJECT, DetailView::class);
+        $result = $stmt->fetch();
+
+        return $result ?: null;
+    }
+
     public function existsByPasswordResetToken(string $token): bool
     {
         return $this->connection->createQueryBuilder()
@@ -153,6 +181,15 @@ class UserFetcher
     public function getDetail(string $id): DetailView
     {
         if (!$detail = $this->findDetail($id)) {
+            throw new NotFoundException('User is not found.');
+        }
+
+        return $detail;
+    }
+
+    public function getDetailByLogin(string $login): DetailView
+    {
+        if (!$detail = $this->findDetailByLogin($login)) {
             throw new NotFoundException('User is not found.');
         }
 

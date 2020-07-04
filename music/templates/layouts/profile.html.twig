@@ -144,18 +144,10 @@
                             </li>
                             <li class="nav-item">
                                 <a href="#" class="nav-link">
-                                    <i class="fa fa-star nav-icon"></i>
-                                    <p>Best</p>
+                                    <i class="fa fa-cloud nav-icon"></i>
+                                    <p>Library</p>
                                 </a>
                             </li>
-                            {% if app.user %}
-                                <li class="nav-item">
-                                    <a href="{{ path('music.my') }}" class="nav-link">
-                                        <i class="fa fa-cloud nav-icon"></i>
-                                        <p>Library</p>
-                                    </a>
-                                </li>
-                            {% endif %}
                         </ul>
                     </li>
 
@@ -197,20 +189,55 @@
 
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
-        <!-- Content Header (Page header) -->
-        <div class="content-header">
-            <div class="container-fluid">
-                <div class="row mb-2">
-                    {% block breadcrumbs %}{% endblock %}
-                </div><!-- /.row -->
-            </div><!-- /.container-fluid -->
-        </div>
-        <!-- /.content-header -->
-
         <!-- Main content -->
         <section class="content">
             <div class="container-fluid">
-                {% block body %}{% endblock %}
+                <div class="container">
+                    <div class="profile">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="profile-header">
+                                    <img class="profile-header__avatar" src="{{ user.avatar ?: '/img/avatar/guest.jpg' }}">
+                                    <div class="profile-header__info">
+                                        <h3 class="profile-header__info-login">
+                                            {{ user.login }}
+                                        </h3>
+                                        <div class="profile-header__info-about">
+                                            {% if user.info_country %}
+                                                {{ user.info_country }} <br>
+                                            {% endif %}
+                                            {% if user.info_sex %}
+                                                {{ user.info_sex }},
+                                            {% endif %}
+                                            {{ user.info_age }} years
+                                            <p class="profile-header__info-about-text">
+                                                {{ user.info_about_me }}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="profile-content-main">
+                                    <ul class="nav justify-content-around">
+                                        <li class="nav-item">
+                                            <a class="nav-link profile-nav-link {% if app.request.uri == url('profile.show', {'login': user.login}) %}active{% endif %}" href="{{ url('profile.show', {'login': user.login}) }}">Home</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link profile-nav-link" href="#">Albums</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link profile-nav-link" href="#">Songs</a>
+                                        </li>
+                                    </ul>
+                                </div>
+
+                                <div class="profile-content row">
+                                    {% block body %}{% endblock %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </section>
         <!-- /.content -->

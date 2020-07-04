@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Controller\Web\Profile\Self;
+namespace App\Http\Controller\Web\Profile;
 
 use App\Http\Controller\Web\BaseController;
 use App\Model\Exception\ErrorHandler;
@@ -53,7 +53,7 @@ final class FillController extends BaseController
             }
         }
 
-        return $this->render('music/profile/self/fill/login.html.twig', [
+        return $this->render('music/profile/login.html.twig', [
             'form' => $form->createView(),
             'login' => $user->login
         ]);
@@ -83,7 +83,7 @@ final class FillController extends BaseController
             }
         }
 
-        return $this->render('music/profile/self/fill/about-me.html.twig', [
+        return $this->render('music/profile/self/about-me.html.twig', [
             'form' => $form->createView(),
             'aboutMe' => $user->info_about_me
         ]);
@@ -113,7 +113,7 @@ final class FillController extends BaseController
             }
         }
 
-        return $this->render('music/profile/self/fill/country.html.twig', [
+        return $this->render('music/profile/fill/country.html.twig', [
             'form' => $form->createView(),
             'country' => $user->info_country
         ]);
@@ -143,7 +143,7 @@ final class FillController extends BaseController
             }
         }
 
-        return $this->render('music/profile/self/fill/sex.html.twig', [
+        return $this->render('music/profile/fill/sex.html.twig', [
             'form' => $form->createView(),
             'sex' => $user->info_sex
         ]);

@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Controller\Web\Profile\Self;
+namespace App\Http\Controller\Web\Profile;
 
 use App\Http\Controller\Web\BaseController;
 use App\ReadModel\User\UserFetcher;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-final class HomeController extends BaseController
+final class MyController extends BaseController
 {
     private UserFetcher $users;
 
@@ -26,10 +26,10 @@ final class HomeController extends BaseController
      * @Route("/profile", name="profile.self.home", methods={"GET"})
      * @return Response
      */
-    public function index(): Response
+    public function view(): Response
     {
         $user = $this->users->getDetail($this->getUser()->getId());
 
-        return $this->render('music/profile/self/home.html.twig', compact('user'));
+        return $this->render('music/profile/home.html.twig', compact('user'));
     }
 }

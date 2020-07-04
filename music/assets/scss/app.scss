@@ -1,6 +1,9 @@
 @import "~bootstrap/scss/bootstrap";
 @import "~admin-lte/dist/css/adminlte.min.css";
+@import "~admin-lte/dist/css/alt/adminlte.components.min.css";
+@import "~admin-lte/dist/css/alt/adminlte.plugins.min.css";
 @import "./music/albums/short-view";
+@import "./profile/main";
 
 .btn-upload {
   margin-top: 10px;
@@ -41,18 +44,19 @@ a.btn {
 }
 
 .album-card {
-  border: 1px solid blue;
-  padding: 20px 40px 40px;
-  max-width: 640px;
   display: flex;
+  justify-content: space-between;
+  align-items: baseline;
   &__photo {
-    margin: 20px 30px 0 0;
     width: 200px;
     object-fit: contain;
     align-self: flex-start;
   }
   &__info {
     flex: 1 1 auto;
+    &-title {
+      font-size: 18px;
+    }
   }
 }
 

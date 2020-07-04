@@ -51,6 +51,58 @@ final class AlbumFetcher
         return $stmt->fetchAll(FetchMode::ASSOCIATIVE);
     }
 
+    public function findMostPopularArtistAlbums(string $artistId, int $limit): array
+    {
+        $stmt = $this->connection->createQueryBuilder()
+            ->select(
+                'id',
+                'title',
+                'slug',
+                'created_date',
+                'release_year',
+                'cover_photo',
+                'status',
+                'type',
+                'songs_count',
+                'download_statistics_all',
+                'listen_statistics_all'
+            )
+            ->from('music_albums')
+            ->where('artist_id = :artistId')
+            ->setParameter(':artistId', $artistId)
+            ->orderBy('listen_statistics_all', 'DESC')
+            ->setMaxResults($limit)
+            ->execute();
+
+        return $stmt->fetchAll(FetchMode::ASSOCIATIVE);
+    }
+
+    public function findRecentArtistAlbums(string $artistId, int $limit = 5): array
+    {
+        $stmt = $this->connection->createQueryBuilder()
+            ->select(
+                'id',
+                'title',
+                'slug',
+                'created_date',
+                'release_year',
+                'cover_photo',
+                'status',
+                'type',
+                'songs_count',
+                'download_statistics_all',
+                'listen_statistics_all'
+            )
+            ->from('music_albums')
+            ->where('artist_id = :artistId')
+            ->setParameter(':artistId', $artistId)
+            ->orderBy('created_date', 'DESC')
+            ->setMaxResults($limit)
+            ->execute();
+
+        return $stmt->fetchAll(FetchMode::ASSOCIATIVE);
+    }
+
     public function findByArtist(string $artistId): array
     {
         $stmt = $this->connection->createQueryBuilder()

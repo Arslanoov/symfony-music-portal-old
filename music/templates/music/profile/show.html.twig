@@ -1,0 +1,45 @@
+{% extends 'layouts/profile.html.twig' %}
+
+{% block title %}Artist {{ user.login }}{% endblock %}
+
+{% block body %}
+    <div class="profile-content-main col-sm-9">
+        <h2 class="profile-main-header">Spotlight</h2>
+        <div class="best-albums">
+            {% if bestAlbums %}
+                {% for bestAlbum in bestAlbums %}
+                    <div class="album-card">
+                        <div class="album-card__photo">
+                            <div class="album-photo" style="background-image: url({{ bestAlbum.cover_photo ?: '/img/song/album/default.jpg' }})">
+                                {% if bestAlbum.type == 'Only adult' %}
+                                    <img src="/img/song/album/adult.jpg" class="album-photo__for-adult" alt="" width="30px">
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="album-card__info">
+                            <h3 class="album-card__info-title">
+                                <a href="{{ url('music.my.album.show', {slug: bestAlbum.slug}) }}">
+                                    {{ bestAlbum.title }}
+                                </a>
+                            </h3>
+                            <p>
+                                {{ bestAlbum.listen_statistics_all }} listens <br>
+                                {{ bestAlbum.download_statistics_all }} downloads <br>
+                                {{ bestAlbum.songs_count }} songs
+                            </p>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p>{{ user.login }} doesn't have any albums.</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="profile-sidebar col-sm-3">
+        <p>0 tracks</p>
+        <p>{{ user.profile_views }} views</p>
+        <p>0 listens</p>
+        <p>0 comments</p>
+    </div>
+{% endblock %}

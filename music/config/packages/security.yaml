@@ -25,17 +25,13 @@ security:
     role_hierarchy:
         ROLE_ADMIN:
             - ROLE_MODERATOR
-            - ROLE_CONTENT_MANAGER
+            - ROLE_MANAGE_GENRES
 
         ROLE_MODERATOR:
             - ROLE_USER
 
-        ROLE_CONTENT_MANAGER:
-            - ROLE_USER
-            - ROLE_MANAGE_GENRES
-
     access_control:
-        - { path: ^/manage, roles: [ROLE_MODERATOR, ROLE_CONTENT_MANAGER] }
+        - { path: ^/manage, roles: ROLE_MODERATOR }
         - { path: ^/music/my, roles: ROLE_USER }
         - { path: ^/music/library, roles: ROLE_USER }
         - { path: ^/auth, roles: IS_AUTHENTICATED_ANONYMOUSLY }

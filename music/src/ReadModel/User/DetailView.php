@@ -18,4 +18,5 @@ class DetailView
     public string $role;
     public string $status;
     public ?string $avatar;
+    public int $profile_views;
 }

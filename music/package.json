@@ -8,16 +8,16 @@
         "build": "encore production --progress"
     },
     "dependencies": {
+        "admin-lte": "^3.0",
         "bootstrap": "^4.3.1",
-        "jquery": "^3.4.0",
-        "popper.js": "^1.15.0",
-        "admin-lte": "^3.0"
+        "jquery": "^3.5.1",
+        "popper.js": "^1.15.0"
     },
     "devDependencies": {
-        "@symfony/webpack-encore": "^0.27.0",
+        "@symfony/webpack-encore": "^0.30.2",
         "core-js": "^3.1.4",
         "node-sass": "^4.12.0",
-        "sass-loader": "^7.1.0",
+        "sass-loader": "^8.0",
         "webpack-notifier": "^1.8.0"
     }
 }

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Controller\Web\Profile\Self;
+namespace App\Http\Controller\Web\Profile;
 
 use App\Http\Controller\Web\BaseController;
 use App\Model\Exception\ErrorHandler;
@@ -64,7 +64,7 @@ final class AvatarController extends BaseController
             }
         }
 
-        return $this->render('music/profile/self/avatar/upload.html.twig', [
+        return $this->render('music/profile/avatar/upload.html.twig', [
             'form' => $form->createView()
         ]);
     }

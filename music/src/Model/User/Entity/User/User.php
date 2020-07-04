@@ -77,6 +77,11 @@ class User
      * @ORM\Embedded(class="ResetPasswordToken", columnPrefix="reset_password_")
      */
     private ?ResetPasswordToken $resetPasswordToken = null;
+    /**
+     * @var int
+     * @ORM\Column(type="integer")
+     */
+    private int $profileViews;
 
     ### create ###
 
@@ -86,7 +91,8 @@ class User
         Password $password, Info $info,
         Status $status, Role $role,
         ?ConfirmToken $confirmToken = null,
-        ?ResetPasswordToken $resetPasswordToken = null
+        ?ResetPasswordToken $resetPasswordToken = null,
+        int $profileViews = 0
     )
     {
         $this->id = $id;
@@ -99,6 +105,7 @@ class User
         $this->role = $role;
         $this->confirmToken = $confirmToken;
         $this->resetPasswordToken = $resetPasswordToken;
+        $this->profileViews = $profileViews;
     }
 
     public static function signUpByEmail(
@@ -217,7 +224,20 @@ class User
         return $this->resetPasswordToken;
     }
 
+    /**
+     * @return int
+     */
+    public function getProfileViews(): int
+    {
+        return $this->profileViews;
+    }
+
     ### actions
+
+    public function increaseProfileViews(): void
+    {
+        $this->profileViews += 1;
+    }
 
     public function changeRole(Role $role): void
     {
