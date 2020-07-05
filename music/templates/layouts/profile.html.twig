@@ -206,7 +206,7 @@
 
                                 <div class="profile-header">
                                     <div class="profile-avatar">
-                                        <img class="profile-header__avatar" src="{{ user.avatar ?: '/img/avatar/guest.jpg' }}">
+                                        <img class="profile-header__avatar" src="{{ user.avatar ?: '/img/avatar/guest.jpg' }}" alt="">
                                         <p>
                                             {% if canEdit %}
                                                 <span class="avatar-actions">
@@ -239,8 +239,10 @@
                                             {% endif %}
                                         </h3>
                                         <div class="profile-header__info-about">
-                                            Registered at {{ user.date }}, {{ user.info_age }} years {{ user_role(user.role) }} <br>
-                                            {{ user.info_country }}
+                                            <div class="vertical-margin">Registered at {{ user.date }}, {{ user.info_age }} years {{ user_role(user.role) }} <br></div>
+                                            <span class="profile-header__info-about-country">
+                                                {{ user.info_country }}
+                                            </span>
                                             {% if canEdit %}
                                                 <a href="{{ path('profile.self.fill.country') }}" class="btn btn-sm btn-outline-primary">
                                                     <span class="fa fa-pen"></span>
@@ -288,7 +290,7 @@
                                             <a class="nav-link profile-nav-link {% if app.request.uri == url('profile.show', {'login': user.login}) %}active{% endif %}" href="{{ url('profile.show', {'login': user.login}) }}">Home</a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link profile-nav-link" href="#">Albums</a>
+                                            <a class="nav-link profile-nav-link {% if app.request.uri == url('profile.albums', {'login': user.login}) %}active{% endif %}" href="{{ url('profile.albums', {'login': user.login}) }}">Albums</a>
                                         </li>
                                         <li class="nav-item">
                                             <a class="nav-link profile-nav-link" href="#">Songs</a>

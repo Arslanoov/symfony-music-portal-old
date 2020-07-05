@@ -16,7 +16,7 @@ class Command
     /**
      * @var string|null
      * @Assert\NotBlank()
-     * @Assert\Length(min=3, max=255)
+     * @Assert\Length(min=1, max=255)
      */
     public ?string $title = null;
     /**
@@ -34,7 +34,7 @@ class Command
     /**
      * @var string|null
      * @Assert\NotBlank()
-     * @Assert\Length(min=2, max=512)
+     * @Assert\Length(min=1, max=512)
      */
     public ?string $description = null;
     /**

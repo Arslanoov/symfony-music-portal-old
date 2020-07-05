@@ -57,8 +57,8 @@
       }
 
       &-about {
-        &-text {
-
+        &-country {
+          margin-top: 10px;
         }
       }
     }
@@ -85,6 +85,12 @@
       justify-content: center;
       align-items: baseline;
       text-align: center;
+    }
+  }
+
+  .profile-content-main {
+    p {
+      margin: 15px;
     }
   }
 }

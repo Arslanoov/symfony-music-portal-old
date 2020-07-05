@@ -6,7 +6,9 @@ namespace App\ReadModel\Music\Album;
 
 use App\Model\Exception\EntityNotFoundException;
 use App\Model\Music\Entity\Album\Album;
+use App\Model\Music\Entity\Album\Status;
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Driver\ResultStatement;
 use Doctrine\DBAL\FetchMode;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ObjectRepository;
@@ -51,7 +53,7 @@ final class AlbumFetcher
         return $stmt->fetchAll(FetchMode::ASSOCIATIVE);
     }
 
-    public function findMostPopularArtistAlbums(string $artistId, int $limit): array
+    public function findMostPopularArtistAlbums(string $artistId, int $limit, bool $canEdit = false): array
     {
         $stmt = $this->connection->createQueryBuilder()
             ->select(
@@ -70,14 +72,27 @@ final class AlbumFetcher
             ->from('music_albums')
             ->where('artist_id = :artistId')
             ->setParameter(':artistId', $artistId)
+        ;
+
+        if (!$canEdit) {
+            $stmt = $stmt
+                ->setParameter(':status', Status::STATUS_PUBLIC)
+                ->where('status = :status')
+            ;
+        }
+
+        $stmt = $stmt
             ->orderBy('listen_statistics_all', 'DESC')
             ->setMaxResults($limit)
-            ->execute();
+            ->execute()
+        ;
+
+        /** @var ResultStatement $stmt */
 
         return $stmt->fetchAll(FetchMode::ASSOCIATIVE);
     }
 
-    public function findRecentArtistAlbums(string $artistId, int $limit = 5): array
+    public function findRecentArtistAlbums(string $artistId, int $limit, $canEdit = false): array
     {
         $stmt = $this->connection->createQueryBuilder()
             ->select(
@@ -96,9 +111,22 @@ final class AlbumFetcher
             ->from('music_albums')
             ->where('artist_id = :artistId')
             ->setParameter(':artistId', $artistId)
+        ;
+
+        if (!$canEdit) {
+            $stmt = $stmt
+                ->setParameter(':status', Status::STATUS_PUBLIC)
+                ->where('status = :status')
+            ;
+        }
+
+        $stmt = $stmt
             ->orderBy('created_date', 'DESC')
             ->setMaxResults($limit)
-            ->execute();
+            ->execute()
+        ;
+
+        /** @var ResultStatement $stmt */
 
         return $stmt->fetchAll(FetchMode::ASSOCIATIVE);
     }
@@ -123,7 +151,7 @@ final class AlbumFetcher
             ->from('music_albums')
             ->where('artist_id = :artistId')
             ->setParameter(':artistId', $artistId)
-            ->orderBy('created_date', 'DESC')
+            ->orderBy('release_year', 'DESC')
             ->setMaxResults(20)
             ->execute();
 

@@ -37,8 +37,8 @@ final class ShowController extends BaseController
             $handler->handle(new Command($user->id));
         }
 
-        $bestAlbums = $albums->findMostPopularArtistAlbums($user->id, 2);
-        $recentAlbums = $albums->findRecentArtistAlbums($user->id);
+        $bestAlbums = $albums->findMostPopularArtistAlbums($user->id, 2, $canEdit);
+        $recentAlbums = $albums->findRecentArtistAlbums($user->id, 5, $canEdit);
 
         return $this->render('music/profile/show.html.twig', [
             'user' => $user,

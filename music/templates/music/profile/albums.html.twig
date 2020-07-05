@@ -1,0 +1,52 @@
+{% extends 'layouts/profile.html.twig' %}
+
+{% block title %}Artist {{ user.login }}{% endblock %}
+
+{% block body %}
+    <div class="profile-content-main col-sm-9">
+        {% if albums %}
+            <h2 class="profile-main-header">Albums</h2>
+            <div class="best-albums">
+                {% for album in albums %}
+                    <div class="album-card">
+                        <div class="album-card__photo">
+                            <div class="album-photo" style="background-image: url({{ album.cover_photo ?: '/img/song/album/default.jpg' }})">
+                                {% if album.type == 'Only adult' %}
+                                    <img src="/img/song/album/adult.jpg" class="album-photo__for-adult" alt="" width="30px">
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="album-card__info">
+                            <h3 class="album-card__info-title">
+                                <a href="{{ url('music.my.album.show', {slug: album.slug}) }}">
+                                    {{ album.title }} | {{ album.release_year }}
+                                </a>
+                            </h3>
+                            <span class="album-card__info-description">
+                                {{ album.description|length > 50 ? album.description|slice(0, 140) ~ '...' : album.description  }}
+                            </span>
+                            <br>
+                            {% if canEdit %}
+                                {{ music_album_status(album.status) }}
+                            {% endif %}
+                            <p>
+                                {{ album.listen_statistics_all }} listens <br>
+                                {{ album.download_statistics_all }} downloads <br>
+                                {{ album.songs_count }} songs
+                            </p>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p>{{ user.login }} doesn't have any albums.</p>
+        {% endif %}
+    </div>
+
+    <div class="profile-sidebar col-sm-3">
+        <p>0 tracks</p>
+        <p>{{ user.profile_views }} views</p>
+        <p>0 listens</p>
+        <p>0 comments</p>
+    </div>
+{% endblock %}

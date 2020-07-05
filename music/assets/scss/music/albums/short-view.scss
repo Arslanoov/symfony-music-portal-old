@@ -17,10 +17,6 @@
     justify-content: center;
     align-items: center;
 
-    &:not(:first-child) {
-      margin-left: 15px;
-    }
-
     &-title {
       font-size: 16px;
     }
@@ -37,15 +33,26 @@
 
 .best-albums {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
 }
 
 .recent-albums {
   display: flex;
   flex-wrap: wrap;
+  justify-content: space-between;
 
-  .album-card:not(:first-child) {
-    margin-left: 10px;
+  &-header {
+    margin-top: 15px;
+  }
+}
+
+.best-albums {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+
+  &-header {
+    margin-top: 15px;
   }
 }
 
@@ -64,11 +71,5 @@
 
   .album-card:not(:first-child) {
     margin-top: 25px;
-  }
-
-  .best-albums {
-    flex-direction: column;
-    justify-content: center;
-    align-items: baseline;
   }
 }

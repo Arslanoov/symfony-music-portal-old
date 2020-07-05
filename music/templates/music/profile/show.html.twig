@@ -22,6 +22,11 @@
                                     {{ bestAlbum.title }}
                                 </a>
                             </h3>
+                            {% if canEdit %}
+                                <p>
+                                    {{ music_album_status(bestAlbum.status) }}
+                                </p>
+                            {% endif %}
                             <p>
                                 {{ bestAlbum.listen_statistics_all }} listens <br>
                                 {{ bestAlbum.download_statistics_all }} downloads <br>
@@ -32,27 +37,32 @@
                 {% endfor %}
             </div>
 
-            <h2 class="profile-main-header">Recent albums</h2>
+            <h2 class="profile-main-header recent-albums-header">Recent albums</h2>
             <div class="recent-albums">
-                {% for bestAlbum in bestAlbums %}
+                {% for recentAlbum in recentAlbums %}
                     <div class="album-card">
                         <div class="album-card__photo">
-                            <div class="album-photo" style="background-image: url({{ bestAlbum.cover_photo ?: '/img/song/album/default.jpg' }})">
-                                {% if bestAlbum.type == 'Only adult' %}
+                            <div class="album-photo" style="background-image: url({{ recentAlbum.cover_photo ?: '/img/song/album/default.jpg' }})">
+                                {% if recentAlbum.type == 'Only adult' %}
                                     <img src="/img/song/album/adult.jpg" class="album-photo__for-adult" alt="" width="30px">
                                 {% endif %}
                             </div>
                         </div>
                         <div class="album-card__info">
                             <h3 class="album-card__info-title">
-                                <a href="{{ url('music.my.album.show', {slug: bestAlbum.slug}) }}">
-                                    {{ bestAlbum.title }}
+                                <a href="{{ url('music.my.album.show', {slug: recentAlbum.slug}) }}">
+                                    {{ recentAlbum.title }}
                                 </a>
                             </h3>
+                            {% if canEdit %}
+                                <p>
+                                    {{ music_album_status(recentAlbum.status) }}
+                                </p>
+                            {% endif %}
                             <p>
-                                {{ bestAlbum.listen_statistics_all }} listens <br>
-                                {{ bestAlbum.download_statistics_all }} downloads <br>
-                                {{ bestAlbum.songs_count }} songs
+                                {{ recentAlbum.listen_statistics_all }} listens <br>
+                                {{ recentAlbum.download_statistics_all }} downloads <br>
+                                {{ recentAlbum.songs_count }} songs
                             </p>
                         </div>
                     </div>
