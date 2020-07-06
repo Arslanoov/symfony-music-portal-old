@@ -33,6 +33,26 @@ class AlbumRepository
         return $album;
     }
 
+    public function findBySlug(Slug $slug): ?Album
+    {
+        /** @var Album $album */
+        $album = $this->repository->findOneBy([
+            'slug' => $slug->getValue()
+        ]);
+
+        return $album;
+    }
+
+
+    public function getBySlug(Slug $slug): Album
+    {
+        if (!$album = $this->findBySlug($slug)) {
+            throw new EntityNotFoundException('Album is not found.');
+        }
+
+        return $album;
+    }
+
     public function get(Id $id): Album
     {
         if (!$album = $this->find($id)) {

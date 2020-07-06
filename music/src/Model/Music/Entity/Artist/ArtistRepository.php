@@ -57,13 +57,13 @@ class ArtistRepository
         return $artist;
     }
 
-    public function getByLogin(string $login): Artist
+    public function getByLogin(Login $login): Artist
     {
         /**
          * @var Artist|null $artist
          */
         $artist =  $this->repository->findOneBy([
-            'login' => $login
+            'login' => $login->getValue()
         ]);
 
         if (!$artist) {

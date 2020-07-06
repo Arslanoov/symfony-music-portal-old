@@ -23,6 +23,8 @@ doctrine:
             music_song_id: 'App\Model\Music\Entity\Song\IdType'
             music_song_name: 'App\Model\Music\Entity\Song\NameType'
             music_song_status: 'App\Model\Music\Entity\Song\StatusType'
+            music_song_download_url: 'App\Model\Music\Entity\Song\DownloadUrlType'
+            music_song_download_status: 'App\Model\Music\Entity\Song\DownloadStatusType'
 
             music_album_id: 'App\Model\Music\Entity\Album\IdType'
             music_album_title: 'App\Model\Music\Entity\Album\TitleType'

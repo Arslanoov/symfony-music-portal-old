@@ -131,6 +131,26 @@ final class AlbumFetcher
         return $stmt->fetchAll(FetchMode::ASSOCIATIVE);
     }
 
+    public function findShortByTitle(string $title): ?ShortView
+    {
+        $stmt = $this->connection->createQueryBuilder()
+            ->select(
+                'id',
+                'title',
+                'slug',
+                'release_year'
+            )
+            ->from('music_albums')
+            ->where('title = :title')
+            ->setParameter(':title', $title)
+            ->execute();
+
+        $stmt->setFetchMode(FetchMode::CUSTOM_OBJECT, ShortView::class);
+        $result = $stmt->fetch();
+
+        return $result ?: null;
+    }
+
     public function findByArtist(string $artistId): array
     {
         $stmt = $this->connection->createQueryBuilder()
@@ -197,6 +217,15 @@ final class AlbumFetcher
     public function getDetailBySlug(string $slug): DetailView
     {
         if (!$album = $this->findDetailBySlug($slug)) {
+            throw new EntityNotFoundException('Album not found.');
+        }
+
+        return $album;
+    }
+
+    public function getShortBySlug(string $slug): ShortView
+    {
+        if (!$album = $this->findShortByTitle($slug)) {
             throw new EntityNotFoundException('Album not found.');
         }
 

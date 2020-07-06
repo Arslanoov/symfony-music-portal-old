@@ -1,0 +1,54 @@
+{% extends 'layouts/profile.html.twig' %}
+
+{% block title %}Tracks{% endblock %}
+
+{% block body %}
+    <div class="profile-content-main col-sm-9">
+        <h2 class="profile-main-header">Tracks</h2>
+        <p>
+            <a href="{{ url('profile.song.upload.single', {'login': user.login}) }}">
+                <i class="fa fa-pen"></i> Add single
+            </a>
+        </p>
+
+        {% if tracks %}
+            <div class="best-albums">
+                {% for track in tracks %}
+                    <div class="album-card">
+                        <div class="album-card__info">
+                            <h3 class="album-card__info-title">
+                                <a href="#">
+                                    {{ track.name }}
+                                </a>
+                            </h3>
+                            <p>
+                                {{ track.uploaded_date }}
+                            </p>
+                            <p>
+
+                            </p>
+                            <br>
+                            {% if canEdit %}
+                                {{ music_album_status(album.status) }}
+                            {% endif %}
+                            <p>
+                                {{ album.listen_statistics_all }} listens <br>
+                                {{ album.download_statistics_all }} downloads <br>
+                                {{ album.songs_count }} songs
+                            </p>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p>{{ user.login }} doesn't have any tracks.</p>
+        {% endif %}
+    </div>
+
+    <div class="profile-sidebar col-sm-3">
+        <p>0 tracks</p>
+        <p>{{ user.profile_views }} views</p>
+        <p>0 listens</p>
+        <p>0 comments</p>
+    </div>
+{% endblock %}

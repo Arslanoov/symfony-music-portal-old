@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Model\Music\UseCase\Song\Upload;
+namespace App\Model\Music\UseCase\Song\Upload\Single;
 
 class File
 {

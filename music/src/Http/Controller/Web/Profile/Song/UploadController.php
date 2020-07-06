@@ -1,0 +1,133 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Http\Controller\Web\Profile\Song;
+
+use App\Http\Controller\Web\BaseController;
+use App\Model\Exception\ErrorHandler;
+use App\Model\Music\Entity\Artist\ArtistRepository;
+use App\Model\Music\Entity\Artist\Login;
+use App\ReadModel\Music\Album\AlbumFetcher;
+use App\Service\Uploader\SongUploader;
+use DomainException;
+use League\Flysystem\FileExistsException;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Symfony\Component\Routing\Annotation\Route;
+use App\Model\Music\UseCase\Song\Upload;
+
+final class UploadController extends BaseController
+{
+    private ArtistRepository $artists;
+    private ErrorHandler $errorHandler;
+
+    /**
+     * UploadController constructor.
+     * @param ArtistRepository $artists
+     * @param ErrorHandler $errorHandler
+     */
+    public function __construct(ArtistRepository $artists, ErrorHandler $errorHandler)
+    {
+        $this->artists = $artists;
+        $this->errorHandler = $errorHandler;
+    }
+
+    /**
+     * @Route("/profile/{login}/song/upload/single", name="profile.song.upload.single", methods={"GET", "POST"})
+     * @param Request $request
+     * @param SongUploader $uploader
+     * @param Upload\Single\Handler $handler
+     * @param string $login
+     * @return Response
+     * @throws FileExistsException
+     */
+    public function single(
+        Request $request, SongUploader $uploader,
+        Upload\Single\Handler $handler, string $login
+    ): Response
+    {
+        $this->checkCanEdit($login);
+
+        $artist = $this->artists->getByLogin(new Login($login));
+
+        $command = new Upload\Single\Command($artist->getLogin()->getValue());
+        $form = $this->createForm(Upload\Single\Form::class, $command);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() and $form->isValid()) {
+            try {
+                $uploaded = $uploader->upload($form->get('file')->getData());
+                $command->file = new Upload\Single\File(
+                    $uploaded->getPath(),
+                    $uploaded->getName(),
+                    $uploaded->getSize()
+                );
+                $handler->handle($command);
+                $this->addFlash('success', 'Song successfully uploaded and sent for moderation.');
+            } catch (DomainException $e) {
+                $this->errorHandler->handleWarning($e);
+                $this->addFlash('error', $e->getMessage());
+            }
+        }
+
+        return $this->render('music/profile/song/upload/single.html.twig', [
+            'form' => $form->createView()
+        ]);
+    }
+
+    /**
+     * @Route("/profile/{login}/album/{slug}/song/upload", name="profile.song.upload.for-album", methods={"GET", "POST"})
+     * @param Request $request
+     * @param SongUploader $uploader
+     * @param AlbumFetcher $albums
+     * @param Upload\ForAlbum\Handler $handler
+     * @param string $login
+     * @param string $slug
+     * @return Response
+     * @throws FileExistsException
+     */
+    public function album(
+        Request $request, SongUploader $uploader,
+        AlbumFetcher $albums, Upload\ForAlbum\Handler $handler,
+        string $login, string $slug
+    ): Response
+    {
+        $this->checkCanEdit($login);
+
+        $album = $albums->getShortBySlug($slug);
+
+        $command = new Upload\ForAlbum\Command($login, $album->slug);
+        $form = $this->createForm(Upload\ForAlbum\Form::class, $command);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() and $form->isValid()) {
+            try {
+                $uploaded = $uploader->upload($form->get('file')->getData());
+                $command->file = new Upload\ForAlbum\File(
+                    $uploaded->getPath(),
+                    $uploaded->getName(),
+                    $uploaded->getSize()
+                );
+                $handler->handle($command);
+                $this->addFlash('success', 'Song successfully uploaded and sent for moderation.');
+            } catch (DomainException $e) {
+                $this->errorHandler->handleWarning($e);
+                $this->addFlash('error', $e->getMessage());
+            }
+        }
+
+        return $this->render('music/song/upload/single.html.twig', [
+            'form' => $form->createView(),
+            'album' => $album
+        ]);
+    }
+
+    private function checkCanEdit(string $login): void
+    {
+        if ($login !== $this->getUser()->getLogin()) {
+            throw new AccessDeniedHttpException();
+        }
+    }
+}

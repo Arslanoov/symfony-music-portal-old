@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Model\Music\UseCase\Song\Upload;
+namespace App\Model\Music\UseCase\Song\Upload\ForAlbum;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
@@ -28,7 +28,7 @@ class Form extends AbstractType
                             'audio/mpeg',
                             'audio/x-wav',
                         ],
-                        'mimeTypesMessage' => 'Please upload a valid song file'
+                        'mimeTypesMessage' => 'Please upload a valid song file.'
                     ])
                 ],
             ])
@@ -40,6 +40,7 @@ class Form extends AbstractType
         $resolver
             ->setDefaults([
                 'data_class' => Command::class
-            ]);
+            ])
+        ;
     }
 }

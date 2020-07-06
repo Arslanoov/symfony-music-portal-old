@@ -34,12 +34,12 @@ final class AlbumsController extends BaseController
     public function index(string $login): Response
     {
         $user = $this->users->getDetailByLogin($login);
+        $albums = $this->albums->findByArtist($user->id);
+
         $canEdit = false;
         if ($user->id === $this->getUser()->getId()) {
             $canEdit = true;
         }
-
-        $albums = $this->albums->findByArtist($user->id);
 
         return $this->render('music/profile/albums.html.twig', [
             'canEdit' => $canEdit,

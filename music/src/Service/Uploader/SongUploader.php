@@ -40,6 +40,6 @@ class SongUploader
         $this->storage->writeStream($path . '/' . $name, $stream);
         fclose($stream);
 
-        return new File($path, $name, $file->getSize(), pathinfo($path, PATHINFO_EXTENSION));
+        return new File($path, $name, $file->getSize(), $pathinfo($path, PATHINFO_EXTENSION));
     }
 }
