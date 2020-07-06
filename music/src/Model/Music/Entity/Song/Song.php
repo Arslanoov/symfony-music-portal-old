@@ -115,12 +115,12 @@ class Song
     }
 
     public static function single(
-        Id $id, Artist $artist, Date $date,
+        Id $id, Artist $artist, Genre $genre, Date $date,
         Name $name, File $file
     ): self
     {
         return new self(
-            $id, $artist, $date,
+            $id, $artist, $genre, $date,
             $name, $file, Status::moderated(),
             DownloadStatus::draft()
         );
@@ -226,17 +226,28 @@ class Song
 
     public function changeDownloadUrl(DownloadUrl $downloadUrl): void
     {
+        if ($this->getDownloadStatus()->isDraft()) {
+            throw new DomainException('Song download forbidden.');
+        }
         $this->downloadUrl = $downloadUrl;
     }
 
-    public function openPublicDownload(): void
+    public function openPublicDownload(DownloadUrl $downloadUrl): void
     {
+        if ($this->getDownloadStatus()->isPublic()) {
+            throw new DomainException('Song download is already public.');
+        }
         $this->downloadStatus = DownloadStatus::public();
+        $this->downloadUrl = $downloadUrl;
     }
 
     public function closePublicDownload(): void
     {
+        if ($this->getDownloadStatus()->isDraft()) {
+            throw new DomainException('Song download is already closed.');
+        }
         $this->downloadStatus = DownloadStatus::draft();
+        $this->downloadUrl = null;
     }
 
     public function view(): void

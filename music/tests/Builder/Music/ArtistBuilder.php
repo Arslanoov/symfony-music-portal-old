@@ -8,7 +8,7 @@ use App\Model\Music\Entity\Artist\Artist;
 use App\Model\Music\Entity\Artist\Id;
 use App\Model\Music\Entity\Artist\Login;
 
-class ArtistBuilder
+final class ArtistBuilder
 {
     private Id $id;
     private Login $login;

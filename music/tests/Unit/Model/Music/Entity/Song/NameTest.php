@@ -14,7 +14,7 @@ class NameTest extends TestCase
     {
         $song = (new SongBuilder())
             ->withName($name = new Name('Song name'))
-            ->build();
+            ->single();
 
         $this->assertEquals($song->getName(), $name);
 
@@ -28,7 +28,7 @@ class NameTest extends TestCase
     {
         $song = (new SongBuilder())
             ->withName($name = new Name('Song name'))
-            ->build();
+            ->single();
 
         $this->assertEquals($song->getName(), $name);
 
