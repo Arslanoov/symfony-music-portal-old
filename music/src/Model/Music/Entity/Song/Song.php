@@ -46,7 +46,7 @@ class Song
     private Genre $genre;
     /**
      * @var DownloadUrl|null
-     * @ORM\Column(type="music_song_download_url", nullable=false)
+     * @ORM\Column(type="music_song_download_url", nullable=false, nullable=true)
      */
     private ?DownloadUrl $downloadUrl = null;
     /**
@@ -70,6 +70,11 @@ class Song
      */
     private File $file;
     /**
+     * @var CoverPhoto
+     * @ORM\Column(type="music_song_cover_photo", length=255, nullable=true)
+     */
+    private ?CoverPhoto $coverPhoto = null;
+    /**
      * @var Status
      * @ORM\Column(type="music_song_status")
      */
@@ -84,9 +89,10 @@ class Song
         Id $id, Artist $artist, Genre $genre, Date $date,
         Name $name, File $file, Status $status,
         DownloadStatus $downloadStatus,
+        int $viewsCount = 0,
         ?Album $album = null,
-        ?DownloadUrl $downloadUrl = null,
-        int $viewsCount = 0
+        ?CoverPhoto $coverPhoto = null,
+        ?DownloadUrl $downloadUrl = null
     )
     {
         $this->id = $id;
@@ -100,6 +106,7 @@ class Song
         $this->downloadStatus = $downloadStatus;
         $this->downloadUrl = $downloadUrl;
         $this->viewsCount = $viewsCount;
+        $this->coverPhoto = $coverPhoto;
     }
 
     public static function forAlbum(
@@ -110,19 +117,20 @@ class Song
         return new self(
             $id, $artist, $genre, $date, $name, $file,
             Status::moderated(),
-            DownloadStatus::draft(), $album
+            DownloadStatus::draft(), 0, $album
         );
     }
 
     public static function single(
         Id $id, Artist $artist, Genre $genre, Date $date,
-        Name $name, File $file
+        Name $name, File $file, ?CoverPhoto $coverPhoto = null
     ): self
     {
         return new self(
             $id, $artist, $genre, $date,
             $name, $file, Status::moderated(),
-            DownloadStatus::draft()
+            DownloadStatus::draft(), 0,
+            null, $coverPhoto
         );
     }
 
@@ -222,7 +230,25 @@ class Song
         return $this->viewsCount;
     }
 
+    /**
+     * @return CoverPhoto| null
+     */
+    public function getCoverPhoto(): ?CoverPhoto
+    {
+        return $this->coverPhoto;
+    }
+
     ### actions
+
+    public function changeCoverPhoto(CoverPhoto $coverPhoto): void
+    {
+        $this->coverPhoto = $coverPhoto;
+    }
+
+    public function removeCoverPhoto(): void
+    {
+        $this->coverPhoto = null;
+    }
 
     public function changeDownloadUrl(DownloadUrl $downloadUrl): void
     {

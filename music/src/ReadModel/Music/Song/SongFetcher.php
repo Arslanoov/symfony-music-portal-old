@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\ReadModel\Music\Song;
 
+use App\Model\Music\Entity\Song\Status;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\FetchMode;
 use Doctrine\ORM\EntityManagerInterface;
@@ -26,7 +27,7 @@ final class SongFetcher
         $this->repository = $em->getRepository(Song::class);
     }
 
-    public function findByArtist(string $artistId, int $limit): array
+    public function findByArtist(string $artistId, bool $canEdit, int $limit): array
     {
         $stmt = $this->connection->createQueryBuilder()
             ->select(
@@ -38,13 +39,24 @@ final class SongFetcher
                 's.status',
                 's.download_status',
                 's.download_url',
-                'a.title',
-                'a.slug'
+                's.cover_photo',
+                's.views_count',
+                'a.title AS album_title',
+                'a.slug AS album_slug',
+                'a.cover_photo AS album_cover_photo'
             )
             ->from('music_songs', 's')
-            ->innerJoin('s', 'music_albums', 'a', 's.album_id = a.id')
+            ->leftJoin('s', 'music_albums', 'a', 's.album_id = a.id')
             ->where('s.artist_id = :artistId')
-            ->setParameter(':artistId', $artistId)
+            ->setParameter(':artistId', $artistId);
+
+        if (!$canEdit) {
+            $stmt = $stmt
+                ->where('status', ':status')
+                ->setParameter(':status', Status::STATUS_PUBLIC);
+        }
+
+        $stmt = $stmt
             ->setMaxResults($limit)
             ->execute();
 

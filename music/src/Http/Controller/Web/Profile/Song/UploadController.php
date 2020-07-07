@@ -9,9 +9,11 @@ use App\Model\Exception\ErrorHandler;
 use App\Model\Music\Entity\Artist\ArtistRepository;
 use App\Model\Music\Entity\Artist\Login;
 use App\ReadModel\Music\Album\AlbumFetcher;
-use App\Service\Uploader\SongUploader;
+use App\Service\FileUploader;
 use DomainException;
+use Exception;
 use League\Flysystem\FileExistsException;
+use League\Flysystem\FileNotFoundException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
@@ -35,16 +37,16 @@ final class UploadController extends BaseController
     }
 
     /**
-     * @Route("/profile/{login}/song/upload/single", name="profile.song.upload.single", methods={"GET", "POST"})
+     * @Route("/artist/{login}/song/upload/single", name="profile.song.upload.single", methods={"GET", "POST"})
      * @param Request $request
-     * @param SongUploader $uploader
+     * @param FileUploader $uploader
      * @param Upload\Single\Handler $handler
      * @param string $login
      * @return Response
-     * @throws FileExistsException
+     * @throws Exception
      */
     public function single(
-        Request $request, SongUploader $uploader,
+        Request $request, FileUploader $uploader,
         Upload\Single\Handler $handler, string $login
     ): Response
     {
@@ -52,20 +54,23 @@ final class UploadController extends BaseController
 
         $artist = $this->artists->getByLogin(new Login($login));
 
-        $command = new Upload\Single\Command($artist->getLogin()->getValue());
+        $command = Upload\Single\Command::byArtist($artist->getLogin()->getValue());
         $form = $this->createForm(Upload\Single\Form::class, $command);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() and $form->isValid()) {
             try {
-                $uploaded = $uploader->upload($form->get('file')->getData());
-                $command->file = new Upload\Single\File(
-                    $uploaded->getPath(),
-                    $uploaded->getName(),
-                    $uploaded->getSize()
-                );
+                $uploadedSong = $uploader->upload($form->get('file')->getData(), 'music/songs/', $command->name);
+                $command->file = new Upload\Single\File($uploadedSong->getPath(), $uploadedSong->getExt(), $uploadedSong->getSize());
+                $uploadedCover = $uploader->upload($form->get('coverPhoto')->getData(), 'music/singles/cover/', $command->name);
+                $command->coverPhoto = new Upload\Single\Photo($uploadedCover->getPath(), $uploadedCover->getName(), $uploadedCover->getSize(), $uploadedCover->getExt());
+
                 $handler->handle($command);
                 $this->addFlash('success', 'Song successfully uploaded and sent for moderation.');
+
+                return $this->redirectToRoute('profile.tracks', [
+                    'login' => $login
+                ]);
             } catch (DomainException $e) {
                 $this->errorHandler->handleWarning($e);
                 $this->addFlash('error', $e->getMessage());
@@ -78,18 +83,19 @@ final class UploadController extends BaseController
     }
 
     /**
-     * @Route("/profile/{login}/album/{slug}/song/upload", name="profile.song.upload.for-album", methods={"GET", "POST"})
+     * @Route("/artist/{login}/album/{slug}/song/upload", name="profile.song.upload.for-album", methods={"GET", "POST"})
      * @param Request $request
-     * @param SongUploader $uploader
+     * @param FileUploader $uploader
      * @param AlbumFetcher $albums
      * @param Upload\ForAlbum\Handler $handler
      * @param string $login
      * @param string $slug
      * @return Response
      * @throws FileExistsException
+     * @throws FileNotFoundException
      */
     public function album(
-        Request $request, SongUploader $uploader,
+        Request $request, FileUploader $uploader,
         AlbumFetcher $albums, Upload\ForAlbum\Handler $handler,
         string $login, string $slug
     ): Response
@@ -104,7 +110,7 @@ final class UploadController extends BaseController
 
         if ($form->isSubmitted() and $form->isValid()) {
             try {
-                $uploaded = $uploader->upload($form->get('file')->getData());
+                $uploaded = $uploader->upload($form->get('file')->getData(), 'music/albums/' . md5($album->id) . '/songs/', $command->id);
                 $command->file = new Upload\ForAlbum\File(
                     $uploaded->getPath(),
                     $uploaded->getName(),

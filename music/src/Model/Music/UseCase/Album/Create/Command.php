@@ -28,7 +28,7 @@ class Command
     public ?int $releaseYear = null;
     /**
      * @var File|null
-     * @Assert\Valid()
+     * @Assert\File(maxSize="4096k", mimeTypes={"image/jpeg", "image/png"}, mimeTypesMessage="Please upload a valid image file.")
      */
     public ?File $coverPhoto = null;
     /**

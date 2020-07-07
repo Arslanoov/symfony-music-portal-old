@@ -6,7 +6,7 @@ namespace App\Service\Remover;
 
 use League\Flysystem\FilesystemInterface;
 
-class AvatarRemover
+class FileRemover
 {
     private FilesystemInterface $storage;
 
@@ -20,12 +20,13 @@ class AvatarRemover
     }
 
     /**
-     * @param string $userId
+     * @param string $path
+     * @param string $name
      * @return void
      */
-    public function upload(string $userId): void
+    public function upload(string $path, string $name): void
     {
-        $path = 'avatar/' . $userId;
+        $path = $path . md5($name);
         if (file_exists($path)) {
             $this->storage->deleteDir($path);
         }

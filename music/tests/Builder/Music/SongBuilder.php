@@ -7,6 +7,7 @@ namespace App\Tests\Builder\Music;
 use App\Model\Music\Entity\Album\Album;
 use App\Model\Music\Entity\Artist\Artist;
 use App\Model\Music\Entity\Genre\Genre;
+use App\Model\Music\Entity\Song\CoverPhoto;
 use App\Model\Music\Entity\Song\Date;
 use App\Model\Music\Entity\Song\DownloadStatus;
 use App\Model\Music\Entity\Song\DownloadUrl;
@@ -28,6 +29,7 @@ final class SongBuilder
     private File $file;
     private Status $status;
     private DownloadStatus $downloadStatus;
+    private ?CoverPhoto $coverPhoto;
     private ?DownloadUrl $downloadUrl;
     private int $viewsCount;
 
@@ -43,6 +45,7 @@ final class SongBuilder
         $this->status = Status::moderated();
         $this->downloadStatus = DownloadStatus::draft();
         $this->downloadUrl = null;
+        $this->coverPhoto = null;
         $this->viewsCount = 0;
     }
 
@@ -102,11 +105,17 @@ final class SongBuilder
         return $builder;
     }
 
-
     public function withDownloadUrl(DownloadUrl $downloadUrl): self
     {
         $builder = clone $this;
         $builder->downloadUrl = $downloadUrl;
+        return $builder;
+    }
+
+    public function withCoverPhoto(CoverPhoto $coverPhoto): self
+    {
+        $builder = clone $this;
+        $builder->coverPhoto = $coverPhoto;
         return $builder;
     }
 
@@ -128,9 +137,10 @@ final class SongBuilder
             $this->file,
             $this->status,
             $this->downloadStatus,
+            0,
             null,
-            $this->downloadUrl,
-            $this->viewsCount
+            $this->coverPhoto,
+            $this->downloadUrl
         );
     }
 
@@ -145,9 +155,10 @@ final class SongBuilder
             $this->file,
             $this->status,
             $this->downloadStatus,
+            0,
             $album,
-            $this->downloadUrl,
-            $this->viewsCount
+            $this->coverPhoto,
+            $this->downloadUrl
         );
     }
 }

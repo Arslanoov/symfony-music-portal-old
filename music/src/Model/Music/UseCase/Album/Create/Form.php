@@ -13,7 +13,6 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Validator\Constraints\File;
 
 class Form extends AbstractType
 {
@@ -23,19 +22,8 @@ class Form extends AbstractType
             ->add('title', TextType::class)
             ->add('releaseYear', IntegerType::class)
             ->add('coverPhoto', FileType::class, [
-                'mapped' => false,
                 'required' => false,
-                'multiple' => false,
-                'constraints' => [
-                    new File([
-                        'maxSize' => '4096k',
-                        'mimeTypes' => [
-                            'image/jpeg',
-                            'image/png'
-                        ],
-                        'mimeTypesMessage' => 'Please upload a valid image file.'
-                    ])
-                ],
+                'multiple' => false
             ])
             ->add('description', TextareaType::class)
             ->add('type', ChoiceType::class, [

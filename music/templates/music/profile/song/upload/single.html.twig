@@ -8,7 +8,7 @@
         <ol class="breadcrumb float-sm-right">
             <li class="breadcrumb-item"><a href="#">Home</a></li>
             <li class="breadcrumb-item"><a href="{{ path('profile.show', {'login': app.user.login}) }}">Profile</a></li>
-            <li class="breadcrumb-item"><a href="#">Songs</a></li>
+            <li class="breadcrumb-item"><a href="{{ path('profile.tracks', {'login': app.user.login}) }}">Songs</a></li>
             <li class="breadcrumb-item active"><a href="#">Upload single</a></li>
         </ol>
     </div>
@@ -18,6 +18,8 @@
     <div class="card">
         <div class="card-body">
             {% include 'layouts/_flashes.html.twig' %}
+
+            <h2 class="page-title">Upload single</h2>
 
             {{ form_start(form) }}
             {{ form_widget(form) }}

@@ -7,4 +7,6 @@ RUN apt-get update && apt-get install -y libpq-dev \
     && docker-php-ext-configure intl \
     && docker-php-ext-install intl
 
+ADD ./php/main.ini /usr/local/etc/php/conf.d/default.ini
+
 WORKDIR /app

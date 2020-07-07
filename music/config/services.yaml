@@ -27,17 +27,11 @@ services:
         tags:
             - { name: swiftmailer.default.plugin }
 
-    App\Service\Uploader\SongUploader:
-        arguments: ['@default.storage', '%env(STORAGE_BASE_URL)%']
-
-    App\Service\Uploader\AvatarUploader:
-        arguments: ['@default.storage', '%env(STORAGE_BASE_URL)%']
-
-    App\Service\Uploader\Music\AlbumCoverUploader:
-        arguments: ['@default.storage', '%env(STORAGE_BASE_URL)%']
-
-    App\Service\Remover\AvatarRemover:
+    App\Service\FileRemover:
         arguments: ['@default.storage']
+
+    App\Service\FileUploader:
+        arguments: ['@default.storage', '%env(STORAGE_BASE_URL)%']
 
     App\Model\User\UseCase\User\SignUp\ByEmail\Request\Handler:
         arguments:

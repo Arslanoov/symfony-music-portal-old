@@ -6,9 +6,9 @@ namespace App\Model\Music\Entity\Song;
 
 class Status
 {
-    private const STATUS_MODERATED = 'Moderated';
-    private const STATUS_PUBLIC = 'Public';
-    private const STATUS_ARCHIVED = 'Archived';
+    public const STATUS_MODERATED = 'Moderated';
+    public const STATUS_PUBLIC = 'Public';
+    public const STATUS_ARCHIVED = 'Archived';
 
     private string $value;
 

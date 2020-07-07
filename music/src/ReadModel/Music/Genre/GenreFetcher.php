@@ -9,6 +9,7 @@ use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\FetchMode;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ObjectRepository;
+use PDO;
 
 class GenreFetcher
 {
@@ -40,5 +41,19 @@ class GenreFetcher
             ->execute();
 
         return $stmt->fetchAll(FetchMode::ASSOCIATIVE);
+    }
+
+    public function array(): array
+    {
+        $stmt = $this->connection->createQueryBuilder()
+            ->select(
+                'id',
+                'name'
+            )
+            ->from('music_genres')
+            ->orderBy('songs_count', 'DESC')
+            ->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_KEY_PAIR);
     }
 }

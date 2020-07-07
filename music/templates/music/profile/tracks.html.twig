@@ -21,20 +21,20 @@
                                     {{ track.name }}
                                 </a>
                             </h3>
-                            <p>
-                                {{ track.uploaded_date }}
-                            </p>
-                            <p>
-
-                            </p>
+                            {% if track.album_title %}
+                                <p>From album "{{ track.album_title }}"</p>
+                            {% endif %}
+                            {% if track.album_title %}
+                                <img src="{{ track.album_cover_photo }}" alt="">
+                            {% elseif track.cover_photo %}
+                                <img src="{{ track.cover_photo }}" alt="" width="150px" height="150px">
+                            {% endif %}
                             <br>
                             {% if canEdit %}
-                                {{ music_album_status(album.status) }}
+                                {{ music_album_status(track.status) }}
                             {% endif %}
                             <p>
-                                {{ album.listen_statistics_all }} listens <br>
-                                {{ album.download_statistics_all }} downloads <br>
-                                {{ album.songs_count }} songs
+                                {{ track.views_count }} views
                             </p>
                         </div>
                     </div>

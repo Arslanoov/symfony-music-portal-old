@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Unit\Model\Music\Entity\Song;
 
 use App\Model\Music\Entity\Genre\Genre;
+use App\Model\Music\Entity\Song\CoverPhoto;
 use App\Model\Music\Entity\Song\DownloadStatus;
 use App\Tests\Builder\Music\ArtistBuilder;
 use App\Model\Music\Entity\Artist\Artist;
@@ -31,7 +32,8 @@ class CreateTest extends TestCase
             $genre,
             $date = new Date(new DateTimeImmutable, new DateTimeImmutable),
             $name = new Name('Song name'),
-            $file = new File('/path', 'mp3', '6m')
+            $file = new File('/path', 'mp3', '6m'),
+            $coverPhoto = new CoverPhoto('url')
         );
 
         $this->assertEquals($song->getId(), $id);
