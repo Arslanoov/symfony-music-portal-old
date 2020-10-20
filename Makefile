@@ -30,6 +30,9 @@ test-unit:
 test-unit-coverage:
 	docker-compose run --rm music-php-cli php bin/phpunit --testsuite=unit --coverage-clover var/clover.xml --coverage-html var/coverage
 
+test-functional:
+	docker-compose run --rm music-php-cli php bin/phpunit --testsuite=functional
+
 assets-install:
 	docker-compose run --rm music-node yarn install
 
