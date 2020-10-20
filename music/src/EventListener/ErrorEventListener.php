@@ -21,8 +21,11 @@ final class ErrorEventListener implements EventSubscriberInterface
     public function onError(ExceptionEvent $event)
     {
         $e = $event->getThrowable();
-        $event->setResponse(new JsonResponse([
-            'message' => $e->getMessage()
-        ], $e->getCode() === 0 ? 500 : $e->getCode()));
+        if ($e) {
+            $event->setResponse(new JsonResponse([
+                'message' => $e->getMessage(),
+                'exception' => $e
+            ]));
+        }
     }
 }

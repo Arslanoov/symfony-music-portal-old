@@ -6,21 +6,14 @@ security:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
-        main:
+        api_token:
+            pattern: ^/token$
+            security: false
+        api:
+            pattern: ^/api
             anonymous: true
-            user_checker: App\Security\UserChecker
-            guard:
-                authenticators:
-                    - App\Security\LoginFormAuthenticator
-                entry_point: App\Security\LoginFormAuthenticator
-            remember_me:
-                secret: '%kernel.secret%'
-                lifetime: 604800
-                path: /
-            form_login:
-                login_path: auth.login
-            logout:
-                path: auth.logout
+            stateless: true
+            oauth2: true
 
     role_hierarchy:
         ROLE_ADMIN:
@@ -31,9 +24,4 @@ security:
             - ROLE_USER
 
     access_control:
-        - { path: ^/manage, roles: ROLE_MODERATOR }
-        - { path: ^/music/my, roles: ROLE_USER }
-        - { path: ^/music/library, roles: ROLE_USER }
-        - { path: ^/auth, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/signup, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/profile, roles: ROLE_USER }
+        - { path: ^/api/auth, roles: IS_AUTHENTICATED_ANONYMOUSLY }
