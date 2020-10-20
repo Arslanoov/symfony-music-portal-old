@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Model\Exception;
 
-use DomainException;
+use Exception;
 use Psr\Log\LoggerInterface;
 
 class ErrorHandler
@@ -20,7 +20,7 @@ class ErrorHandler
         $this->logger = $logger;
     }
 
-    public function handleWarning(DomainException $e): void
+    public function handleWarning(Exception $e): void
     {
         $this->logger->warning($e->getMessage(), ['exception' => $e]);
     }
