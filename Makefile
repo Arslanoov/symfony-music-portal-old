@@ -2,6 +2,7 @@ up: docker-up
 down: docker-down
 restart: docker-down docker-up
 assets: assets-install assets-sass
+test: test-unit load-fixtures test-functional
 
 docker-up:
 	docker-compose up -d
@@ -29,6 +30,9 @@ test-unit:
 
 test-unit-coverage:
 	docker-compose run --rm music-php-cli php bin/phpunit --testsuite=unit --coverage-clover var/clover.xml --coverage-html var/coverage
+
+load-fixtures:
+	docker-compose run --rm music-php-cli php bin/console doctrine:fixtures:load --no-interaction
 
 test-functional:
 	docker-compose run --rm music-php-cli php bin/phpunit --testsuite=functional

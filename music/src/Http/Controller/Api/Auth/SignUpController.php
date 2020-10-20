@@ -6,6 +6,7 @@ namespace App\Http\Controller\Api\Auth;
 
 use App\Http\Controller\Api\BaseController;
 use App\Model\Exception\ErrorHandler;
+use App\Model\User\Entity\User\ConfirmToken;
 use App\Model\User\UseCase\User\SignUp\ByEmail;
 use App\Model\Music\UseCase\Artist;
 use App\Service\Transaction\TransactionInterface;
@@ -91,5 +92,34 @@ final class SignUpController extends BaseController
         return $this->json([
             'email' => $signUpCommand->email
         ], 201);
+    }
+
+    /**
+     * @Route("/api/sign-up/confirm/{token}", name="api.auth.signup.confirm", methods={"POST"})
+     * @param Request $request
+     * @param string $token
+     * @param ByEmail\Confirm\ByToken\Handler $handler
+     * @return JsonResponse
+     */
+    public function confirm(
+        Request $request,
+        string $token,
+        ByEmail\Confirm\ByToken\Handler $handler
+    ): JsonResponse
+    {
+        $confirmToken = new ConfirmToken($token ?? '');
+
+        $command = new ByEmail\Confirm\ByToken\Command($confirmToken->getValue());
+
+        try {
+            $handler->handle($command);
+        } catch (DomainException $e) {
+            $this->errorHandler->handleWarning($e);
+            return $this->json([
+                'message' => $e->getMessage()
+            ], 419);
+        }
+
+        return $this->json([], 204);
     }
 }
