@@ -19,6 +19,12 @@ docker-build:
 composer-install:
 	docker-compose run --rm music-php-cli composer install
 
+generate-oauth-keys:
+	docker-compose run --rm music-php-cli mkdir -p var/oauth
+	docker-compose run --rm music-php-cli openssl genrsa -out var/oauth/private.key 2048
+	docker-compose run --rm music-php-cli openssl rsa -in var/oauth/private.key -pubout -out var/oauth/public.key
+	docker-compose run --rm music-php-cli chmod 644 var/oauth/private.key var/oauth/public.key
+
 test:
 	docker-compose run --rm music-php-cli php bin/phpunit
 

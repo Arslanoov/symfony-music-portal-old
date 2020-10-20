@@ -10,10 +10,10 @@ class ArgonHasher implements HasherInterface
 {
     public function hash(string $password): string
     {
-        $hash = password_hash($password, PASSWORD_ARGON2I);
+        $hash = password_hash($password, PASSWORD_ARGON2ID);
 
         if ($hash === false) {
-            throw new RuntimeException('Unable to generate argon2i hash.');
+            throw new RuntimeException('Unable to generate argon2id hash.');
         }
 
         return $hash;
