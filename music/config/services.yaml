@@ -27,6 +27,9 @@ services:
         tags:
             - { name: swiftmailer.default.plugin }
 
+    App\Service\Transaction\TransactionInterface:
+        class: App\Service\Transaction\DoctrineTransaction
+
     App\Service\FileRemover:
         arguments: ['@default.storage']
 
@@ -55,3 +58,7 @@ services:
     App\Extension\:
         resource: '../src/Extension'
         tags: ['twig.extension']
+
+    App\Tests\Functional\:
+        resource: '../tests/Functional/**/*Fixture.php'
+        tags: ['doctrine.fixture.orm']

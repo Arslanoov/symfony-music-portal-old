@@ -101,7 +101,7 @@ class UserBuilder
         return $builder;
     }
 
-    public function withConfirmToken(ConfirmToken $confirmToken): self
+    public function withConfirmToken(?ConfirmToken $confirmToken): self
     {
         $builder = clone $this;
         $builder->confirmToken = $confirmToken;

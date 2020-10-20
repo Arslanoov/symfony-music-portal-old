@@ -9,40 +9,49 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Command
 {
     /**
-     * @var string|null
-     * @Assert\NotBlank()
+     * @var string
      */
-    public ?string $id = null;
+    public string $id;
     /**
-     * @var string|null
+     * @var string
      * @Assert\NotBlank()
      * @Assert\Length(min="4", max="32")
      */
-    public ?string $login = null;
+    public string $login;
     /**
-     * @var string|null
+     * @var string
      * @Assert\Email()
      * @Assert\Length(min="4", max="64")
      */
-    public ?string $email = null;
+    public string $email;
     /**
-     * @var string|null
+     * @var string
      * @Assert\NotBlank()
      * @Assert\Length(min="5", max="32")
      */
-    public ?string $password = null;
+    public string $password;
     /**
-     * @var int|null
+     * @var int
      * @Assert\NotBlank()
      * @Assert\GreaterThanOrEqual(7)
      * @Assert\LessThan(99)
      */
-    public ?int $age = null;
+    public int $age;
 
-    public static function byId(string $id): self
+    /**
+     * Command constructor.
+     * @param string $id
+     * @param string $login
+     * @param string $email
+     * @param string $password
+     * @param int $age
+     */
+    public function __construct(string $id, string $login, string $email, string $password, int $age)
     {
-        $command = new self();
-        $command->id = $id;
-        return $command;
+        $this->id = $id;
+        $this->login = $login;
+        $this->email = $email;
+        $this->password = $password;
+        $this->age = $age;
     }
 }
